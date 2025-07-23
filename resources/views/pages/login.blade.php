@@ -1,3 +1,4 @@
+@use(Merlion\Components\Pages\Login)
 <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
     <div class="bg-overlay"></div>
     <div class="auth-page-content overflow-hidden pt-lg-5">
@@ -16,7 +17,7 @@
                                             </a>
                                         </div>
 
-                                        @if(!empty($slogans = \Merlion\Components\Pages\Login::$slogans))
+                                        @if(!empty($slogans = Login::$slogans))
                                             <div class="mt-auto">
                                                 <div class="mb-3">
                                                     <i class="ri-double-quotes-l display-4 text-success"></i>
@@ -57,12 +58,15 @@
                                     </div>
 
                                     <div class="mt-4">
+                                        @include('merlion::form.errors')
                                         <form method="post">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="username" class="form-label">Username</label>
-                                                <input type="text" class="form-control" id="username" name="username"
-                                                       placeholder="Enter username">
+                                                <label for="username"
+                                                       class="form-label">{{Login::$usernameLabel}}</label>
+                                                <input type="text" class="form-control" id="username"
+                                                       value="{{old(Login::$username)}}"
+                                                       name="{{Login::$username}}">
                                             </div>
 
                                             <div class="mb-3">
@@ -111,7 +115,8 @@
                     <div class="text-center">
                         <p class="mb-0">&copy;
                             {{date('Y')}}
-                            {{admin()->getBrandName()}}. Crafted with <i class="mdi mdi-heart text-danger"></i> by Merlion
+                            {{admin()->getBrandName()}}. Crafted with <i class="mdi mdi-heart text-danger"></i> by
+                            Merlion
                         </p>
                     </div>
                 </div>

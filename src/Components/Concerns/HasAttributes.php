@@ -28,9 +28,14 @@ trait HasAttributes
             if ($this->attributes->has($key)) {
                 continue;
             }
-            $this->attributes->merge([$key => $value]);
+            $this->withAttributes([$key => $value]);
         }
         return $this;
+    }
+
+    protected function getDefaultAttributes(): array
+    {
+        return [];
     }
 
     public function class($class): static
@@ -56,8 +61,8 @@ trait HasAttributes
         return $this->withAttributes(['style' => $style]);
     }
 
-    protected function newAttributeBag(array $attributes = []): ComponentAttributeBag
+    protected function newAttributeBag(): ComponentAttributeBag
     {
-        return new ComponentAttributeBag($attributes);
+        return new ComponentAttributeBag();
     }
 }

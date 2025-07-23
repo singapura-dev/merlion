@@ -4,6 +4,7 @@ return [
     'route'        => [
         'prefix' => 'admin',
         'as'     => 'admin.',
+        'guard'  => 'admin',
     ],
     'auth_enabled' => true,
     'auth'         => [

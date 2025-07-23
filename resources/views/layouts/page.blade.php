@@ -2,7 +2,6 @@
 
 @section('content')
     <div id="layout-wrapper">
-
         <header id="page-topbar">
             <div class="layout-width">
                 <div class="navbar-header">
@@ -47,7 +46,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 @foreach(config('merlion.languages') as $lang)
-                                    <a href="{{route('merlion.lang', $lang['key'])}}"
+                                    <a href="{{route('admin.lang', $lang['key'])}}"
                                        class="dropdown-item language py-2">
                                         <i class="flag flag-country-{{$lang['flag']}} flag-xs me-1 rounded"></i>
                                         <span class="align-middle">{{$lang['label']}}</span>
@@ -79,14 +78,14 @@
                         </span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <!-- item-->
                                 <a class="dropdown-item" href="#"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">Profile</span></a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i
-                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                                        class="align-middle" data-key="t-logout">Logout</span></a>
+                                <a class="dropdown-item" href="{{route('admin.logout')}}">
+                                    <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle" data-key="t-logout">Logout</span>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -63,13 +63,14 @@ abstract class Renderable
     {
         $this->callMethods('building');
         $this->callMethods('render');
+
         if (!empty($this->renderUsing)) {
             return call_user_func($this->renderUsing->bindTo($this, $this), $this->data());
         }
         return view($this->getView(), $this->data());
     }
 
-    public function getView()
+    public function getView(): string
     {
         return $this->view;
     }
@@ -82,13 +83,11 @@ abstract class Renderable
 
     protected function data(): array
     {
-        $this->attributes = $this->attributes ?: $this->newAttributeBag();
-
+        $this->defaultAttributes($this->getDefaultAttributes());
         $context = [
             'self' => $this,
             'id'   => $this->getId(),
         ];
-
         foreach ($this->_context as $key => $value) {
             $context[$key] = $this->evaluate($value);
         }

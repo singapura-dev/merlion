@@ -9,8 +9,12 @@ use Merlion\Components\Renderable;
 class Login extends Renderable
 {
     protected string $view = 'merlion::pages.login';
-    public static $slogans = [
+
+    public static array $slogans = [
         "Great! Clean code, clean design, easy for customization. Thanks very much! ",
         "The theme is really great with an amazing customer support.",
     ];
+
+    public static string $username = 'username';
+    public static string $usernameLabel = 'Username';
 }

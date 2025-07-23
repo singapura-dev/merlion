@@ -11,6 +11,7 @@ use Merlion\Components\Renderable;
 
 /**
  * @method $this title(string|Closure $title) Set html head title
+ * @method string|null getTitle() Get html head title
  * @method $this cspNonce(string|Closure $cspNonce) Set csp nonce
  * @method string|null getCspNonce() Get csp nonce
  */
@@ -22,9 +23,9 @@ abstract class Html extends Renderable
     public string|Closure|null $title = null;
     public string|Closure|null $cspNonce = null;
 
-    public function setupTheme(): static
+    protected function getDefaultAttributes(): array
     {
-        return $this->defaultAttributes([
+        return [
             'data-layout'        => 'vertical',
             'data-topbar'        => 'light',
             'data-sidebar'       => 'dark',
@@ -33,7 +34,7 @@ abstract class Html extends Renderable
             'data-preloader'     => 'disable',
             'data-theme'         => 'default',
             'data-theme-colors'  => 'default',
-        ]);
+        ];
     }
 
     public array $css = [

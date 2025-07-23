@@ -8,7 +8,7 @@
     <meta name="csp-nonce" content="{{ csp_nonce() }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('head')
-    <title>{{$self->getTitle() ?? config('app.name')}}</title>
+    <title>{{admin()->getTitle() ?? config('app.name')}} | {{admin()->getBrandName()}}</title>
     @foreach($self->css as $url)
         <link rel="stylesheet" nonce="{{csp_nonce()}}" href="{{$url}}">
     @endforeach
