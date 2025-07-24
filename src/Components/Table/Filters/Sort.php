@@ -15,13 +15,6 @@ class Sort extends Renderable
     public string $field = '';
     public string $label = '';
 
-    public function __construct($name, $label, $field = '')
-    {
-        $this->name  = $name;
-        $this->label = $label;
-        $this->field = $field;
-    }
-
     public function selected()
     {
         return request('sort') == $this->getName();

@@ -23,7 +23,19 @@ class MerlionServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'merlion');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'merlion');
 
+        $this->bootRoutes();
+
+        if ($this->app->runningInConsole()) {
+            $this->publishAssets();
+        }
+
+        Paginator::useBootstrapFive();
+    }
+
+    protected function bootRoutes(): void
+    {
         Route::middleware(['web', MerlionMiddleware::class])
             ->prefix(config('merlion.route.prefix'))
             ->as(config('merlion.route.as'))
@@ -33,13 +45,9 @@ class MerlionServiceProvider extends ServiceProvider
                     require __DIR__ . '/../routes/auth.php';
                 }
             });
-
-        $this->publishAssets();
-
-        Paginator::useBootstrapFive();
     }
 
-    protected function publishAssets()
+    protected function publishAssets(): void
     {
         $this->publishes([
             __DIR__ . '/../resources/dist/assets/' => public_path('vendor/merlion'),

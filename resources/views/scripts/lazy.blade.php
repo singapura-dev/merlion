@@ -1,14 +1,14 @@
 <script nonce="{{csp_nonce()}}">
     (function () {
-
         const target = document.querySelector('#{{$id}}[data-lazy-auto]');
+
         if (target) {
-            merlion().observer.observe(target);
+            admin().observer.observe(target);
         }
 
         document.querySelectorAll('[data-lazy-target="{{$id}}"]').forEach(trigger => {
-            trigger.removeEventListener('click', merlion().onLazyTriggerClick);
-            trigger.addEventListener('click', merlion().onLazyTriggerClick);
+            trigger.removeEventListener('click', admin().onLazyTriggerClick);
+            trigger.addEventListener('click', admin().onLazyTriggerClick);
         });
     })();
 </script>

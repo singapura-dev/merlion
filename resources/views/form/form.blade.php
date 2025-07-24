@@ -1,8 +1,13 @@
-<form {{$attributes->merge(['method' => 'post'])}} id="{{$id}}">
+<form {{$attributes}} method="{{$self->method!='get' ? 'post':'get'}}" id="{{$id}}">
+    @method($self->getMethod())
     @csrf
-    @include('merlion::layouts.content', ['content'=> $self->getContent(), 'context' => ['form' => $self]])
+    @include('merlion::layouts.content', [
+        'content'=> $self->getContent(),
+        'context' => [
+            'value' => $self->getModel()
+        ]
+    ])
 </form>
-
 <script nonce="{{csp_nonce()}}">
     (function () {
         let form = document.querySelector("form#{{$id}}");

@@ -12,7 +12,6 @@ class Login extends Renderable
 
     public static array $slogans = [
         "Great! Clean code, clean design, easy for customization. Thanks very much! ",
-        "The theme is really great with an amazing customer support.",
     ];
 
     public static string $username = 'username';

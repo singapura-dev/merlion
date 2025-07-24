@@ -6,17 +6,18 @@ namespace Merlion\Components\Form;
 
 use Merlion\Components\Button;
 use Merlion\Components\Concerns\AsContainer;
+use Merlion\Components\Concerns\HasModel;
 use Merlion\Components\Form\Fields\Field;
 use Merlion\Components\Renderable;
 
 class Form extends Renderable
 {
     use AsContainer;
+    use HasModel;
 
     protected string $view = 'merlion::form.form';
 
-    protected mixed $model = null;
-
+    public mixed $method = 'post';
     public bool $hideLabel = false;
 
     public function submitButton($label = 'Submit', $class = "btn-primary")
@@ -24,42 +25,48 @@ class Form extends Renderable
         $button = Button::make()->withAttributes([
             'type'  => 'submit',
             'class' => 'btn ' . $class,
-        ])->content($label);
+        ])->label($label);
         $this->content($button);
         return $button;
     }
 
-    public function post($action): static
+    public function post($action, $method = null): static
     {
-        return $this->withAttributes(['method' => 'post'])
-            ->withAttributes(['action' => $action]);
+        if ($method) {
+            $this->method = $method;
+        }
+        return $this->withAttributes(['action' => $action]);
     }
 
-    public function model($model)
+    public function put($action): static
     {
-        $this->model = $model;
-        return $this;
+        return $this->post($action, 'put');
     }
 
-    public function getModel(): mixed
+    public function validate(): array
     {
-        return evaluate($this->model ?? null, $this);
+        $rules = $this->getRules();
+        return request()->validate($rules);
     }
 
     public function getFields($parent = null): array
     {
         $fields = [];
-
         if ($parent === null) {
             $parent = $this;
         }
 
         if ($parent instanceof Field) {
-            $fields[] = $parent;
+            $parent->form = $this;
+            $fields[]     = $parent;
         } elseif ($parent instanceof Renderable) {
-            $children   = $parent->getContent();
-            $sub_fields = $this->getFields($children);
-            array_push($fields, ...$sub_fields);
+            if (method_exists($parent, 'content')) {
+                $children = $parent->getContent();
+                if (!empty($children)) {
+                    $sub_fields = $this->getFields($children);
+                    array_push($fields, ...$sub_fields);
+                }
+            }
         } elseif (is_array($parent)) {
             foreach ($parent as $item) {
                 if (!empty($item)) {
@@ -67,12 +74,14 @@ class Form extends Renderable
                     array_push($fields, ...$sub_fields);
                 }
             }
+        } else {
+            dd($parent);
         }
 
         return $fields;
     }
 
-    public function getRules()
+    public function getRules($include_empty = true): array
     {
         $fields = $this->getFields();
         $rules  = [];
@@ -80,8 +89,8 @@ class Form extends Renderable
             /**
              * @var Field $field
              */
-            $rule = $field->getRules();
-            if (!empty($rule)) {
+            $rule = $field->getRules() ?? [];
+            if (!empty($rule) || $include_empty) {
                 $rules[$field->getName()] = $rule;
             }
         }
@@ -89,7 +98,7 @@ class Form extends Renderable
         return $rules;
     }
 
-    public function getDepends()
+    public function getDepends(): array
     {
         $fields  = $this->getFields();
         $depends = [];
@@ -104,6 +113,11 @@ class Form extends Renderable
         }
 
         return $depends;
+    }
+
+    public function renderForm(): void
+    {
+        $this->getFields();
     }
 
 }

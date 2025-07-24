@@ -52,7 +52,6 @@ if (!function_exists('render')) {
             foreach ($renderable as $item) {
                 $result .= render($item, ...$args);
             }
-
             return $result;
         }
 
@@ -66,7 +65,7 @@ if (!function_exists('render')) {
         }
 
         if (method_exists($renderable, 'toResponse')) {
-            return $renderable;
+            return $renderable->toResponse();
         }
 
         if (method_exists($renderable, 'render')) {
@@ -134,5 +133,20 @@ if (!function_exists('from_url_data')) {
     function from_url_data($data): array
     {
         return to_json(base64_decode($data));
+    }
+}
+
+if (!function_exists('deep_clone')) {
+    function deep_clone($objectOrArray)
+    {
+        if (is_array($objectOrArray)) {
+            return array_map(function ($value) {
+                return deep_clone($value);
+            }, $objectOrArray);
+        }
+        if (is_object($objectOrArray)) {
+            return clone $objectOrArray;
+        }
+        return $objectOrArray;
     }
 }

@@ -10,19 +10,19 @@
                         <div class="navbar-brand-box horizontal-logo">
                             <a href="#" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="/vendor/merlion/images/logo-sm.png" alt="" height="22">
+                            <img src="{{admin()->getBrandLogoSmallDark()}}" alt="" height="22">
                         </span>
                                 <span class="logo-lg">
-                            <img src="/vendor/merlion/images/logo-dark.png" alt="" height="17">
+                            <img src="{{admin()->getBrandLogoDark()}}" alt="" height="17">
                         </span>
                             </a>
 
                             <a href="#" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="/vendor/merlion/images/logo-sm.png" alt="" height="22">
+                            <img src="{{admin()->getBrandLogoSmall()}}" alt="" height="22">
                         </span>
                                 <span class="logo-lg">
-                            <img src="/vendor/merlion/images/logo-light.png" alt="" height="17">
+                            <img src="{{admin()->getBrandLogo()}}" alt="" height="17">
                         </span>
                             </a>
                         </div>
@@ -70,10 +70,11 @@
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <img class="rounded-circle header-profile-user"
-                                 src="/vendor/merlion/images/users/avatar-1.jpg" alt="Header Avatar">
+                                 src="{{auth()->user()->avatar ?? '/vendor/merlion/images/users/user-dummy-img.jpg' }}"
+                                 alt="Header Avatar">
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Anna Adame</span>
-                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
+                                <span
+                                    class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{auth()->user()->name}}</span>
                             </span>
                         </span>
                             </button>
@@ -84,7 +85,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{route('admin.logout')}}">
                                     <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                                        class="align-middle" data-key="t-logout">Logout</span>
+                                        class="align-middle" data-key="t-logout">{{__('merlion::base.logout')}}</span>
                                 </a>
                             </div>
                         </div>
@@ -92,7 +93,6 @@
                 </div>
             </div>
         </header>
-
         <!-- ========== App Menu ========== -->
         <div class="app-menu navbar-menu">
             <!-- LOGO -->
@@ -134,6 +134,22 @@
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
+                    @if($self->title || $self->back)
+                        <div class="row">
+                            <div class="col-12">
+                                <div
+                                    class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 align-items-center">
+                                        @if($backUrl = $self->getBack())
+                                            <a class="me-1" href="{{$backUrl}}">
+                                                <i class="ri-arrow-left-line px-1 py-0 ri-arrow-left-line"></i></a>
+                                        @endif
+                                        {!! $self->getTitle() !!}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     @include('merlion::layouts.content', ['content' => $self->getContent()])
                 </div>
                 <!-- container-fluid -->

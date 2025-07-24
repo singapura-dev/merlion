@@ -23,7 +23,7 @@ class LoginController
         ]);
 
         if ($this->auth()->attempt(request()->only($username, 'password'))) {
-            return redirect()->intended(admin()->getHomeUrl());
+            return redirect()->intended(admin()->getHome());
         }
 
         return back()->withErrors([

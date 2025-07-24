@@ -9,7 +9,7 @@
     }
 @endphp
 
-<x-merlion::form.field :$label :$id>
+<x-merlion::form.field :$label :$id :$full>
     <input {{$attributes->merge(['class' => 'form-control'])}}
            type="{{$type}}"
            name="{{$name}}"

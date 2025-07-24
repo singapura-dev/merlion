@@ -4,30 +4,17 @@ declare(strict_types=1);
 
 namespace Merlion\Components;
 
-use Illuminate\Support\Str;
+use Closure;
 
-class Icon extends Container
+/**
+ * @method $this icon(string|Closure $icon) Set icon
+ * @method $this image(string|Closure $image) Set image
+ * @method $this svg(string|Closure $svg) Set svg
+ */
+class Icon extends Renderable
 {
-    public string $wrapper = 'i';
-
-    public function __construct(...$args)
-    {
-        if (is_string($args[0] ?? null)) {
-            $this->class('icon');
-            $prefix = Str::before($args[0], '-');
-            switch ($prefix) {
-                case 'flag':
-                    $this->class('flag ' . $args[0]);
-                    break;
-                case 'ti':
-                    $this->class('ti ' . $args[0]);
-                    break;
-                default:
-                    $this->class($args[0]);
-                    break;
-            }
-            return;
-        }
-        parent::__construct(...$args);
-    }
+    protected string $view = 'merlion::icon';
+    public mixed $icon = ''; // webfont
+    public mixed $svg = '';
+    public mixed $image = '';
 }

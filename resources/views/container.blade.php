@@ -1,3 +1,6 @@
 <{{$wrapper}} {{$attributes}}>
-@include('merlion::layouts.content', ['content' => $self->getContent()])
+@include('merlion::layouts.content', [
+    'content' => $self->getContent(),
+    'context' => $self->getContext(),
+])
 </{{$wrapper}}>

@@ -17,12 +17,11 @@ class Merlion {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const target = entry.target;
-                    merlion().loadRenderable(target);
+                    admin().loadRenderable(target);
                 }
             });
         });
     }
-
 
     init() {
         this.initCstfToken();
@@ -54,6 +53,7 @@ class Merlion {
     }
 
     initActionButton() {
+        console.log('initactionbutton');
         $('[data-action]').on('click', async function (event) {
             let confirm_message = $(this).data('confirm');
 
@@ -245,7 +245,7 @@ class Merlion {
 
     async executeScriptsSequentially(scripts) {
         for (const script of scripts) {
-            await merlion().executeScript(script);
+            await admin().executeScript(script);
         }
     }
 
@@ -298,7 +298,7 @@ class Merlion {
         target.innerHTML = tempDiv.innerHTML;
 
         if (scripts) {
-            await merlion().executeScriptsSequentially(scripts);
+            await admin().executeScriptsSequentially(scripts);
         }
 
         // 拦截都有的 target 内的 a 标签
@@ -307,7 +307,7 @@ class Merlion {
             anchor.addEventListener('click', function (e) {
                 if (anchor.target !== '_blank') {
                     e.preventDefault();
-                    merlion().loadContent(anchor.href, target);
+                    admin().loadContent(anchor.href, target);
                 }
             });
         }
@@ -320,7 +320,7 @@ class Merlion {
                 const formData = new FormData(form);
                 const url = new URL(form.action);
                 console.log(formData);
-                merlion().loadContent(url.toString(), target, formData);
+                admin().loadContent(url.toString(), target, formData);
             });
         }
     }
@@ -338,7 +338,7 @@ class Merlion {
         }
         const urlParams = btoa(JSON.stringify(params));
 
-        await merlion().loadContent(`__render/${urlParams}`, target);
+        await admin().loadContent(`__render/${urlParams}`, target);
     }
 
     executeScript(script) {
@@ -370,17 +370,23 @@ class Merlion {
     onLazyTriggerClick(e) {
         const target_id = e.target.getAttribute('data-lazy-target');
         const target = document.getElementById(target_id);
-        merlion().loadRenderable(target);
+        admin().loadRenderable(target);
     }
 
     initActions(container) {
         document.querySelectorAll(container + " [data-action]").forEach(function (el) {
             el.addEventListener('click', function (e) {
-                console.log('start');
+                e.stopPropagation();
+                e.preventDefault();
+                console.log('clicked');
                 let button = e.currentTarget;
+                const confirm_title = button.getAttribute('data-confirm');
+                if (confirm_title && !confirm(confirm_title)) {
+                    return;
+                }
                 const action = button.getAttribute('data-action');
                 button.classList.add('disabled');
-                merlion().post(action, {}, function () {
+                admin().post(action, {}, function () {
                     button.classList.remove('disabled');
                 }, function (error) {
                     console.log('fail');
@@ -545,8 +551,7 @@ class LazyForm {
     }
 }
 
-(function () {
-    window.admin = function () {
-        return Merlion.make();
-    }
-})();
+window.admin = function () {
+    return Merlion.make();
+}
+window.admin();

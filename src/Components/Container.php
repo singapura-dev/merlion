@@ -15,10 +15,4 @@ class Container extends Renderable
 
     public string $wrapper = 'div';
     protected string $view = 'merlion::container';
-
-    public function __construct(...$content)
-    {
-        $this->content(...$content);
-    }
-
 }

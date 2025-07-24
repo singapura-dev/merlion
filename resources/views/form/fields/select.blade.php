@@ -7,7 +7,7 @@
     }
 @endphp
 
-<x-merlion::form.field :$label :$id>
+<x-merlion::form.field :$label :$id :$full>
 
     <select {{$attributes->merge(['class' => 'form-select'])}}
             name="{{$name}}" id="{{$id}}">

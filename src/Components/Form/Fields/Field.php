@@ -5,6 +5,7 @@ namespace Merlion\Components\Form\Fields;
 
 use Closure;
 use Merlion\Components\Concerns\AsCell;
+use Merlion\Components\Form\Form;
 use Merlion\Components\Renderable;
 
 /**
@@ -17,17 +18,34 @@ abstract class Field extends Renderable
 
     protected array $dependsFields = [];
 
+    public bool $full = false;
+    public ?Form $form = null;
+
     public array|string|Closure|null $rules = null;
+
+    public static array $fieldsMap = [
+        'text'     => Text::class,
+        'textarea' => Textarea::class,
+    ];
+
+    public static function field(string $type, ...$args): Field
+    {
+        return static::$fieldsMap[$type]::make(...$args);
+    }
 
     public function getValue()
     {
-        if (empty($this->value)) {
-            if (isset($this->form)) {
-                return data_get($this->form->getModel(), $this->name);
+        $value = $this->value;
+        if (empty($value)) {
+            $value = $this->get('value');
+            if (empty($value)) {
+                $form = $this->form ?? $this->get('form');
+                if (!empty($form)) {
+                    $value = data_get($form->getModel(), $this->name);
+                }
             }
         }
-
-        return evaluate($this->value, $this);
+        return evaluate($value, $this);
     }
 
     public function dependsOn(string $name, array|string|bool $values = true): static

@@ -1,9 +1,11 @@
 <script nonce="{{csp_nonce()}}">
     @if($message = admin()->getMessage())
-    admin().toast({
-        text: "{{$message}}",
-        className: "{{session('toast.type', 'success')}}",
-        position: '{{session('toast.position', 'center')}}'
-    })
+    $(function () {
+        admin().toast({
+            text: "{{$message}}",
+            className: "{{session('toast.type', 'success')}}",
+            position: '{{session('toast.position', 'center')}}'
+        })
+    });
     @endif
 </script>

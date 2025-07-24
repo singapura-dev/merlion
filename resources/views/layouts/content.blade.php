@@ -1,1 +1,1 @@
-{!! render($content, $context??[]) !!}
+{!! render($content, ...($context??[])) !!}

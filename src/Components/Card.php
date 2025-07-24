@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Merlion\Components\Layouts;
-
-use Merlion\Components\Container;
+namespace Merlion\Components;
 
 class Card extends Container
 {
@@ -47,5 +45,15 @@ class Card extends Container
     public function getHeader(): Flex
     {
         return $this->header;
+    }
+
+    public function getBody(): Container
+    {
+        return $this->body;
+    }
+
+    public function getFooter(): Container
+    {
+        return $this->footer;
     }
 }

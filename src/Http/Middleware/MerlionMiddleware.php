@@ -16,6 +16,7 @@ class MerlionMiddleware
             admin()->cspNonce($csp);
         }
         admin()->updateLanguage();
+        admin()->served();
         return $next($request);
     }
 }

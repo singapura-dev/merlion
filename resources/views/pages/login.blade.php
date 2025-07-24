@@ -125,4 +125,3 @@
     </footer>
     <!-- end Footer -->
 </div>
-<!-- end auth-page-wrapper -->

@@ -11,7 +11,7 @@ trait HasContext
 {
     protected array $_context = [];
 
-    public function set($key, $value = null)
+    public function set($key, $value = null): static
     {
         if (is_string($key)) {
             return $this->context_add($key, $value);
@@ -31,6 +31,14 @@ trait HasContext
         return $this->_context[$key] ?? $default;
     }
 
+    /**
+     * @return array
+     */
+    public function getContext(): array
+    {
+        return $this->_context;
+    }
+
     public function context_add($key, $value): static
     {
 
@@ -38,7 +46,7 @@ trait HasContext
         return $this;
     }
 
-    public function context_clear($key)
+    public function context_clear($key): static
     {
         if (isset($this->_context[$key])) {
             unset($this->_context[$key]);

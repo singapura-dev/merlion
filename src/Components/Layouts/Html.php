@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Merlion\Components\Layouts;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
 use Merlion\Components\Concerns\AsContainer;
 use Merlion\Components\Concerns\HasBrand;
 use Merlion\Components\Renderable;
@@ -97,7 +98,7 @@ abstract class Html extends Renderable
         return $this;
     }
 
-    public function updateLanguage()
+    public function updateLanguage(): static
     {
         app()->setLocale($this->getCurrentLanguage());
         return $this;

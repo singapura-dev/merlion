@@ -1,19 +1,10 @@
-/*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Version: 4.3.0
-Website: https://Themesbrand.com/
-Contact: Themesbrand@gmail.com
-File: Main Js File
-*/
-
 (function () {
     ("use strict");
 
     /**
      *  global variables
      */
-    var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
+    var navbarMenuHTML = document.querySelector(".navbar-menu")?.innerHTML || '';
     var horizontalMenuSplit = 7; // after this number all horizontal menus will be moved in More menu options
 
     function pluginData() {
@@ -341,9 +332,9 @@ File: Main Js File
             if (document.querySelector(".navbar-menu")) {
                 document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
             }
-            document.getElementById("scrollbar").setAttribute("data-simplebar", "");
-            document.getElementById("navbar-nav").setAttribute("data-simplebar", "");
-            document.getElementById("scrollbar").classList.add("h-100");
+            document.getElementById("scrollbar")?.setAttribute("data-simplebar", "");
+            document.getElementById("navbar-nav")?.setAttribute("data-simplebar", "");
+            document.getElementById("scrollbar")?.classList.add("h-100");
         }
 
         /**
@@ -537,7 +528,7 @@ File: Main Js File
         let currentPath = location.pathname;
         if (currentPath) {
             let a = null;
-            let links = document.getElementById("navbar-nav").querySelectorAll("a.nav-link");
+            let links = document.getElementById("navbar-nav")?.querySelectorAll("a.nav-link") || [];
             for (let p in links) {
                 let el = links[p];
                 let url = null;
@@ -625,7 +616,7 @@ File: Main Js File
     }
 
     function hideShowLayoutOptions(dataLayout) {
-        if (dataLayout == "vertical") {
+        if (dataLayout === "vertical") {
             if (document.querySelector(".navbar-menu")) {
                 document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
             }
@@ -682,7 +673,7 @@ File: Main Js File
 
     // add listener Sidebar Hover icon on change layout from setting
     function addEventListenerOnSmHoverMenu() {
-        document.getElementById("vertical-hover").addEventListener("click", function () {
+        document.getElementById("vertical-hover")?.addEventListener("click", function () {
             if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover") {
                 document.documentElement.setAttribute("data-sidebar-size", "sm-hover-active");
             } else if (document.documentElement.getAttribute("data-sidebar-size") === "sm-hover-active") {

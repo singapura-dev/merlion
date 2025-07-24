@@ -27,10 +27,32 @@ abstract class Renderable
     protected string $view = '';
     protected Closure $renderUsing;
 
-    public static function make(...$arguments): static
+    public function __construct(...$args)
     {
-        $instance = new static(...$arguments);
-        $instance->callMethods('setup');
+        //
+    }
+
+    public static function make(...$args): static
+    {
+        $instance = new static(...$args);
+        foreach ($args as $key => $value) {
+            if ($key === 0 && is_array($args[0] ?? null)) {
+                foreach ($args[0] as $_key => $_value) {
+                    if (is_string($_key) && public_property_exists($instance, $_key)) {
+                        if ($_key === 'attributes') {
+                            $instance->withAttributes($_value);
+                        } else {
+                            $instance->{$_key} = $_value;
+                        }
+                    }
+                }
+                break;
+            }
+            if (is_string($key) && public_property_exists($instance, $key)) {
+                $instance->{$key} = $value;
+            }
+        }
+        $instance->callMethods('setup', ...$args);
         return $instance;
     }
 
@@ -73,6 +95,12 @@ abstract class Renderable
     public function getView(): string
     {
         return $this->view;
+    }
+
+    public function setView($view): static
+    {
+        $this->view = $view;
+        return $this;
     }
 
     public function display(Closure $renderUsing): static

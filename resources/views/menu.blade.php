@@ -22,7 +22,7 @@
             @endif
             class="nav-link menu-link">
             @if($icon)
-                <i class="{{$icon}}"></i>
+                {!! render($icon) !!}
             @endif
             <span>{{$label}}</span>
         </a>

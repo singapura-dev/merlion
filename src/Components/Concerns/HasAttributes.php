@@ -45,6 +45,10 @@ trait HasAttributes
 
     public function removeClass($class = null): static
     {
+        if (empty($this->attributes)) {
+            return $this;
+        }
+
         if (empty($class)) {
             $this->attributes['class'] = null;
             return $this;
