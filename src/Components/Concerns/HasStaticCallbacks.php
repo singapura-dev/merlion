@@ -8,7 +8,7 @@ trait HasStaticCallbacks
 {
     protected static array $callbacks = [];
 
-    public static function callback($callback, $type = 'render'): void
+    public static function callback($callback, $type = 'setup'): void
     {
         if (empty(self::$callbacks[$type])) {
             static::$callbacks[$type] = [];
@@ -18,10 +18,15 @@ trait HasStaticCallbacks
 
     protected function renderHasStaticCallbacks(): void
     {
+        $this->runCallbacks('render');
+    }
+
+    protected function setupHasStaticCallbacks(): void
+    {
         $this->runCallbacks();
     }
 
-    protected function runCallbacks($type = 'render'): void
+    protected function runCallbacks($type = 'setup'): void
     {
         foreach (static::$callbacks[$type] ?? [] as $callback) {
             call_user_func($callback->bindTo($this, $this));

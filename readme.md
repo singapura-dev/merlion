@@ -1,4 +1,7 @@
-- [ ] Authentication
+- [x] Authentication
+- [ ] Two-factor authentication
 - [ ] Payment
 - [ ] Email
-- [ ] Admin dashboard
+- [x] Admin dashboard
+- [x] CSP Friendly
+- [ ] Customizable

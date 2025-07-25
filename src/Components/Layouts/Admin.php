@@ -10,8 +10,6 @@ use Merlion\Components\Concerns\Admin\HasRoute;
 use Merlion\Components\Concerns\Admin\HasToast;
 
 /**
- * @method string getHome() Get home url
- * @method $this back(string|Closure $url) Set back url
  */
 class Admin extends Html
 {
@@ -19,13 +17,13 @@ class Admin extends Html
     use HasToast;
     use HasRoute;
 
-    protected string $view = 'merlion::layouts.page';
+    const SECTION_HEADER_RIGHT = 'header-right';
+
+    protected string $view = 'merlion::layouts.admin';
 
     protected array $serving = [];
+    protected array $sections = [];
     protected bool $served = false;
-
-    public string|Closure|null $home = '/admin';
-    public string|Closure|null $back = null;
 
     public function full(): static
     {
@@ -47,5 +45,31 @@ class Admin extends Html
             call_user_func($callback->bindTo($this, $this));
         }
         $this->served = true;
+    }
+
+    public function section($position, $content): static
+    {
+        if (empty($this->sections[$position])) {
+            $this->sections[$position] = [];
+        }
+
+        $content = is_array($content) ? $content : [$content];
+        array_push($this->sections[$position], ...$content);
+
+        return $this;
+    }
+
+    public function getSections($position): array
+    {
+        return $this->sections[$position] ?? [];
+    }
+
+    public function getGuard()
+    {
+        if (empty($this->guard)) {
+            return auth()->guard();
+        }
+
+        return $this->evaluate($this->guard);
     }
 }

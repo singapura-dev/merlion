@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Merlion\Components\Layouts;
 
 use Closure;
-use Illuminate\Support\Facades\Log;
 use Merlion\Components\Concerns\AsContainer;
 use Merlion\Components\Concerns\HasBrand;
 use Merlion\Components\Renderable;
@@ -22,40 +21,30 @@ abstract class Html extends Renderable
     use HasBrand;
 
     public string|Closure|null $title = null;
+    public string|Closure|null $layout = 'condensed';
     public string|Closure|null $cspNonce = null;
 
     protected function getDefaultAttributes(): array
     {
         return [
-            'data-layout'        => 'vertical',
-            'data-topbar'        => 'light',
-            'data-sidebar'       => 'dark',
-            'data-sidebar-size'  => 'lg',
-            'data-sidebar-image' => 'none',
-            'data-preloader'     => 'disable',
-            'data-theme'         => 'default',
-            'data-theme-colors'  => 'default',
         ];
     }
 
     public array $css = [
-        '/vendor/merlion/css/bootstrap.min.css',
-        '/vendor/merlion/css/app.min.css',
-        '/vendor/merlion/css/icons.min.css',
-        '/vendor/merlion/css/custom.min.css',
+        '/vendor/merlion/css/tabler.min.css',
+        '/vendor/merlion/css/merlion.css',
+        'https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-flags.min.css',
+        'https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-flags.min.css',
     ];
+
     public array $js = [
-        '/vendor/merlion/libs/jquery/jquery.min.js',
-        '/vendor/merlion/libs/bootstrap/js/bootstrap.bundle.min.js',
-        '/vendor/merlion/libs/simplebar/simplebar.min.js',
-        '/vendor/merlion/libs/node-waves/waves.min.js',
-        '/vendor/merlion/libs/feather-icons/feather.min.js',
-        '/vendor/merlion/libs/toastify-js/src/toastify.js',
-        '/vendor/merlion/js/theme.js',
+        'https://code.jquery.com/jquery-3.7.1.min.js',
+        '/vendor/merlion/js/tabler.min.js',
         '/vendor/merlion/js/merlion.js',
+        '/vendor/merlion/js/theme.js',
     ];
+
     public array $style = [];
     public array $script = [];
 
@@ -87,12 +76,19 @@ abstract class Html extends Renderable
         return $this;
     }
 
-    public function getCurrentLanguage(): string
+    public function getLanguage(): string
     {
-        return session('locale', app()->getLocale());
+        if (!empty(request('lang'))) {
+            return request('lang');
+        }
+        $lang = session('locale');
+        if (empty($lang) && auth()->user()) {
+            $lang = auth()->user()->language;
+        }
+        return $lang ?? app()->getLocale();
     }
 
-    public function setCurrentLanguage($lang): static
+    public function setLanguage($lang): static
     {
         session()->put('locale', $lang);
         return $this;
@@ -100,7 +96,7 @@ abstract class Html extends Renderable
 
     public function updateLanguage(): static
     {
-        app()->setLocale($this->getCurrentLanguage());
+        app()->setLocale($this->getLanguage());
         return $this;
     }
 }

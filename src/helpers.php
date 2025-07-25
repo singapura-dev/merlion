@@ -8,12 +8,18 @@ if (!function_exists('admin')) {
     /**
      * Get admin page instance
      */
-    function admin(): Admin
+    function admin($id = null): Admin
     {
-        if (app()->bound('merlion.admin')) {
-            return app('merlion.admin');
+        $id = $id ?: Context::get('admin_id', 'admin');
+
+        if (app()->bound("merlion.admin.{$id}")) {
+            return app("merlion.admin.{$id}");
         }
-        app()->instance('merlion.admin', $admin = Admin::make());
+
+        $config       = config('merlion.' . $id, []);
+        $config['id'] = $id;
+        $admin        = Admin::make($config);
+        app()->instance("merlion.admin.{$id}", $admin);
         return $admin;
     }
 }
@@ -133,20 +139,5 @@ if (!function_exists('from_url_data')) {
     function from_url_data($data): array
     {
         return to_json(base64_decode($data));
-    }
-}
-
-if (!function_exists('deep_clone')) {
-    function deep_clone($objectOrArray)
-    {
-        if (is_array($objectOrArray)) {
-            return array_map(function ($value) {
-                return deep_clone($value);
-            }, $objectOrArray);
-        }
-        if (is_object($objectOrArray)) {
-            return clone $objectOrArray;
-        }
-        return $objectOrArray;
     }
 }

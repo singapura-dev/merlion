@@ -9,7 +9,6 @@ class ViewRowButton extends RowActionButton
     public function setupViewRowButton(...$args): void
     {
         $this->label(__('merlion::base.view'))
-            ->ghost()
             ->icon('ri-eye-line');
     }
 

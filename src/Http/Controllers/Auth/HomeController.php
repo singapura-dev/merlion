@@ -9,6 +9,7 @@ class HomeController
 {
     public function __invoke()
     {
-        return admin()->content(Home::make())->render();
+        $home = Home::make();
+        return admin()->content($home)->render();
     }
 }

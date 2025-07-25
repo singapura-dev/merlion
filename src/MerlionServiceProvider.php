@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Merlion;
 
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Merlion\Console\Commands\Install;
+use Merlion\Http\Middleware\MerlionAuthenticate;
 use Merlion\Http\Middleware\MerlionMiddleware;
 
 class MerlionServiceProvider extends ServiceProvider
@@ -15,42 +15,34 @@ class MerlionServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'merlion');
-        if (config('merlion.auth_enabled')) {
-            config(Arr::dot(config('merlion.auth', []), 'auth.'));
-        }
     }
 
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'merlion');
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'merlion');
-
         $this->bootRoutes();
-
         if ($this->app->runningInConsole()) {
             $this->publishAssets();
+            $this->commands([
+                Install::class,
+            ]);
         }
-
-        Paginator::useBootstrapFive();
     }
 
     protected function bootRoutes(): void
     {
-        Route::middleware(['web', MerlionMiddleware::class])
-            ->prefix(config('merlion.route.prefix'))
-            ->as(config('merlion.route.as'))
-            ->group(function () {
-                require __DIR__ . '/../routes/web.php';
-                if (config('merlion.auth_enabled')) {
-                    require __DIR__ . '/../routes/auth.php';
-                }
-            });
+        $router = $this->app['router'];
+        $router->aliasMiddleware('merlion', MerlionMiddleware::class);
+        $router->aliasMiddleware('merlion_auth', MerlionAuthenticate::class);
     }
 
     protected function publishAssets(): void
     {
         $this->publishes([
-            __DIR__ . '/../resources/dist/assets/' => public_path('vendor/merlion'),
+            __DIR__ . '/../resources/dist/'      => public_path('vendor/merlion'),
+            __DIR__ . '/../resources/assets/js'  => public_path('vendor/merlion/js'),
+            __DIR__ . '/../resources/assets/css' => public_path('vendor/merlion/css'),
         ], 'merlion-assets');
     }
 }

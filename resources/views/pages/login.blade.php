@@ -1,127 +1,83 @@
 @use(Merlion\Components\Pages\Login)
-<div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
-    <div class="bg-overlay"></div>
-    <div class="auth-page-content overflow-hidden pt-lg-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card overflow-hidden card-bg-fill galaxy-border-none">
-                        <div class="row g-0">
-                            <div class="col-lg-6">
-                                <div class="p-lg-5 p-4 auth-one-bg h-100">
-                                    <div class="bg-overlay"></div>
-                                    <div class="position-relative h-100 d-flex flex-column">
-                                        <div class="mb-4">
-                                            <a href="#" class="d-block">
-                                                <img src="{{admin()->getBrandLogo()}}" alt="" height="18">
-                                            </a>
-                                        </div>
 
-                                        @if(!empty($slogans = Login::$slogans))
-                                            <div class="mt-auto">
-                                                <div class="mb-3">
-                                                    <i class="ri-double-quotes-l display-4 text-success"></i>
-                                                </div>
-                                                <div id="qoutescarouselIndicators" class="carousel slide"
-                                                     data-bs-ride="carousel">
-                                                    <div class="carousel-indicators">
-                                                        @foreach($slogans as $slogan)
-                                                            <button type="button"
-                                                                    data-bs-target="#qoutescarouselIndicators"
-                                                                    data-bs-slide-to="{{$loop->index}}"
-                                                                    class="{{$loop->first?'active':''}}"
-                                                                    aria-current="true"
-                                                                    aria-label="Slide {{$loop->iteration}}"></button>
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="carousel-inner text-center text-white-50 pb-5">
-                                                        @foreach($slogans as $slogan)
-                                                            <div class="carousel-item {{$loop->first?'active':''}}">
-                                                                <p class="fs-15 fst-italic">{{$slogan}}</p>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <!-- end carousel -->
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end col -->
-
-                            <div class="col-lg-6">
-                                <div class="p-lg-5 p-4">
-                                    <div>
-                                        <h5 class="text-primary">Welcome Back !</h5>
-                                        <p class="text-muted">Sign in to continue.</p>
-                                    </div>
-
-                                    <div class="mt-4">
-                                        @include('merlion::form.errors')
-                                        <form method="post">
-                                            @csrf
-                                            <div class="mb-3">
-                                                <label for="username"
-                                                       class="form-label">{{Login::$usernameLabel}}</label>
-                                                <input type="text" class="form-control" id="username"
-                                                       value="{{old(Login::$username)}}"
-                                                       name="{{Login::$username}}">
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <div class="float-end">
-                                                    <a href="#" class="text-muted">Forgot password?</a>
-                                                </div>
-                                                <label class="form-label" for="password-input">Password</label>
-                                                <div class="position-relative auth-pass-inputgroup mb-3">
-                                                    <input type="password" class="form-control pe-5 password-input"
-                                                           name="password"
-                                                           placeholder="Enter password" id="password-input">
-                                                    <button
-                                                        class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon material-shadow-none"
-                                                        type="button" id="password-addon"><i
-                                                            class="ri-eye-fill align-middle"></i></button>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" name="remember"
-                                                       id="auth-remember-check">
-                                                <label class="form-check-label" for="auth-remember-check">Remember
-                                                    me</label>
-                                            </div>
-
-                                            <div class="mt-4">
-                                                <button class="btn btn-success w-100" type="submit">Sign In</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+<div class="page page-center">
+    <div class="container container-tight py-4">
+        <div class="text-center mb-4">
+            <!-- BEGIN NAVBAR LOGO -->
+            <a href="." aria-label="Tabler" class="navbar-brand navbar-brand-autodark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="110" height="32" viewBox="0 0 232 68"
+                     class="navbar-brand-image">
+                    <path
+                        d="M64.6 16.2C63 9.9 58.1 5 51.8 3.4 40 1.5 28 1.5 16.2 3.4 9.9 5 5 9.9 3.4 16.2 1.5 28 1.5 40 3.4 51.8 5 58.1 9.9 63 16.2 64.6c11.8 1.9 23.8 1.9 35.6 0C58.1 63 63 58.1 64.6 51.8c1.9-11.8 1.9-23.8 0-35.6zM33.3 36.3c-2.8 4.4-6.6 8.2-11.1 11-1.5.9-3.3.9-4.8.1s-2.4-2.3-2.5-4c0-1.7.9-3.3 2.4-4.1 2.3-1.4 4.4-3.2 6.1-5.3-1.8-2.1-3.8-3.8-6.1-5.3-2.3-1.3-3-4.2-1.7-6.4s4.3-2.9 6.5-1.6c4.5 2.8 8.2 6.5 11.1 10.9 1 1.4 1 3.3.1 4.7zM49.2 46H37.8c-2.1 0-3.8-1-3.8-3s1.7-3 3.8-3h11.4c2.1 0 3.8 1 3.8 3s-1.7 3-3.8 3z"
+                        fill="#066fd1" style="fill: var(--tblr-primary, #066fd1)"></path>
+                    <path
+                        d="M105.8 46.1c.4 0 .9.2 1.2.6s.6 1 .6 1.7c0 .9-.5 1.6-1.4 2.2s-2 .9-3.2.9c-2 0-3.7-.4-5-1.3s-2-2.6-2-5.4V31.6h-2.2c-.8 0-1.4-.3-1.9-.8s-.9-1.1-.9-1.9c0-.7.3-1.4.8-1.8s1.2-.7 1.9-.7h2.2v-3.1c0-.8.3-1.5.8-2.1s1.3-.8 2.1-.8 1.5.3 2 .8.8 1.3.8 2.1v3.1h3.4c.8 0 1.4.3 1.9.8s.8 1.2.8 1.9-.3 1.4-.8 1.8-1.2.7-1.9.7h-3.4v13c0 .7.2 1.2.5 1.5s.8.5 1.4.5c.3 0 .6-.1 1.1-.2.5-.2.8-.3 1.2-.3zm28-20.7c.8 0 1.5.3 2.1.8.5.5.8 1.2.8 2.1v20.3c0 .8-.3 1.5-.8 2.1-.5.6-1.2.8-2.1.8s-1.5-.3-2-.8-.8-1.2-.8-2.1c-.8.9-1.9 1.7-3.2 2.4-1.3.7-2.8 1-4.3 1-2.2 0-4.2-.6-6-1.7-1.8-1.1-3.2-2.7-4.2-4.7s-1.6-4.3-1.6-6.9c0-2.6.5-4.9 1.5-6.9s2.4-3.6 4.2-4.8c1.8-1.1 3.7-1.7 5.9-1.7 1.5 0 3 .3 4.3.8 1.3.6 2.5 1.3 3.4 2.1 0-.8.3-1.5.8-2.1.5-.5 1.2-.7 2-.7zm-9.7 21.3c2.1 0 3.8-.8 5.1-2.3s2-3.4 2-5.7-.7-4.2-2-5.8c-1.3-1.5-3-2.3-5.1-2.3-2 0-3.7.8-5 2.3-1.3 1.5-2 3.5-2 5.8s.6 4.2 1.9 5.7 3 2.3 5.1 2.3zm32.1-21.3c2.2 0 4.2.6 6 1.7 1.8 1.1 3.2 2.7 4.2 4.7s1.6 4.3 1.6 6.9-.5 4.9-1.5 6.9-2.4 3.6-4.2 4.8c-1.8 1.1-3.7 1.7-5.9 1.7-1.5 0-3-.3-4.3-.9s-2.5-1.4-3.4-2.3v.3c0 .8-.3 1.5-.8 2.1-.5.6-1.2.8-2.1.8s-1.5-.3-2.1-.8c-.5-.5-.8-1.2-.8-2.1V18.9c0-.8.3-1.5.8-2.1.5-.6 1.2-.8 2.1-.8s1.5.3 2.1.8c.5.6.8 1.3.8 2.1v10c.8-1 1.8-1.8 3.2-2.5 1.3-.7 2.8-1 4.3-1zm-.7 21.3c2 0 3.7-.8 5-2.3s2-3.5 2-5.8-.6-4.2-1.9-5.7-3-2.3-5.1-2.3-3.8.8-5.1 2.3-2 3.4-2 5.7.7 4.2 2 5.8c1.3 1.6 3 2.3 5.1 2.3zm23.6 1.9c0 .8-.3 1.5-.8 2.1s-1.3.8-2.1.8-1.5-.3-2-.8-.8-1.3-.8-2.1V18.9c0-.8.3-1.5.8-2.1s1.3-.8 2.1-.8 1.5.3 2 .8.8 1.3.8 2.1v29.7zm29.3-10.5c0 .8-.3 1.4-.9 1.9-.6.5-1.2.7-2 .7h-15.8c.4 1.9 1.3 3.4 2.6 4.4 1.4 1.1 2.9 1.6 4.7 1.6 1.3 0 2.3-.1 3.1-.4.7-.2 1.3-.5 1.8-.8.4-.3.7-.5.9-.6.6-.3 1.1-.4 1.6-.4.7 0 1.2.2 1.7.7s.7 1 .7 1.7c0 .9-.4 1.6-1.3 2.4-.9.7-2.1 1.4-3.6 1.9s-3 .8-4.6.8c-2.7 0-5-.6-7-1.7s-3.5-2.7-4.6-4.6-1.6-4.2-1.6-6.6c0-2.8.6-5.2 1.7-7.2s2.7-3.7 4.6-4.8 3.9-1.7 6-1.7 4.1.6 6 1.7 3.4 2.7 4.5 4.7c.9 1.9 1.5 4.1 1.5 6.3zm-12.2-7.5c-3.7 0-5.9 1.7-6.6 5.2h12.6v-.3c-.1-1.3-.8-2.5-2-3.5s-2.5-1.4-4-1.4zm30.3-5.2c1 0 1.8.3 2.4.8.7.5 1 1.2 1 1.9 0 1-.3 1.7-.8 2.2-.5.5-1.1.8-1.8.7-.5 0-1-.1-1.6-.3-.2-.1-.4-.1-.6-.2-.4-.1-.7-.1-1.1-.1-.8 0-1.6.3-2.4.8s-1.4 1.3-1.9 2.3-.7 2.3-.7 3.7v11.4c0 .8-.3 1.5-.8 2.1-.5.6-1.2.8-2.1.8s-1.5-.3-2.1-.8c-.5-.6-.8-1.3-.8-2.1V28.8c0-.8.3-1.5.8-2.1.5-.6 1.2-.8 2.1-.8s1.5.3 2.1.8c.5.6.8 1.3.8 2.1v.6c.7-1.3 1.8-2.3 3.2-3 1.3-.7 2.8-1 4.3-1z"
+                        fill-rule="evenodd" clip-rule="evenodd" fill="#4a4a4a"></path>
+                </svg>
+            </a>
+            <!-- END NAVBAR LOGO -->
+        </div>
+        <div class="card card-md">
+            <div class="card-body">
+                @include('merlion::form.errors')
+                <form action="{{admin()->route('login.submit')}}" method="post">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label">{{Login::$usernameLabel}}</label>
+                        <input type="text" name="{{Login::$username}}" required value="{{old(Login::$username)}}"
+                               class="form-control" autocomplete="off">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">
+                            {{__('merlion::base.password')}}
+                            <span class="form-label-description">
+                              </span>
+                        </label>
+                        <div class="input-group input-group-flat auth-pass-inputgroup">
+                            <input type="password" name="password" required class="form-control password-input"
+                                   autocomplete="off">
+                            <span class="input-group-text">
+                                <a href="#" class="link-secondary password-addon" data-bs-toggle="tooltip"
+                                   aria-label="Show/hide password"
+                                   data-bs-original-title="Show/hide password">
+                                  <i class="ri-eye-fill align-middle"></i>
+                                </a>
+                            </span>
                         </div>
                     </div>
-                </div>
+                    <div class="mb-2">
+                        <label class="form-check">
+                            <input type="checkbox" class="form-check-input">
+                            <span class="form-check-label">{{__('merlion::base.remember_me')}}</span>
+                        </label>
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary w-100">{{__('merlion::base.login')}}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <!-- end auth page content -->
-
-    <!-- footer -->
-    <footer class="footer galaxy-border-none">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center">
-                        <p class="mb-0">&copy;
-                            {{date('Y')}}
-                            {{admin()->getBrandName()}}. Crafted with <i class="mdi mdi-heart text-danger"></i> by
-                            Merlion
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- end Footer -->
 </div>
+
+@push('scripts')
+    <script nonce="{{csp_nonce()}}">
+        Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function (e) {
+            Array.from(e.querySelectorAll(".password-addon")).forEach(function (r) {
+                r.addEventListener("click", function (r) {
+                    var o = e.querySelector(".password-input");
+                    var i = r.currentTarget.querySelector("i");
+                    if ("password" === o.type) {
+                        i.classList.remove("ri-eye-fill");
+                        i.classList.add("ri-eye-off-fill");
+                        o.type = "text";
+                    } else {
+                        i.classList.remove("ri-eye-off-fill");
+                        i.classList.add("ri-eye-fill");
+                        o.type = "password";
+                    }
+                })
+            })
+        });
+    </script>
+@endpush

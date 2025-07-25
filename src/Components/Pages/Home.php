@@ -11,8 +11,5 @@ class Home extends Container
 {
     use HasStaticCallbacks;
 
-    public function setupHome(): void
-    {
-        admin()->title('Dashboard');
-    }
+    public static string $title = 'Home';
 }

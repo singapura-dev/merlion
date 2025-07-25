@@ -1,7 +1,7 @@
 <div class="dropdown">
     <a href="#" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
         <i class="ti ti-filter"></i></a>
-    <div class="dropdown-menu dropdown-menu-md p-0">
+    <div class="dropdown-menu dropdown-menu-card dropdown-menu-md p-0">
         <form class="d-flex flex-column gap-3 p-3">
             <div class="d-flex flex-wrap gap-3 ">
                 {!! render($self->getFilters()) !!}

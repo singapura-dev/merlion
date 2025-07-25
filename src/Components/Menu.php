@@ -3,6 +3,7 @@
 namespace Merlion\Components;
 
 use Closure;
+use Merlion\Components\Concerns\AsContainer;
 
 /**
  * @method $this label(string|Closure $label) Set menu label
@@ -13,6 +14,8 @@ use Closure;
  */
 class Menu extends Renderable
 {
+    use AsContainer;
+
     protected string $view = 'merlion::menu';
 
     public string|Closure|null $label = null;
@@ -21,13 +24,16 @@ class Menu extends Renderable
     public string|Closure|null $target = null;
     public bool|Closure|null $title = false;
 
-    public function renderMenu(): void
+    public function getIcon()
     {
         if (empty($this->icon)) {
-            return;
+            return null;
         }
+
         if (is_string($this->icon)) {
             $this->icon = Icon::make(icon: $this->icon);
         }
+
+        return $this->evaluate($this->icon);
     }
 }

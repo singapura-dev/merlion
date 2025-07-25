@@ -9,7 +9,6 @@ class EditRowButton extends RowActionButton
     public function setupViewRowButton(...$args): void
     {
         $this->label(__('merlion::base.edit'))
-            ->ghost()
             ->icon('ri-edit-line');
     }
 

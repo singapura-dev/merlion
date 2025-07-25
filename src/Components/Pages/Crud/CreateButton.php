@@ -13,13 +13,13 @@ use Merlion\Components\Button;
  */
 class CreateButton extends Button
 {
-    public string $route = '';
+    public mixed $route = '';
 
     public function setupCreateButton(...$args): void
     {
         $this->primary()
             ->label(__('merlion::base.create'))
-            ->icon('ri-add-line');
+            ->icon('ri-add-line me-2');
     }
 
     public function renderCreateButton(): void

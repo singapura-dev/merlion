@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Merlion\Components;
 
-use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Merlion\Components\Concerns\CanCallMethods;
@@ -25,7 +24,6 @@ abstract class Renderable
     protected static array $exceptProperty = [];
 
     protected string $view = '';
-    protected Closure $renderUsing;
 
     public function __construct(...$args)
     {
@@ -81,14 +79,11 @@ abstract class Renderable
         }
     }
 
-    public function render()
+    public function render(): mixed
     {
         $this->callMethods('building');
         $this->callMethods('render');
 
-        if (!empty($this->renderUsing)) {
-            return call_user_func($this->renderUsing->bindTo($this, $this), $this->data());
-        }
         return view($this->getView(), $this->data());
     }
 
@@ -103,10 +98,17 @@ abstract class Renderable
         return $this;
     }
 
-    public function display(Closure $renderUsing): static
+    public static function clone($renderable)
     {
-        $this->renderUsing = $renderUsing;
-        return $this;
+        if (is_array($renderable)) {
+            return array_map(function ($value) {
+                return static::clone($value);
+            }, $renderable);
+        }
+        if (is_object($renderable)) {
+            return clone $renderable;
+        }
+        return $renderable;
     }
 
     protected function data(): array
@@ -139,7 +141,7 @@ abstract class Renderable
         $values = [];
 
         foreach (static::$propertyCache[$class] as $property) {
-            $values[$property] = $this->{$property};
+            $values[$property] = $this->evaluate($this->{$property});
         }
 
         return $values;

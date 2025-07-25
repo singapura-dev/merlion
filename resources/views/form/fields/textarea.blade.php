@@ -1,8 +1,4 @@
 @php
-    $name = $self->getName();
-    $id = $self->getId();
-    $label = $self->getLabel();
-    $type = $self->getInputType();
     $placeholder = $self->getPlaceholder();
     if($errors->has($name)) {
        $attributes = $attributes->merge(['class' => 'is-invalid']);
@@ -11,7 +7,6 @@
 
 <x-merlion::form.field :$label :$id :$full>
     <textarea {{$attributes->merge(['class' => 'form-control'])}}
-              type="{{$type}}"
               name="{{$name}}"
               rows="{{$rows}}"
               id="{{$id}}"

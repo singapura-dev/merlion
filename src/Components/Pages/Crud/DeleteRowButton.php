@@ -9,7 +9,7 @@ class DeleteRowButton extends RowActionButton
     public function setupViewRowButton(...$args): void
     {
         $this->label(__('merlion::base.delete'))
-            ->ghost('danger')
+            ->text('danger')
             ->icon('ri-delete-bin-line');
     }
 

@@ -7,7 +7,7 @@ namespace Merlion\Components;
 class Flex extends Container
 {
 
-    public function setupFlex(): static
+    public function setupFlex(...$args): static
     {
         return $this->class('d-flex');
     }

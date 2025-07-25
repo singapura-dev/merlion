@@ -6,21 +6,18 @@ namespace Merlion\Components\Concerns;
 
 use Illuminate\Support\Str;
 
+/**
+ * @method $this id(mixed $id) Set id
+ */
 trait HasId
 {
-    protected string $_id = '';
-
-    public function id(string $id): static
-    {
-        $this->_id = $id;
-        return $this;
-    }
+    public mixed $id = '';
 
     public function getId(): string
     {
-        if (empty($this->_id)) {
-            $this->_id = Str::slug(class_basename($this)) . '_' . uniqid();
+        if (empty($this->id)) {
+            $this->id = Str::slug(class_basename($this)) . '_' . uniqid();
         }
-        return $this->_id;
+        return $this->id;
     }
 }

@@ -1,21 +1,15 @@
 <?php
 
 return [
-    'route'        => [
+    'route'     => [
         'prefix' => 'admin',
         'as'     => 'admin.',
         'guard'  => 'admin',
     ],
-    'auth_enabled' => true,
-    'auth'         => [
-        'guards' => [
-            'admin' => [
-                'driver'   => 'session',
-                'provider' => 'users',
-            ],
-        ],
+    'features'  => [
+        'authentication' => true,
     ],
-    'languages'    => [
+    'languages' => [
         [
             'key'   => 'en',
             'label' => 'English',
@@ -27,4 +21,5 @@ return [
             'flag'  => 'cn',
         ],
     ],
+    'admin'     => [],
 ];

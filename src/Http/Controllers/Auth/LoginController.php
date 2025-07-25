@@ -39,6 +39,6 @@ class LoginController
 
     protected function auth()
     {
-        return auth(config('merlion.route.guard'));
+        return auth(admin()->getGuard());
     }
 }

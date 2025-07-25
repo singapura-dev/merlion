@@ -1,9 +1,9 @@
 @if($self->getIcon())
-    <i {{$attributes->merge(['class'=>$self->getIcon()]) }}></i>
+    <i {{ $attributes->merge(['class'=>$self->getIcon()]) }}></i>
 @elseif($self->getSvg())
-    <span {{$attributes}}>
+    <span {{ $attributes }}>
         {!! $self->getSvg() !!}
     </span>
 @elseif($self->getImage())
-    <img src="{{$self->getImage()}}" class="mw-100 mh-100" alt="">
+    <img src="{{$self->getImage()}}" {{ $attributes }} alt="">
 @endif

@@ -6,6 +6,7 @@
     }
     $label = $self->getLabel();
     $link = $self->getLink();
+    $icon = $self->getIcon();
 @endphp
 
 @if($title)
@@ -13,26 +14,33 @@
         <span>{!! $label !!}</span>
     </li>
 @else
-    <li class="nav-item">
+    <li class="nav-item @if($nest) dropdown @endif">
         <a
             @if($nest)
-                href="#{{$id}}" data-bs-toggle="collapse" role="button" aria-expanded="false"
+                href="#{{$id}}" data-bs-toggle="dropdown" role="button" aria-expanded="false"
+            class="nav-link dropdown-toggle"
             @else
-                href="{{$link}}"
+                href="{{$link}}" class="nav-link "
             @endif
-            class="nav-link menu-link">
+        >
             @if($icon)
+                <span class="nav-link-icon d-md-none d-lg-inline-block">
                 {!! render($icon) !!}
+                </span>
             @endif
-            <span>{{$label}}</span>
+            <span class="nav-link-title">{{$label}}</span>
         </a>
         @if(!empty($sub_menus))
-            <div class="collapse menu-dropdown" id="{{$id}}">
-                <ul class="nav nav-sm flex-column">
-                    @foreach($sub_menus as $sub_menu)
-                        {!! render($sub_menu) !!}
-                    @endforeach
-                </ul>
+            <div class="dropdown-menu" data-bs-popper="static" id="{{$id}}">
+                @foreach($sub_menus as $sub_menu)
+                    <a href="{{$sub_menu->getLink()}}" class="dropdown-item">
+                        @if($sub_menu_icon = $sub_menu->getIcon())
+                            <span class="nav-link-icon">
+                                {!! render($sub_menu_icon) !!}
+                            </span>
+                        @endif
+                        {{$sub_menu->getLabel()}}</a>
+                @endforeach
             </div>
         @endif
     </li>

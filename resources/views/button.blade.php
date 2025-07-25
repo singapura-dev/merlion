@@ -3,15 +3,13 @@
     $label = $self->getLabel();
     $iconPosition = $self->getIconPosition();
 @endphp
-<{{$wrapper}} {{$attributes}}>
+<{{$wrapper}} {{$attributes->merge(['role' => 'button'])}}>
 
-@if($icon && $iconPosition == 'start')
+@if($icon && $iconPosition == 'before')
     {!! render($icon) !!}
 @endif
-
 {!! render($label) !!}
-
-@if($icon && $iconPosition == 'end')
+@if($icon && $iconPosition == 'after')
     {!! render($icon) !!}
 @endif
 </{{$wrapper}}>

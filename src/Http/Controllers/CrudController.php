@@ -11,8 +11,9 @@ use Merlion\Components\Flex;
 use Merlion\Components\Form\Errors;
 use Merlion\Components\Form\Fields\Field;
 use Merlion\Components\Form\Form;
-use Merlion\Components\Grid\Displayers\Displayer;
-use Merlion\Components\Grid\Grid;
+use Merlion\Components\Infolist\Entry\Entry;
+use Merlion\Components\Infolist\Infolist;
+use Merlion\Components\Layouts\Admin;
 use Merlion\Components\Pages\Crud\CreateButton;
 use Merlion\Components\Pages\Crud\DeleteRowButton;
 use Merlion\Components\Pages\Crud\EditRowButton;
@@ -75,7 +76,7 @@ abstract class CrudController
         // tools
         $tools = $this->getTools();
         if (!empty($tools)) {
-            $card->header($tools);
+            admin()->section(Admin::SECTION_HEADER_RIGHT, $tools);
         }
 
         $card->getHeader()->justifyContent('between');
@@ -113,10 +114,10 @@ abstract class CrudController
         admin()->title(__('merlion::base.detail'));
         admin()->back(admin()->route($this->route . '.index'));
 
-        $grid = $this->getGrid();
-        $grid->model($model);
+        $infolist = $this->getInfolist();
+        $infolist->model($model);
 
-        return admin()->content($grid)->render();
+        return admin()->content($infolist)->render();
     }
 
     public function create()
@@ -194,10 +195,10 @@ abstract class CrudController
 
     protected function getForm(): Form
     {
-        $form = Form::make($this->entities()['form'] ?? []);
+        $form = Form::make($this->crud()['form'] ?? []);
         $card = Card::make();
-        $card->body(Flex::make(Errors::make()->class('w-full'), $this->getFields())->wrap()->gap(3));
-        $card->footer(Button::make()->primary()->label(__('merlion::base.create')));
+        $card->body(Flex::make()->content(Errors::make()->class('w-full'), $this->getFields())->wrap()->gap(3));
+        $card->footer(Button::make()->primary()->label(__('merlion::base.save')));
         $form->content($card);
         return $form;
     }
@@ -295,63 +296,63 @@ abstract class CrudController
         return $sorts;
     }
 
-    protected function getGrid()
+    protected function getInfolist()
     {
-        $grid = Grid::make();
-        $card = Card::make();
+        $infolist = Infolist::make();
+        $card     = Card::make();
 
-        $displayers = $this->getDisplayers();
-        $flex       = Flex::make($displayers)->wrap()->gap(3);
+        $entries = $this->getEntries();
+        $flex    = Flex::make()->content($entries)->wrap()->gap(3);
         $card->body($flex);
 
-        $grid->content($card);
+        $infolist->content($card);
 
-        return $grid;
+        return $infolist;
     }
 
-    protected function getDisplayers()
+    protected function getEntries()
     {
-        $displayers = [];
-        foreach ($this->displayers() as $displayer) {
-            if (is_string($displayer)) {
-                $displayer = [
+        $schemas = [];
+        foreach ($this->entries() as $schema) {
+            if (is_string($schema)) {
+                $schema = [
                     'type' => 'text',
-                    'name' => $displayer,
+                    'name' => $schema,
                 ];
             }
 
-            if (is_array($displayer)) {
-                if (empty($displayer['label'])) {
-                    $displayer['label'] = $this->getFieldLabel($displayer['name']);
+            if (is_array($schema)) {
+                if (empty($schema['label'])) {
+                    $schema['label'] = $this->getFieldLabel($schema['name']);
                 }
-                $displayer = Displayer::displayer($displayer['type'] ?? 'text', $displayer);
+                $schema = Entry::generate($displayer['type'] ?? 'text', $schema);
             }
 
-            if ($displayer instanceof Displayer) {
-                $displayers[] = $displayer;
+            if ($schema instanceof Entry) {
+                $schemas[] = $schema;
             }
         }
-        return $displayers;
+        return $schemas;
     }
 
     protected function fields()
     {
-        return $this->entities()['fields'] ?? [];
+        return $this->crud()['fields'] ?? [];
     }
 
     protected function columns()
     {
-        return $this->entities()['columns'] ?? [];
+        return $this->crud()['columns'] ?? [];
     }
 
     protected function tools()
     {
-        return $this->entities()['tools'] ?? [];
+        return $this->crud()['tools'] ?? [];
     }
 
     protected function filters()
     {
-        return $this->entities()['filters'] ?? [];
+        return $this->crud()['filters'] ?? [];
     }
 
     protected function sorts()
@@ -359,36 +360,36 @@ abstract class CrudController
         return $this->crud()['sorts'] ?? [];
     }
 
-    protected function displayers()
+    protected function entries()
     {
-        return $this->crud()['displayers'] ?? [];
+        return $this->crud()['entries'] ?? [];
     }
 
-    protected function entities()
+    protected function schemas()
     {
         return [];
     }
 
     protected function crud()
     {
-        return array_merge($this->defaultEntities(), $this->entities());
+        return array_merge($this->defaultSchemas(), $this->schemas());
     }
 
-    protected function defaultEntities()
+    protected function defaultSchemas()
     {
         return [
-            'table'      => [],
-            'tools'      => [
+            'table'   => [],
+            'tools'   => [
                 'create',
             ],
-            'sorts'      => [],
-            'actions'    => ['view', 'edit', 'delete'], // view | edit | delete
-            'filters'    => [],
-            'form'       => [],
-            'columns'    => [],
-            'fields'     => [],
-            'grid'       => [],
-            'displayers' => [],
+            'sorts'   => [],
+            'actions' => ['view', 'edit', 'delete'], // view | edit | delete
+            'filters' => [],
+            'form'    => [],
+            'columns' => [],
+            'fields'  => [],
+            'grid'    => [],
+            'entries' => [],
         ];
     }
 }

@@ -4,9 +4,9 @@
     $action =$self->getActions();
 @endphp
 <div class="table-responsive">
-    <table {{$attributes->merge(['class' => 'table mb-0'])}} id="{{$id}}">
+    <table {{$attributes->merge(['class' => 'table table-vcenter card-table mb-0'])}} id="{{$id}}">
         <thead>
-        <tr class="bg-light">
+        <tr>
             @if($selectable)
                 <th><input class="form-check-input table-selectable-check-all" type="checkbox" value="true"></th>
             @endif
@@ -27,7 +27,7 @@
             @endif
         </tr>
         </thead>
-        <tbody class="table-tbody">
+        <tbody>
         @foreach($rows as $row)
             <tr>
                 @if($selectable)
@@ -42,9 +42,9 @@
                 @endforeach
 
                 @if(!empty($actions))
-                    <td>
-                        <div class="d-flex flex-wrap gap-1 align-items-center">
-                            @foreach(deep_clone($actions) as $action)
+                    <td class="auto-width">
+                        <div class="d-flex gap-2 align-items-center">
+                            @foreach(\Merlion\Components\Renderable::clone($actions) as $action)
                                 {!! $action->model($row)->render() !!}
                             @endforeach
                         </div>

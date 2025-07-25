@@ -16,23 +16,24 @@ class Button extends Renderable
 
     public mixed $label = '';
     public mixed $icon = '';
-    public string $iconPosition = 'start'; // start|end
+    public bool $plain = false;
+    public string $iconPosition = 'before'; // before|after
 
-    public function setupButton(...$args): void
+    public function iconBefore(): static
     {
-        $this->class('btn');
-    }
-
-    public function iconStart(): static
-    {
-        $this->iconPosition = 'start';
+        $this->iconPosition = 'before';
         return $this;
     }
 
-    public function iconEnd(): static
+    public function iconAfter(): static
     {
-        $this->iconPosition = 'end';
+        $this->iconPosition = 'after';
         return $this;
+    }
+
+    public function text($color): static
+    {
+        return $this->class('text-' . $color);
     }
 
     public function submit(): static
@@ -50,14 +51,29 @@ class Button extends Renderable
         return $this->class('btn-primary');
     }
 
-    public function ghost($color = 'primary'): static
+    public function danger(): static
     {
-        return $this->class('btn-ghost-' . $color);
+        return $this->class('btn-danger');
     }
 
-    public function soft($color = 'primary'): static
+    public function warning(): static
     {
-        return $this->class('btn-soft-' . $color);
+        return $this->class('btn-warning');
+    }
+
+    public function info(): static
+    {
+        return $this->class('btn-info');
+    }
+
+    public function ghost(): static
+    {
+        return $this->class('btn-ghost');
+    }
+
+    public function soft(): static
+    {
+        return $this->class('btn-soft');
     }
 
     public function outline(): static
@@ -95,11 +111,6 @@ class Button extends Renderable
         return $this->class('btn-xl');
     }
 
-    public function plain(): static
-    {
-        return $this->removeClass('btn');
-    }
-
     public function action($action, $method = 'post'): static
     {
         return $this->withAttributes(['data-action' => $action, 'data-method' => $method]);
@@ -110,15 +121,25 @@ class Button extends Renderable
         return $this->withAttributes(['data-confirm' => $title]);
     }
 
+    public function plain($plain = true): static
+    {
+        $this->wrapper = 'a';
+        $this->plain   = $plain;
+        return $this;
+    }
+
     public function link($link, $target = '_self'): static
     {
         $this->wrapper = 'a';
-        $this->withAttributes(['href' => $link, 'target' => $target]);
-        return $this;
+        return $this->withAttributes(['href' => $link, 'target' => $target]);
     }
 
     public function renderButton(): void
     {
+        if (!$this->plain) {
+            $this->class('btn');
+        }
+
         if (is_string($this->icon)) {
             $this->icon = Icon::make(icon: $this->icon);
         }
