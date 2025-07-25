@@ -9,5 +9,5 @@ class Alert extends Renderable
     public string $type = 'success';
     public string $title = '';
 
-    protected string $view = 'merlion::alert';
+    public $view = 'merlion::alert';
 }

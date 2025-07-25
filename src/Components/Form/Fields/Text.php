@@ -9,6 +9,6 @@ class Text extends Field
 {
     use AsInput;
 
-    protected string $view = 'merlion::form.fields.text';
+    public $view = 'merlion::form.fields.text';
 
 }

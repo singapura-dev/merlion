@@ -14,5 +14,5 @@ class Container extends Renderable
     use AsContainer;
 
     public string $wrapper = 'div';
-    protected string $view = 'merlion::container';
+    public $view = 'merlion::container';
 }

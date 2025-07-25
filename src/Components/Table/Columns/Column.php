@@ -22,7 +22,7 @@ abstract class Column extends Renderable
         'text' => Text::class,
     ];
 
-    public static function column(string $type, ...$args): Column
+    public static function generate(string $type, ...$args): Column
     {
         return static::$columnsMap[$type]::make(...$args);
     }

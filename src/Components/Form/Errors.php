@@ -8,5 +8,5 @@ use Merlion\Components\Renderable;
 
 class Errors extends Renderable
 {
-    protected string $view = 'merlion::form.errors';
+    public $view = 'merlion::form.errors';
 }

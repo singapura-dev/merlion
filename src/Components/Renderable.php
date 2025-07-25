@@ -23,7 +23,11 @@ abstract class Renderable
     protected static array $propertyCache = [];
     protected static array $exceptProperty = [];
 
-    protected string $view = '';
+    /**
+     * View path
+     * @var mixed
+     */
+    public $view = '';
 
     public function __construct(...$args)
     {
@@ -36,18 +40,20 @@ abstract class Renderable
         foreach ($args as $key => $value) {
             if ($key === 0 && is_array($args[0] ?? null)) {
                 foreach ($args[0] as $_key => $_value) {
-                    if (is_string($_key) && public_property_exists($instance, $_key)) {
+                    if (is_string($_key) && (
+                            public_property_exists($instance, $_key) || public_method_exists($instance, $_key)
+                        )) {
                         if ($_key === 'attributes') {
                             $instance->withAttributes($_value);
                         } else {
-                            $instance->{$_key} = $_value;
+                            $instance->{$_key}($_value);
                         }
                     }
                 }
                 break;
             }
             if (is_string($key) && public_property_exists($instance, $key)) {
-                $instance->{$key} = $value;
+                $instance->{$key}($value);
             }
         }
         $instance->callMethods('setup', ...$args);

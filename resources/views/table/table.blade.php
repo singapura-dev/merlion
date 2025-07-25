@@ -1,6 +1,6 @@
 @php
     $columns = $self->getColumns();
-    $rows = $self->getRows();
+    $rows = $self->getRows() ?? null;
     $action =$self->getActions();
 @endphp
 <div class="table-responsive">
@@ -55,8 +55,10 @@
         </tbody>
     </table>
 </div>
-@if(method_exists($rows, 'links'))
-    <div class="p-2">
-        {{$rows->links()}}
-    </div>
+@if(is_object($rows))
+    @if(method_exists($rows, 'links'))
+        <div class="p-2">
+            {{$rows->links()}}
+        </div>
+    @endif
 @endif

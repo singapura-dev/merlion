@@ -15,7 +15,7 @@ class Form extends Renderable
     use AsContainer;
     use HasModel;
 
-    protected string $view = 'merlion::form.form';
+    public $view = 'merlion::form.form';
 
     public mixed $method = 'post';
     public bool $hideLabel = false;

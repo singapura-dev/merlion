@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('head')
     <title>{{admin()->getTitle() ?? config('app.name')}} | {{admin()->getBrandName()}}</title>
-    @foreach($self->css as $url)
+    @foreach(\Merlion\Components\Layouts\Html::$css as $url)
         <link rel="stylesheet" nonce="{{csp_nonce()}}" href="{{$url}}">
     @endforeach
     @foreach($self->style as $style)
@@ -23,7 +23,7 @@
 
 @yield('content')
 
-@foreach($self->js as $url)
+@foreach(\Merlion\Components\Layouts\Html::$js as $url)
     <script nonce="{{csp_nonce()}}" src="{{$url}}"></script>
 @endforeach
 @foreach($self->script as $script)

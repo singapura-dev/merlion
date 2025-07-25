@@ -10,6 +10,6 @@ class Text extends Filter
 {
     use AsInput;
 
-    protected string $view = 'merlion::table.filters.text';
+    public $view = 'merlion::table.filters.text';
 
 }

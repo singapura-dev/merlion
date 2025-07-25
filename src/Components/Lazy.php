@@ -9,7 +9,7 @@ namespace Merlion\Components;
  */
 class Lazy extends Renderable
 {
-    protected string $view = 'merlion::lazy';
+    public $view = 'merlion::lazy';
     public string $wrapper = 'div';
     public bool $auto = true;
 

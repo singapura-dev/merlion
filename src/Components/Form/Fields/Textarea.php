@@ -10,6 +10,6 @@ use Closure;
  */
 class Textarea extends Text
 {
-    protected string $view = 'merlion::form.fields.textarea';
+    public $view = 'merlion::form.fields.textarea';
     public mixed $rows = 3;
 }

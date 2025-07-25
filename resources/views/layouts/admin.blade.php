@@ -20,7 +20,7 @@
                                 </h2>
                             </div>
                             <div class="col-auto">
-                                {!! render($self->getSections(Admin::SECTION_HEADER_RIGHT)) !!}
+                                {!! render($self->getContent(Admin::POSITION_HEADER_RIGHT)) !!}
                             </div>
                         </div>
                     </div>

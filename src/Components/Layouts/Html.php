@@ -30,7 +30,7 @@ abstract class Html extends Renderable
         ];
     }
 
-    public array $css = [
+    public static array $css = [
         '/vendor/merlion/css/tabler.min.css',
         '/vendor/merlion/css/merlion.css',
         'https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.min.css',
@@ -38,7 +38,7 @@ abstract class Html extends Renderable
         'https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-flags.min.css',
     ];
 
-    public array $js = [
+    public static array $js = [
         'https://code.jquery.com/jquery-3.7.1.min.js',
         '/vendor/merlion/js/tabler.min.js',
         '/vendor/merlion/js/merlion.js',
@@ -48,18 +48,16 @@ abstract class Html extends Renderable
     public array $style = [];
     public array $script = [];
 
-    public function css($css): static
+    public static function css($css): void
     {
         $css = is_array($css) ? $css : func_get_args();
-        array_push($this->css, ...$css);
-        return $this;
+        array_push(static::$css, ...$css);
     }
 
-    public function js($js): static
+    public static function js($js): void
     {
         $js = is_array($js) ? $js : func_get_args();
-        array_push($this->js, ...$js);
-        return $this;
+        array_push(static::$js, ...$js);
     }
 
     public function style($style): static

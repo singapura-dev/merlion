@@ -98,6 +98,19 @@ if (!function_exists('public_property_exists')) {
     }
 }
 
+if (!function_exists('public_method_exists')) {
+    function public_method_exists($class, $property): bool
+    {
+        try {
+            $reflection = new ReflectionClass($class);
+            $prop       = $reflection->getMethod($property);
+            return $prop->isPublic();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+}
+
 if (!function_exists('csp_nonce')) {
     function csp_nonce(): string|null
     {

@@ -6,7 +6,7 @@ use Merlion\Components\Renderable;
 
 class Inertia extends Renderable
 {
-    public string $view = 'merlion::layouts.inertia';
+    public $view = 'merlion::layouts.inertia';
     public string $page = '';
     public array $resource = [];
 

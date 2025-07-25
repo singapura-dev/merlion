@@ -17,12 +17,11 @@ class Admin extends Html
     use HasToast;
     use HasRoute;
 
-    const SECTION_HEADER_RIGHT = 'header-right';
+    const POSITION_HEADER_RIGHT = 'header-right';
 
-    protected string $view = 'merlion::layouts.admin';
+    public $view = 'merlion::layouts.admin';
 
     protected array $serving = [];
-    protected array $sections = [];
     protected bool $served = false;
 
     public function full(): static

@@ -13,7 +13,7 @@ use Closure;
  */
 class Icon extends Renderable
 {
-    protected string $view = 'merlion::icon';
+    public $view = 'merlion::icon';
     public mixed $icon = ''; // webfont
     public mixed $svg = '';
     public mixed $image = '';

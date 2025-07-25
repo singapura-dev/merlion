@@ -10,7 +10,7 @@ namespace Merlion\Components;
  */
 class Button extends Renderable
 {
-    protected string $view = 'merlion::button';
+    public $view = 'merlion::button';
 
     public string $wrapper = 'button';
 

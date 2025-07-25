@@ -10,6 +10,6 @@ use Closure;
  */
 class Select extends Field
 {
-    protected string $view = 'merlion::form.fields.select';
+    public $view = 'merlion::form.fields.select';
     public array|Closure $options = [];
 }

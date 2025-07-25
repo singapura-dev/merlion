@@ -16,7 +16,7 @@ class Menu extends Renderable
 {
     use AsContainer;
 
-    protected string $view = 'merlion::menu';
+    public $view = 'merlion::menu';
 
     public string|Closure|null $label = null;
     public string|Closure|null $link = null;

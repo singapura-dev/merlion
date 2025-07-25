@@ -55,7 +55,7 @@ abstract class CrudController
                 }
 
                 if (is_array($column)) {
-                    $column = Column::column($column['type'] ?? 'text', $column);
+                    $column = Column::generate($column['type'] ?? 'text', $column);
                 }
             }
             if ($column instanceof Column) {
@@ -76,7 +76,7 @@ abstract class CrudController
         // tools
         $tools = $this->getTools();
         if (!empty($tools)) {
-            admin()->section(Admin::SECTION_HEADER_RIGHT, $tools);
+            admin()->content($tools, Admin::POSITION_HEADER_RIGHT);
         }
 
         $card->getHeader()->justifyContent('between');

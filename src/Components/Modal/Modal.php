@@ -14,7 +14,7 @@ class Modal extends Renderable
 {
     use AsContainer;
 
-    protected string $view = 'merlion::modal.modal';
+    public $view = 'merlion::modal.modal';
 
     public mixed $button;
 

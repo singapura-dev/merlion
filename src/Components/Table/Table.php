@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Merlion\Components\Table;
 
 use Merlion\Components\Renderable;
+use Merlion\Components\Table\Columns\Column;
 
 /**
  * Table
@@ -14,7 +15,7 @@ use Merlion\Components\Renderable;
  */
 class Table extends Renderable
 {
-    protected string $view = 'merlion::table.table';
+    public $view = 'merlion::table.table';
 
     public array $columns = [];
     public array $actions = [];
@@ -34,6 +35,35 @@ class Table extends Renderable
     {
         $columns = is_array($columns) ? $columns : func_get_args();
         array_push($this->columns, ...$columns);
+        return $this;
+    }
+
+    public function getColumns(): array
+    {
+        $columns = [];
+        foreach ($this->columns as $column) {
+            if (is_string($column)) {
+                $column = [
+                    'type' => 'text',
+                    'name' => $column,
+                ];
+            }
+
+            if (is_array($column)) {
+                $column = Column::generate($column['type'] ?? 'text', $column);
+            }
+
+            if ($column instanceof Column) {
+                $columns[] = $column;
+            }
+        }
+        return $columns;
+    }
+
+    public function actions($actions): static
+    {
+        $actions = is_array($actions) ? $actions : func_get_args();
+        array_push($this->actions, ...$actions);
         return $this;
     }
 }

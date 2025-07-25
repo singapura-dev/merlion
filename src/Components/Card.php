@@ -6,7 +6,7 @@ namespace Merlion\Components;
 
 class Card extends Container
 {
-    protected string $view = 'merlion::layouts.card';
+    public $view = 'merlion::layouts.card';
 
     protected Flex $header;
     protected Container $body;

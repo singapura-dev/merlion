@@ -8,15 +8,22 @@ trait AsContainer
 {
     public array $content = [];
 
-    public function content($args): static
+    const POSITION_DEFAULT = 'default';
+
+    public function content($args, $position = null): static
     {
-        $args = is_array($args) ? $args : func_get_args();
-        array_push($this->content, ...$args);
+        $position = $position ?? static::POSITION_DEFAULT;
+        if (empty($this->content[$position])) {
+            $this->content[$position] = [];
+        }
+        $args = is_array($args) ? $args : [$args];
+        array_push($this->content[$position], ...$args);
         return $this;
     }
 
-    public function getContent(): array
+    public function getContent($position = null): array
     {
-        return $this->content;
+        $position = $position ?? static::POSITION_DEFAULT;
+        return $this->content[$position] ?? [];
     }
 }

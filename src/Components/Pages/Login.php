@@ -8,7 +8,7 @@ use Merlion\Components\Renderable;
 
 class Login extends Renderable
 {
-    protected string $view = 'merlion::pages.login';
+    public $view = 'merlion::pages.login';
 
     public static array $slogans = [
         "Great! Clean code, clean design, easy for customization. Thanks very much! ",

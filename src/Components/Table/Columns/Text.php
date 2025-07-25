@@ -6,5 +6,5 @@ namespace Merlion\Components\Table\Columns;
 
 class Text extends Column
 {
-    protected string $view = 'merlion::table.columns.text';
+    public $view = 'merlion::table.columns.text';
 }

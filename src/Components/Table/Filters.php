@@ -17,7 +17,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 class Filters extends Renderable
 {
 
-    protected string $view = 'merlion::table.filters_dropdown';
+    public $view = 'merlion::table.filters_dropdown';
 
     protected QueryBuilder $builder;
 
