@@ -8,12 +8,13 @@ use Merlion\Components\Concerns\AsContainer;
 use Merlion\Components\Renderable;
 
 /**
- * @method $this setWrapper($wrapper) set container wrapper, like div, span etc
+ * @method $this wrapper($wrapper) set container wrapper, like div, span etc
  */
 class Container extends Renderable
 {
     use AsContainer;
 
-    public string $wrapper = 'div';
+    public mixed $wrapper = 'div';
     public $view = 'merlion::container';
+
 }

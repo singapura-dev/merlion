@@ -15,7 +15,21 @@ class Row extends Container
         return $this->row();
     }
 
-    public function column($content)
+    public function row($class = 'row'): static
     {
+        return $this->class($class);
+    }
+
+    public function gap($gap = 3): static
+    {
+        return $this->class('g-' . $gap);
+    }
+
+    public function column($content, $class = 'col'): Container
+    {
+        $container = Container::make()->class($class);
+        $container->content($content);
+        $this->content($container);
+        return $container;
     }
 }
