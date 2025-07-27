@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 /**
  * @method string getAs() get route name prefix
  * @method string getGuard() get auth guard
+ * @method string getHomeUrl() get home url
  * @method $this back(string|Closure $url) Set back url
  */
 trait HasRoute

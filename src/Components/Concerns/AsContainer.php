@@ -8,7 +8,7 @@ trait AsContainer
 {
     public array $content = [];
 
-    const POSITION_DEFAULT = 'default';
+    const string POSITION_DEFAULT = 'default';
 
     public function content($args, $position = null): static
     {

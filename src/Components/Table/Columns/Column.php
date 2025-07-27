@@ -38,6 +38,6 @@ abstract class Column extends Renderable
         if (!empty($this->value)) {
             return evaluate($this->value, $this);
         }
-        return data_get($this->getModel(), $this->name);
+        return data_get($this->getModel() ?? [], $this->name);
     }
 }

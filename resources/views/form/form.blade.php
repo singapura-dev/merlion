@@ -1,12 +1,13 @@
-<form {{$attributes}} method="{{$self->method!='get' ? 'post':'get'}}" id="{{$id}}">
+@php
+    $fieldContext = $self->getFieldContext();
+@endphp
+<form {{$attributes}} method="{{$self->method!='get' ? 'post':'get'}}" id="{{$id}}"
+      enctype="multipart/form-data">
     @method($self->getMethod())
     @csrf
-    @include('merlion::layouts.content', [
-        'content'=> $self->getContent(),
-        'context' => [
-            'value' => $self->getModel()
-        ]
-    ])
+    @foreach($self->getFields() as $field)
+        {!! $field->model($model)->set($fieldContext)->render() !!}
+    @endforeach
 </form>
 <script nonce="{{csp_nonce()}}">
     (function () {

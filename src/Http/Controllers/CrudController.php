@@ -6,8 +6,8 @@ namespace Merlion\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Merlion\Components\Button;
-use Merlion\Components\Card;
-use Merlion\Components\Flex;
+use Merlion\Components\Container\Card;
+use Merlion\Components\Container\Flex;
 use Merlion\Components\Form\Errors;
 use Merlion\Components\Form\Fields\Field;
 use Merlion\Components\Form\Form;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Merlion\Components;
+namespace Merlion\Components\Container;
 
 class Card extends Container
 {
@@ -12,48 +12,33 @@ class Card extends Container
     protected Container $body;
     protected Container $footer;
 
-    public function header(...$content): static
+    public function header($content): static
     {
         if (empty($this->header)) {
             $this->header = Flex::make()->class('card-header');
             $this->content($this->header);
         }
-        $this->header->content(...$content);
+        $this->header->content($content);
         return $this;
     }
 
-    public function body(...$content): static
+    public function body($content): static
     {
         if (empty($this->body)) {
             $this->body = Container::make()->class('card-body');
             $this->content($this->body);
         }
-        $this->body->content(...$content);
+        $this->body->content($content);
         return $this;
     }
 
-    public function footer(...$content): static
+    public function footer($content): static
     {
         if (empty($this->footer)) {
             $this->footer = Container::make()->class('card-footer');
             $this->content($this->footer);
         }
-        $this->footer->content(...$content);
+        $this->footer->content($content);
         return $this;
-    }
-
-    public function getHeader(): Flex
-    {
-        return $this->header;
-    }
-
-    public function getBody(): Container
-    {
-        return $this->body;
-    }
-
-    public function getFooter(): Container
-    {
-        return $this->footer;
     }
 }

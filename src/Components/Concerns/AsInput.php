@@ -13,6 +13,13 @@ trait AsInput
     public mixed $placeholder = '';
     public mixed $inputType = 'text';
     public mixed $labelPosition = 'default';
+    public mixed $required = false;
+
+    public function required($required = true): static
+    {
+        $this->required = $required;
+        return $this;
+    }
 
     public function labelInline(): static
     {
@@ -26,13 +33,19 @@ trait AsInput
         return $this;
     }
 
-    public function date()
+    public function password(): static
+    {
+        $this->inputType = 'password';
+        return $this;
+    }
+
+    public function date(): static
     {
         $this->inputType = 'date';
         return $this;
     }
 
-    public function dateTime()
+    public function dateTime(): static
     {
         $this->inputType = 'datetime-local';
         return $this;

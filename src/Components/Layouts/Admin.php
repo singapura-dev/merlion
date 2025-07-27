@@ -17,7 +17,7 @@ class Admin extends Html
     use HasToast;
     use HasRoute;
 
-    const POSITION_HEADER_RIGHT = 'header-right';
+    const string POSITION_HEADER_RIGHT = 'header-right';
 
     public $view = 'merlion::layouts.admin';
 

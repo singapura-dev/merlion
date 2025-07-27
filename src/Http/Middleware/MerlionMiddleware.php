@@ -17,10 +17,10 @@ class MerlionMiddleware
         $id = $id[0] ?? 'admin';
         Context::add('admin_id', $id);
         if ($csp = $request->header('x-csp-nonce')) {
-            admin($id)->cspNonce($csp);
+            admin()->cspNonce($csp);
         }
-        admin($id)->updateLanguage();
-        admin($id)->served();
+        admin()->served();
+        admin()->updateLanguage();
         if (!$request->ajax()) {
             Paginator::useBootstrapFive();
         }

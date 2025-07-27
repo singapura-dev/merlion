@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Merlion\Components\Infolist;
 
 use Merlion\Components\Concerns\HasModel;
-use Merlion\Components\Container;
+use Merlion\Components\Container\Container;
 use Merlion\Components\Infolist\Entry\Entry;
 use Merlion\Components\Renderable;
 

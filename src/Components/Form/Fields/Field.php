@@ -5,21 +5,25 @@ namespace Merlion\Components\Form\Fields;
 
 use Closure;
 use Merlion\Components\Concerns\AsCell;
+use Merlion\Components\Concerns\HasModel;
 use Merlion\Components\Form\Form;
 use Merlion\Components\Renderable;
 
 /**
  * @method $this rules(string|Closure|array $rules) Set rules
  * @method string|array|null getRules() Get rules
+ * @method Form getForm() Get form
  */
 abstract class Field extends Renderable
 {
     use AsCell;
+    use HasModel;
 
     protected array $dependsFields = [];
 
     public bool $full = false;
-    public ?Form $form = null;
+    public mixed $form = null;
+    public mixed $ignore = false;
 
     public array|string|Closure|null $rules = null;
 
@@ -35,17 +39,18 @@ abstract class Field extends Renderable
 
     public function getValue()
     {
-        $value = $this->value;
-        if (empty($value)) {
-            $value = $this->get('value');
-            if (empty($value)) {
-                $form = $this->form ?? $this->get('form');
-                if (!empty($form)) {
-                    $value = data_get($form->getModel(), $this->name);
-                }
-            }
+        if (!is_null($this->value)) {
+            return $this->evaluate($this->value);
         }
-        return evaluate($value, $this);
+
+        if (!empty($this->getModel())) {
+            return data_get($this->getModel(), $this->name);
+        }
+
+        if (!empty($this->getForm())) {
+            return data_get($this->getForm()->getModel(), $this->name);
+        }
+        return null;
     }
 
     public function dependsOn(string $name, array|string|bool $values = true): static

@@ -16,7 +16,7 @@ class Modal extends Renderable
 
     public $view = 'merlion::modal.modal';
 
-    public mixed $button;
+    public mixed $button = null;
 
     public string $mode = 'modal';        // modal | offcanvas
     public string $position = 'start';    // start | end | top | bottom
@@ -34,7 +34,7 @@ class Modal extends Renderable
     public function button($button): static
     {
         if (is_string($button)) {
-            $button = Button::make($button);
+            $button = Button::make()->label($button);
         }
 
         if (is_callable($button)) {
@@ -46,11 +46,6 @@ class Modal extends Renderable
         $this->button = $button;
 
         return $this;
-    }
-
-    public function getButton(): Button
-    {
-        return $this->button;
     }
 
 }

@@ -1,13 +1,12 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Merlion\Components;
+namespace Merlion\Components\Concerns;
 
-class Flex extends Container
+trait AsFlex
 {
 
-    public function setupFlex(...$args): static
+    public function flex(): static
     {
         return $this->class('d-flex');
     }

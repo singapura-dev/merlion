@@ -15,7 +15,7 @@ use Closure;
  */
 trait AsCell
 {
-    public string|Closure|null $name = null;
-    public string|Closure|null $label = null;
+    public mixed $name = null;
+    public mixed $label = null;
     public mixed $value = null;
 }

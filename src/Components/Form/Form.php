@@ -5,20 +5,42 @@ declare(strict_types=1);
 namespace Merlion\Components\Form;
 
 use Merlion\Components\Button;
-use Merlion\Components\Concerns\AsContainer;
+use Merlion\Components\Concerns\AsFlex;
 use Merlion\Components\Concerns\HasModel;
 use Merlion\Components\Form\Fields\Field;
 use Merlion\Components\Renderable;
 
 class Form extends Renderable
 {
-    use AsContainer;
     use HasModel;
+    use AsFlex;
 
     public $view = 'merlion::form.form';
 
     public mixed $method = 'post';
+    public mixed $container = null;
+    public array $fields = [];
+    public mixed $fieldContext = [];
+
     public bool $hideLabel = false;
+
+    public function fields($fields): static
+    {
+        $fields = is_array($fields) ? $fields : [$fields];
+        array_push($this->fields, ...$fields);
+        return $this;
+    }
+
+    public function getFields(): array
+    {
+        $fields = [];
+        foreach ($this->fields as $field) {
+            if ($field instanceof Field) {
+                $fields[] = $field;
+            }
+        }
+        return $fields;
+    }
 
     public function submitButton($label = 'Submit', $class = "btn-primary")
     {
@@ -49,7 +71,7 @@ class Form extends Renderable
         return request()->validate($rules);
     }
 
-    public function getFields($parent = null): array
+    public function getFieldsFromContent($parent = null): array
     {
         $fields = [];
         if ($parent === null) {
@@ -117,7 +139,10 @@ class Form extends Renderable
 
     public function renderForm(): void
     {
-        $this->getFields();
+        $this->fieldContext = [
+            'label_position' => 'inline',
+            'form'           => $this,
+        ];
     }
 
 }

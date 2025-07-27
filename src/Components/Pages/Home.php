@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Merlion\Components\Pages;
 
 use Merlion\Components\Concerns\HasStaticCallbacks;
-use Merlion\Components\Container;
+use Merlion\Components\Container\Container;
 
 class Home extends Container
 {

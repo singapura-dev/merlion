@@ -36,6 +36,7 @@ abstract class Html extends Renderable
         'https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-flags.min.css',
+        'https://unpkg.com/dropzone@5/dist/min/dropzone.min.css',
     ];
 
     public static array $js = [
@@ -43,6 +44,7 @@ abstract class Html extends Renderable
         '/vendor/merlion/js/tabler.min.js',
         '/vendor/merlion/js/merlion.js',
         '/vendor/merlion/js/theme.js',
+        'https://unpkg.com/dropzone@5/dist/min/dropzone.min.js',
     ];
 
     public array $style = [];
@@ -60,14 +62,14 @@ abstract class Html extends Renderable
         array_push(static::$js, ...$js);
     }
 
-    public function style($style): static
+    public function styles($style): static
     {
         $style = is_array($style) ? $style : func_get_args();
         array_push($this->style, ...$style);
         return $this;
     }
 
-    public function script($script): static
+    public function scripts($script): static
     {
         $script = is_array($script) ? $script : func_get_args();
         array_push($this->script, ...$script);
@@ -80,7 +82,7 @@ abstract class Html extends Renderable
             return request('lang');
         }
         $lang = session('locale');
-        if (empty($lang) && auth()->user()) {
+        if (auth()->user() && !empty(auth()->user()->language)) {
             $lang = auth()->user()->language;
         }
         return $lang ?? app()->getLocale();

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Merlion\Components;
+namespace Merlion\Components\Container;
+
+use Merlion\Components\Renderable;
 
 /**
  * @method $this setWrapper($wrapper) set lazy container wrapper, like div, span etc

@@ -11,7 +11,6 @@ use Merlion\Components\Table\Columns\Column;
  * Table
  *
  * @method $this rows(mixed $rows) Set rows
- * @method $this actions(mixed $actions) Set actions
  */
 class Table extends Renderable
 {

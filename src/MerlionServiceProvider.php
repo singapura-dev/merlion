@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Merlion;
 
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Merlion\Console\Commands\Install;
 use Merlion\Http\Middleware\MerlionAuthenticate;

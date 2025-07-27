@@ -1,1 +1,1 @@
-{{$self->getValue()}}
+{!! render($self->getValue()) !!}

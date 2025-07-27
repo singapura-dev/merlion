@@ -10,12 +10,7 @@ class Inertia extends Renderable
     public string $page = '';
     public array $resource = [];
 
-    public function __construct($page)
-    {
-        $this->page = $page;
-    }
-
-    public function resource($resource)
+    public function resource($resource): static
     {
         $resource       = is_array($resource) ? $resource : func_get_args();
         $this->resource = array_merge($this->resource, $resource);
@@ -23,7 +18,7 @@ class Inertia extends Renderable
         return $this;
     }
 
-    public function render()
+    public function render(): mixed
     {
         \Inertia\Inertia::setRootView($this->view);
         \Inertia\Inertia::share([

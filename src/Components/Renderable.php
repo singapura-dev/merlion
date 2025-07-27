@@ -21,7 +21,9 @@ abstract class Renderable
     use HasId;
 
     protected static array $propertyCache = [];
-    protected static array $exceptProperty = [];
+    protected static array $exceptProperty = [
+        'attributes',
+    ];
 
     /**
      * View path
@@ -43,6 +45,7 @@ abstract class Renderable
                     if (is_string($_key) && (
                             public_property_exists($instance, $_key) || public_method_exists($instance, $_key)
                         )) {
+
                         if ($_key === 'attributes') {
                             $instance->withAttributes($_value);
                         } else {
@@ -52,7 +55,7 @@ abstract class Renderable
                 }
                 break;
             }
-            if (is_string($key) && public_property_exists($instance, $key)) {
+            if (is_string($key) && (public_property_exists($instance, $key) || public_method_exists($instance, $key))) {
                 $instance->{$key}($value);
             }
         }
@@ -121,8 +124,9 @@ abstract class Renderable
     {
         $this->defaultAttributes($this->getDefaultAttributes());
         $context = [
-            'self' => $this,
-            'id'   => $this->getId(),
+            'self'       => $this,
+            'id'         => $this->getId(),
+            'attributes' => $this->getAttributes(),
         ];
         foreach ($this->_context as $key => $value) {
             $context[$key] = $this->evaluate($value);
