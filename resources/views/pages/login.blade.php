@@ -9,7 +9,7 @@
         </div>
         <div class="card card-md">
             <div class="card-body">
-                @include('merlion::form.errors')
+                @include('merlion::components.errors')
                 <form action="{{admin()->route('login.submit')}}" method="post">
                     @csrf
                     <div class="mb-3">
