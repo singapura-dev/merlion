@@ -131,7 +131,20 @@ abstract class Renderable
         foreach ($this->_context as $key => $value) {
             $context[$key] = $this->evaluate($value);
         }
-        return array_merge($this->extractPublicProperties(), $context);
+
+        $data = array_merge($this->extractPublicProperties(), $context);
+        if (!empty($data['attributes']['style'])) {
+            $class_random = Str::random(8);
+            admin()->styles(<<<STYLE
+.$class_random {
+    {$data['attributes']['style']}
+}
+STYLE
+            );
+            $data['attributes'] = ($data['attributes'])->merge(['class' => $class_random]);
+            unset($data['attributes']['style']);
+        }
+        return $data;
     }
 
     protected function extractPublicProperties(): array

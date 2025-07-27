@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Merlion\Http\Controllers;
 
 use Illuminate\Support\Str;
-use Merlion\Components\Button;
 use Merlion\Components\Container\Card;
 use Merlion\Components\Container\Flex;
-use Merlion\Components\Form\Errors;
+use Merlion\Components\Form\Fields\Button;
 use Merlion\Components\Form\Fields\Field;
 use Merlion\Components\Form\Form;
 use Merlion\Components\Infolist\Entry\Entry;
@@ -122,11 +121,20 @@ abstract class CrudController
 
     public function create()
     {
-        admin()->title(__('merlion::base.create', ['label' => $this->getLabel()]));
+        admin()->title(__('merlion::base.create') . ' ' . $this->getLabel());
         admin()->back('/admin/' . $this->route);
+
         $form = $this->getForm();
         $form->post(admin()->route($this->route . '.store'));
-        return admin()->content($form)->render();
+
+        $form->fields([
+            Button::make()->primary()->label(__('merlion::base.create')),
+        ]);
+
+        $card = Card::make();
+        $card->body($form);
+
+        return admin()->content($card)->render();
     }
 
     public function store()
@@ -142,11 +150,16 @@ abstract class CrudController
         $id    = end($args);
         $model = app($this->getModel())->findOrFail($id);
 
-        admin()->title(__('merlion::base.edit'))->back(admin()->route($this->route . '.index'));
+        admin()->title(__('merlion::base.edit') . ' ' . $this->getLabel())->back(admin()->route($this->route . '.index'));
         $form = $this->getForm();
         $form->model($model);
         $form->put(admin()->route($this->route . '.update', $id));
-        return admin()->content($form)->render();
+        $form->fields([
+            Button::make()->primary()->label(__('merlion::base.save')),
+        ]);
+        $card = Card::make();
+        $card->body($form);
+        return admin()->content($card)->render();
     }
 
     public function update(...$args)
@@ -196,10 +209,10 @@ abstract class CrudController
     protected function getForm(): Form
     {
         $form = Form::make($this->crud()['form'] ?? []);
-        $card = Card::make();
-        $card->body(Flex::make()->content(Errors::make()->class('w-full'), $this->getFields())->wrap()->gap(3));
-        $card->footer(Button::make()->primary()->label(__('merlion::base.save')));
-        $form->content($card);
+        $form->flex()
+            ->wrap()
+            ->gap(3)
+            ->fields($this->getFields());
         return $form;
     }
 
@@ -218,7 +231,7 @@ abstract class CrudController
                 if (empty($field['label'])) {
                     $field['label'] = $this->getFieldLabel($field['name']);
                 }
-                $field = Field::field($field['type'] ?? 'text', $field);
+                $field = Field::generate($field['type'] ?? 'text', $field);
             }
 
             if ($field instanceof Field) {

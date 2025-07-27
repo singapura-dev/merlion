@@ -140,7 +140,7 @@ class Form extends Renderable
     public function renderForm(): void
     {
         $this->fieldContext = [
-            'label_position' => 'inline',
+            'label_position' => 'default',
             'form'           => $this,
         ];
     }

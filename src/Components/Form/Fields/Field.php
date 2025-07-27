@@ -30,9 +30,12 @@ abstract class Field extends Renderable
     public static array $fieldsMap = [
         'text'     => Text::class,
         'textarea' => Textarea::class,
+        'select'   => Select::class,
+        'file'     => File::class,
+        'image'    => Image::class,
     ];
 
-    public static function field(string $type, ...$args): Field
+    public static function generate(string $type, ...$args): Field
     {
         return static::$fieldsMap[$type]::make(...$args);
     }

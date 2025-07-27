@@ -9,6 +9,9 @@ class File extends Field
 {
     public $view = 'merlion::form.fields.file';
 
+    public mixed $accept = null;
+    public mixed $maxSize = null;
+
     public bool|Closure $multiple = false;
 
     public function multiple($multiple = true): static

@@ -19,11 +19,11 @@ class MerlionMiddleware
         if ($csp = $request->header('x-csp-nonce')) {
             admin()->cspNonce($csp);
         }
-        admin()->served();
         admin()->updateLanguage();
         if (!$request->ajax()) {
             Paginator::useBootstrapFive();
         }
+        admin()->served();
         return $next($request);
     }
 }

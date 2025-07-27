@@ -5,15 +5,16 @@
     if ($errors->has($name)) {
        $attributes = $attributes->merge(['class' => 'is-invalid']);
     }
+    $value = $self->getValue();
 @endphp
 
-<x-merlion::form.field :$label :$id :$full>
+<x-merlion::form.field :$label :$id :$full :$label_position>
 
     <select {{$attributes->merge(['class' => 'form-select'])}}
             name="{{$name}}" id="{{$id}}">
         <option>-</option>
         @foreach($self->getOptions() as $_value => $_label)
-            <option value="{{$_value}}">{!! $_label !!}</option>
+            <option value="{{$_value}}" {{$value==$_value ? 'selected':''}}>{!! $_label !!}</option>
         @endforeach
     </select>
 

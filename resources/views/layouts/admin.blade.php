@@ -28,6 +28,8 @@
             @endif
             <div class="page-body">
                 <div class="container-xl">
+                    @include('merlion::components.errors')
+                    @include('merlion::components.alerts')
                     @include('merlion::layouts.content', ['content' => $self->getContent()])
                 </div>
             </div>

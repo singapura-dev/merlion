@@ -9,30 +9,53 @@
 @endphp
 <x-merlion::form.field :$label :$id :$full :$label_position>
     <input {{$attributes->merge(['class' => 'form-control'])}}
+           accept="{{$self->getAccept()}}"
+           @if($self->getMaxSize())
+               data-max-size="{{$self->getMaxSize()}}"
+           @endif
            type="file" {{$multiple?'multiple':''}} id="{{$id}}"
     >
 </x-merlion::form.field>
-<div class="d-flex gap-2 flex-wrap " id="{{$id}}_preview">
+
+<div class="d-flex gap-2 flex-wrap align-items-end" id="{{$id}}_preview">
     @foreach($values as $value)
         <div class="click-delete">
-            <img src="{{$value}}" alt="" class="maxh-40px maxw-40px">
+            <img src="{{$value}}" alt="" class="maxh-40px maxw-40px rounded">
             <input type="hidden" name="{{$name}}" value="{{$value}}">
         </div>
     @endforeach
 </div>
+
 @push('scripts')
     <script nonce="{{csp_nonce()}}">
         (function () {
             let fileInput = document.getElementById('{{$id}}');
             fileInput.addEventListener('change', function (e) {
                 var data = new FormData();
+                var maxSize = {{$self->getMaxSize() ?? 10000000}};
                 @if($multiple)
                 console.log(fileInput.files);
                 data.append('multiple', '1');
                 fileInput.files.forEach(function (file) {
+                    console.log(file.size);
+                    if (file.size > maxSize) {
+                        admin().toast({
+                            text: 'File size is too large',
+                        });
+                        throw 'File size is too large';
+                    }
                     data.append('file[]', file);
                 });
                 @else
+
+                console.log(fileInput.files[0].size);
+                if (fileInput.files[0].size > maxSize) {
+                    admin().toast({
+                        text: 'File size is too large',
+                        className: 'danger',
+                    });
+                    throw 'File size is too large';
+                }
                 data.append('file', fileInput.files[0]);
                 @endif
 
@@ -70,7 +93,7 @@
                 var img = document.createElement('img');
                 var input = document.createElement('input');
                 img.src = url;
-                img.classList.add('maxh-40px');
+                img.classList.add('maxh-40px', 'maxw-40px', 'rounded');
                 div.appendChild(img);
                 input.name = "{{$name}}";
                 input.type = "hidden";
@@ -88,7 +111,7 @@
             });
         })();
     </script>
-    <style>
+    <style nonce="{{csp_nonce()}}">
         .click-delete {
             position: relative;
         }
@@ -96,10 +119,10 @@
         .click-delete::after {
             content: "×";
             position: absolute;
-            right: 5px;
+            left: 50%;
             top: 50%;
-            transform: translateY(-50%);
-            background: red;
+            transform: translateY(-50%) translateX(-50%);
+            background: var(--tblr-red);
             color: white;
             border-radius: 50%;
             width: 20px;
@@ -114,6 +137,10 @@
 
         .click-delete:hover::after {
             opacity: 1;
+        }
+
+        .click-delete:hover img {
+            opacity: 0.5;
         }
     </style>
 @endpush
