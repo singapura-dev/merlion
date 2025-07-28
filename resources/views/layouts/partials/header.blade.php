@@ -9,7 +9,7 @@
         <!-- BEGIN NAVBAR LOGO -->
         <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href="." aria-label="Logo">
-                <img src="{{admin()->getBrandLogo()}}" class="maxh-28px" alt="">
+                <img src="{{admin()->getBrandLogo()}}" class="maxh-24px" alt="">
             </a>
         </div>
         <!-- END NAVBAR LOGO -->

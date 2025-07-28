@@ -54,7 +54,7 @@ trait HasRoute
 
     public function routeAuthedGroup($callback, $group = []): static
     {
-        Route::group(array_merge(['middleware' => 'merlion_auth'], $group), $callback);
+        Route::group(array_merge(['middleware' => ['merlion_auth']], $group), $callback);
         return $this;
     }
 
