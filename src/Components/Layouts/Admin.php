@@ -30,6 +30,16 @@ class Admin extends Html
         return $this;
     }
 
+    public function theme($color = null, $base = null, $radius = null, $font = null): static
+    {
+        return $this->withAttributes([
+            'data-bs-theme-primary' => $color,
+            'data-bs-theme-base'    => $base,
+            'data-bs-theme-radius'  => $radius,
+            'data-bs-theme-font'    => $font,
+        ]);
+    }
+
     public function serving(Closure $callback): void
     {
         $this->serving[] = $callback;
@@ -46,29 +56,5 @@ class Admin extends Html
         $this->served = true;
     }
 
-    public function section($position, $content): static
-    {
-        if (empty($this->sections[$position])) {
-            $this->sections[$position] = [];
-        }
 
-        $content = is_array($content) ? $content : [$content];
-        array_push($this->sections[$position], ...$content);
-
-        return $this;
-    }
-
-    public function getSections($position): array
-    {
-        return $this->sections[$position] ?? [];
-    }
-
-    public function getGuard()
-    {
-        if (empty($this->guard)) {
-            return auth()->guard();
-        }
-
-        return $this->evaluate($this->guard);
-    }
 }

@@ -5,41 +5,54 @@ declare(strict_types=1);
 
 namespace Merlion\Components;
 
+use Merlion\Components\Concerns\HasLink;
 use Merlion\Components\Container\Container;
 
 class Text extends Container
 {
+    use HasLink;
+
+    public mixed $wrapper = 'span';
+
+    public function renderText(): void
+    {
+        if (!empty($this->link)) {
+            $this->a();
+            $this->withAttributes(['href' => $this->getLink(), 'target' => $this->getTarget()]);
+        }
+    }
+
     public function h1(): static
     {
-        return $this->wrapper('h1');
+        return $this->class('h1');
     }
 
     public function h2(): static
     {
-        return $this->wrapper('h2');
+        return $this->class('h2');
     }
 
     public function h3(): static
     {
-        return $this->wrapper('h3');
+        return $this->class('h3');
     }
 
     public function h4(): static
     {
-        return $this->wrapper('h4');
+        return $this->class('h4');
     }
 
     public function h5(): static
     {
-        return $this->wrapper('h5');
+        return $this->class('h5');
     }
 
-    public function span(): static
+    public function a(): static
     {
-        return $this->wrapper('span');
+        return $this->wrapper('a');
     }
 
-    public function small()
+    public function small(): static
     {
         return $this->wrapper('small');
     }

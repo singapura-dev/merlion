@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Container;
 
+/**
+ * @method Flex getHeader()
+ */
 class Card extends Container
 {
     public $view = 'merlion::layouts.card';

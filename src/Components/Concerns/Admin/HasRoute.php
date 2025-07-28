@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 
 /**
  * @method string getAs() get route name prefix
- * @method string getGuard() get auth guard
  * @method string getHomeUrl() get home url
  * @method $this back(string|Closure $url) Set back url
  */
@@ -21,6 +20,15 @@ trait HasRoute
     public mixed $back = null;
     public mixed $loginRedirect = null;
     public mixed $home = null;
+
+    public function getGuard()
+    {
+        if (empty($this->guard)) {
+            return auth()->guard();
+        }
+
+        return $this->evaluate($this->guard);
+    }
 
     public function routes(): static
     {

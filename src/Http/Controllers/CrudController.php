@@ -402,7 +402,6 @@ abstract class CrudController
             'columns' => [],
             'fields'  => [],
             'grid'    => [],
-            'entries' => [],
         ];
     }
 }

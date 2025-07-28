@@ -32,6 +32,7 @@ abstract class Html extends Renderable
 
     public static array $css = [
         '/vendor/merlion/css/tabler.min.css',
+        '/vendor/merlion/css/tabler-themes.min.css',
         '/vendor/merlion/css/merlion.css',
         'https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
@@ -42,8 +43,6 @@ abstract class Html extends Renderable
     public static array $js = [
         'https://code.jquery.com/jquery-3.7.1.min.js',
         '/vendor/merlion/js/tabler.min.js',
-        '/vendor/merlion/js/merlion.js',
-        '/vendor/merlion/js/theme.js',
         'https://cdn.jsdelivr.net/npm/toastify-js',
     ];
 
