@@ -19,6 +19,6 @@ return [
     'admin'     => [
         'prefix' => 'admin',
         'as'     => 'admin.',
-        'guard'  => 'admin',
+        'guard'  => 'web',
     ],
 ];
