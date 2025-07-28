@@ -19,6 +19,9 @@ class Login extends Renderable
 
     public function getUsernameLabel(): string
     {
-        return $this->usernameLabel ?? __('merlion::base.email');
+        if (!empty($this->usernameLabel)) {
+            return $this->evaluate($this->usernameLabel);
+        }
+        return __('merlion::base.email');
     }
 }
