@@ -15,4 +15,5 @@ return [
     'detail'      => 'Detail',
     'password'    => 'Password',
     'remember_me' => 'Remember Me',
+    'email'       => "Email",
 ];

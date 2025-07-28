@@ -14,6 +14,11 @@ class Login extends Renderable
         "Great! Clean code, clean design, easy for customization. Thanks very much! ",
     ];
 
-    public static string $username = 'username';
-    public static string $usernameLabel = 'Username';
+    public mixed $username = 'email';
+    public mixed $usernameLabel = '';
+
+    public function getUsernameLabel(): string
+    {
+        return $this->usernameLabel ?? __('merlion::base.email');
+    }
 }

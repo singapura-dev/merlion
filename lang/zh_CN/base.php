@@ -15,4 +15,5 @@ return [
     'detail'      => '详情',
     'password'    => '密码',
     'remember_me' => '在这台设备上记住我',
+    'email'       => '邮箱地址',
 ];
