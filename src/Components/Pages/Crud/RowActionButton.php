@@ -20,6 +20,6 @@ class RowActionButton extends Button
 
     public function setupRowActionButton(...$args): void
     {
-        $this->plain(true);
+        $this->xs();
     }
 }

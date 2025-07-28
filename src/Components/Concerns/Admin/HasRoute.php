@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 /**
  * @method string getAs() get route name prefix
+ * @method string getPrefix() get route prefix
  * @method string getHomeUrl() get home url
  * @method $this back(string|Closure $url) Set back url
  */
@@ -32,9 +33,11 @@ trait HasRoute
 
     public function routes(): static
     {
-        require __DIR__ . '/../../../../routes/auth.php';
-        Route::group(['middleware' => 'merlion_auth', 'prefix' => 'merlion-api'], function () {
-            require __DIR__ . '/../../../../routes/api.php';
+        Route::group(['middleware' => 'merlion', 'prefix' => $this->getPrefix(), 'as' => $this->getAs()], function () {
+            require __DIR__ . '/../../../../routes/auth.php';
+            Route::group(['middleware' => 'merlion_auth', 'prefix' => 'merlion-api'], function () {
+                require __DIR__ . '/../../../../routes/api.php';
+            });
         });
         return $this;
     }

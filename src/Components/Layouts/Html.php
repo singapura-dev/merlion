@@ -43,6 +43,7 @@ abstract class Html extends Renderable
     public static array $js = [
         'https://code.jquery.com/jquery-3.7.1.min.js',
         '/vendor/merlion/js/tabler.min.js',
+        '/vendor/merlion/js/merlion.js',
         'https://cdn.jsdelivr.net/npm/toastify-js',
     ];
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Merlion\Http\Controllers;
 
 use Illuminate\Support\Str;
+use Merlion\Components\Concerns\CanCallMethods;
 use Merlion\Components\Container\Card;
 use Merlion\Components\Container\Flex;
 use Merlion\Components\Form\Fields\Button;
@@ -24,13 +25,17 @@ use Merlion\Components\Table\Table;
 
 abstract class CrudController
 {
-    protected ?string $model = null;
-    protected ?string $route = null;
-    protected ?string $label = null;
-    protected ?string $lang = null;
+    use CanCallMethods;
+
+    protected string $model = '';
+    protected string $route = '';
+    protected string $label = '';
+    protected string $lang = '';
 
     public function index()
     {
+        $this->callMethods('beforeIndex');
+
         admin()->title($this->getLabel());
 
         $card  = Card::make();
@@ -70,6 +75,7 @@ abstract class CrudController
             $filter->filters($filters);
             $filter->sorts($sorts);
             $card->header($filter);
+            $card->getHeader()->justifyContent('between');
         }
 
         // tools
@@ -77,8 +83,6 @@ abstract class CrudController
         if (!empty($tools)) {
             admin()->content($tools, Admin::POSITION_HEADER_RIGHT);
         }
-
-        $card->getHeader()->justifyContent('between');
 
         // actions
         $actions = [
@@ -102,7 +106,9 @@ abstract class CrudController
 
         $card->body($table);
         $card->getBody()->class('p-0');
-        return admin()->content($card)->render();
+        admin()->content($card);
+        $this->callMethods('afterIndex');
+        return admin()->render();
     }
 
     public function show(...$args)
