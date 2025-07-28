@@ -10,10 +10,6 @@ class Login extends Renderable
 {
     public $view = 'merlion::pages.login';
 
-    public static array $slogans = [
-        "Great! Clean code, clean design, easy for customization. Thanks very much! ",
-    ];
-
     public mixed $username = 'email';
     public mixed $usernameLabel = '';
 
