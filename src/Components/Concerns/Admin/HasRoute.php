@@ -33,28 +33,28 @@ trait HasRoute
 
     public function routes(): static
     {
-        Route::group(['middleware' => 'merlion', 'prefix' => $this->getPrefix(), 'as' => $this->getAs()], function () {
+        $this->routeGroup(function () {
             require __DIR__ . '/../../../../routes/auth.php';
-            Route::group(['middleware' => 'merlion_auth', 'prefix' => 'merlion-api'], function () {
+            $this->routeAuthedGroup(function () {
                 require __DIR__ . '/../../../../routes/api.php';
             });
         });
         return $this;
     }
 
-    public function routeGroup($callback, $grooup = []): static
+    public function routeGroup($callback, $group = []): static
     {
         Route::group(array_merge([
             'middleware' => ['web', 'merlion'],
             'prefix'     => $this->getPrefix(),
             'as'         => $this->getAs(),
-        ], $grooup), $callback);
+        ], $group), $callback);
         return $this;
     }
 
-    public function routeAuthedGroup($callback, $grooup = []): static
+    public function routeAuthedGroup($callback, $group = []): static
     {
-        Route::group(array_merge(['middleware' => 'merlion_auth'], $grooup), $callback);
+        Route::group(array_merge(['middleware' => 'merlion_auth'], $group), $callback);
         return $this;
     }
 
