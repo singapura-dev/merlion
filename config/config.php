@@ -1,11 +1,6 @@
 <?php
 
 return [
-    'route'     => [
-        'prefix' => 'admin',
-        'as'     => 'admin.',
-        'guard'  => 'admin',
-    ],
     'features'  => [
         'authentication' => true,
     ],
@@ -21,5 +16,9 @@ return [
             'flag'  => 'cn',
         ],
     ],
-    'admin'     => [],
+    'admin'     => [
+        'prefix' => 'admin',
+        'as'     => 'admin.',
+        'guard'  => 'admin',
+    ],
 ];

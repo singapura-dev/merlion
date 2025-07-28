@@ -42,6 +42,22 @@ trait HasRoute
         return $this;
     }
 
+    public function routeGroup($callback, $grooup = []): static
+    {
+        Route::group(array_merge([
+            'middleware' => ['web', 'merlion'],
+            'prefix'     => $this->getPrefix(),
+            'as'         => $this->getAs(),
+        ], $grooup), $callback);
+        return $this;
+    }
+
+    public function routeAuthedGroup($callback, $grooup = []): static
+    {
+        Route::group(array_merge(['middleware' => 'merlion_auth'], $grooup), $callback);
+        return $this;
+    }
+
     public function route($name, ...$args)
     {
         if (Str::isUrl($name)) {
