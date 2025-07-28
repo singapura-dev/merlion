@@ -1,5 +1,8 @@
 @use(Merlion\Components\Pages\Login)
-
+@php
+$username  = $self->getUsername();
+$usernameLabel = $self->getUsernameLabel();
+@endphp
 <div class="page page-center">
     <div class="container container-tight py-4">
         <div class="text-center mb-4">

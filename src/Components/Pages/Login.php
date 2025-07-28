@@ -10,14 +10,22 @@ class Login extends Renderable
 {
     public $view = 'merlion::pages.login';
 
-    public mixed $username = 'email';
-    public mixed $usernameLabel = '';
+    public static mixed $username = '';
+    public static mixed $usernameLabel = '';
 
     public function getUsernameLabel(): string
     {
-        if (!empty($this->usernameLabel)) {
-            return $this->evaluate($this->usernameLabel);
+        if (!empty(static::$usernameLabel)) {
+            return $this->evaluate(static::$usernameLabel);
         }
         return __('merlion::base.email');
+    }
+
+    public function getUsername(): string
+    {
+        if (!empty(static::$username)) {
+            return $this->evaluate(static::$username);
+        }
+        return 'email';
     }
 }
