@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 /**
  * @method string getAs() get route name prefix
  * @method string getPrefix() get route prefix
- * @method string getHomeUrl() get home url
  * @method $this back(string|Closure $url) Set back url
  */
 trait HasRoute
@@ -35,27 +34,28 @@ trait HasRoute
     {
         $this->routeGroup(function () {
             require __DIR__ . '/../../../../routes/auth.php';
-            $this->routeAuthedGroup(function () {
-                require __DIR__ . '/../../../../routes/api.php';
-            });
+        });
+        $this->routeAuthedGroup(function () {
+            require __DIR__ . '/../../../../routes/api.php';
         });
         return $this;
     }
 
     public function routeGroup($callback, $group = []): static
     {
-        Route::group(array_merge([
+        $group = array_merge_recursive([
             'middleware' => ['web', 'merlion'],
             'prefix'     => $this->getPrefix(),
             'as'         => $this->getAs(),
-        ], $group), $callback);
+        ], $group);
+
+        Route::group($group, $callback);
         return $this;
     }
 
-    public function routeAuthedGroup($callback, $group = []): static
+    public function routeAuthedGroup($callback): static
     {
-        Route::group(array_merge(['middleware' => ['merlion_auth']], $group), $callback);
-        return $this;
+        return $this->routeGroup($callback, ['middleware' => ['merlion_auth']]);
     }
 
     public function route($name, ...$args)

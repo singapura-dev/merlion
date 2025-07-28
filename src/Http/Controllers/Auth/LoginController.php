@@ -9,9 +9,8 @@ class LoginController
     public function showLogin()
     {
         admin()->title(__('merlion::base.login'));
-
         if ($this->auth()->check()) {
-            return redirect(admin()->getHomeUrl());
+            return redirect(admin()->getHome());
         }
         return admin()->full()->content(Login::make())->render();
     }
