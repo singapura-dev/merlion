@@ -24,10 +24,10 @@ use Merlion\Components\Table\Table;
 
 abstract class CrudController
 {
-    protected string $model;
-    protected string $route;
-    protected string $label;
-    protected string $lang;
+    protected ?string $model = null;
+    protected ?string $route = null;
+    protected ?string $label = null;
+    protected ?string $lang = null;
 
     public function index()
     {
