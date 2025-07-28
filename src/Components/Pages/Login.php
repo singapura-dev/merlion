@@ -13,18 +13,18 @@ class Login extends Renderable
     public static mixed $username = '';
     public static mixed $usernameLabel = '';
 
-    public function getUsernameLabel(): string
+    public static function getUsernameLabel(): string
     {
         if (!empty(static::$usernameLabel)) {
-            return $this->evaluate(static::$usernameLabel);
+            return evaluate(static::$usernameLabel);
         }
         return __('merlion::base.email');
     }
 
-    public function getUsername(): string
+    public static function getUsername(): string
     {
         if (!empty(static::$username)) {
-            return $this->evaluate(static::$username);
+            return evaluate(static::$username);
         }
         return 'email';
     }

@@ -1,7 +1,7 @@
 @use(Merlion\Components\Pages\Login)
 @php
-$username  = $self->getUsername();
-$usernameLabel = $self->getUsernameLabel();
+    $username  = Login::getUsername();
+    $usernameLabel = Login::getUsernameLabel();
 @endphp
 <div class="page page-center">
     <div class="container container-tight py-4">
@@ -16,8 +16,8 @@ $usernameLabel = $self->getUsernameLabel();
                 <form action="{{admin()->route('login.submit')}}" method="post">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">{{Login::$usernameLabel}}</label>
-                        <input type="text" name="{{Login::$username}}" required value="{{old(Login::$username)}}"
+                        <label class="form-label">{{$usernameLabel}}</label>
+                        <input type="text" name="{{$username}}" required value="{{old($username)}}"
                                class="form-control" autocomplete="off">
                     </div>
                     <div class="mb-2">

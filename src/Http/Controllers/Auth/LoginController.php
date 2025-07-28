@@ -18,7 +18,7 @@ class LoginController
 
     public function submitLogin()
     {
-        $username = Login::$username;
+        $username = Login::getUsername();
         request()->validate([
             $username  => ['required'],
             'password' => ['required'],
