@@ -25,9 +25,9 @@ trait HasBrand
 {
     public string|Closure|null $brandName = '';
     public string|Closure|null $brandShortName = '';
-    public string|Closure|null $brandLogo = '/vendor/merlion/images/logo-light.png';
-    public string|Closure|null $brandLogoSmall = '/vendor/merlion/images/logo-sm.png';
-    public string|Closure|null $brandLogoDark = '/vendor/merlion/images/logo-dark.png';
-    public string|Closure|null $brandLogoSmallDark = '';
+    public string|Closure|null $brandLogo = '/vendor/merlion/images/merlion-logo.png';
+    public string|Closure|null $brandLogoSmall = '/vendor/merlion/images/merlion-logo.png';
+    public string|Closure|null $brandLogoDark = '/vendor/merlion/images/merlion-logo.png';
+    public string|Closure|null $brandLogoSmallDark = '/vendor/merlion/images/merlion-logo.png';
     public string|Closure|null $favicon = '/favicon.ico';
 }
