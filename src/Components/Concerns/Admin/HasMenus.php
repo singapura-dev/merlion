@@ -4,8 +4,8 @@ namespace Merlion\Components\Concerns\Admin;
 
 trait HasMenus
 {
-    const MENU_MAIN     = 'menus';
-    const MENU_TOP_USER = 'menus_top_user';
+    const string MENU_MAIN     = 'menus';
+    const string MENU_TOP_USER = 'menus_top_user';
 
     public function clearMenus($position = 'menus'): static
     {

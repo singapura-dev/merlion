@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Merlion\Components;
 
+use BadMethodCallException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Merlion\Components\Concerns\CanCallMethods;
@@ -26,7 +27,6 @@ abstract class Renderable
     ];
 
     /**
-     * View path
      * @var mixed
      */
     public $view = '';
@@ -41,26 +41,29 @@ abstract class Renderable
         $instance = new static(...$args);
         foreach ($args as $key => $value) {
             if ($key === 0 && is_array($args[0] ?? null)) {
-                foreach ($args[0] as $_key => $_value) {
-                    if (is_string($_key) && (
-                            public_property_exists($instance, $_key) || public_method_exists($instance, $_key)
-                        )) {
-
-                        if ($_key === 'attributes') {
-                            $instance->withAttributes($_value);
-                        } else {
-                            $instance->{$_key}($_value);
-                        }
-                    }
-                }
+                $instance->configureFromArray($args[0]);
                 break;
             }
-            if (is_string($key) && (public_property_exists($instance, $key) || public_method_exists($instance, $key))) {
-                $instance->{$key}($value);
-            }
         }
+        $instance->configureFromArray($args);
         $instance->callMethods('setup', ...$args);
         return $instance;
+    }
+
+    private function configureFromArray($config): void
+    {
+        foreach ($config as $_key => $_value) {
+            if (is_string($_key) && (
+                    public_property_exists($this, $_key) || public_method_exists($this, $_key)
+                )) {
+
+                if ($_key === 'attributes') {
+                    $this->withAttributes($_value);
+                } else {
+                    $this->{$_key}($_value);
+                }
+            }
+        }
     }
 
     public function __call($method, $args)
@@ -79,6 +82,7 @@ abstract class Renderable
                 if (isset($this->{$property})) {
                     return $this->evaluate($this->{$property});
                 }
+                return null;
             }
         }
 
@@ -86,6 +90,8 @@ abstract class Renderable
             $this->{$method} = $args[0] ?? null;
             return $this;
         }
+
+        throw new BadMethodCallException("Method {$method} does not exist on " . static::class);
     }
 
     public function render(): mixed
