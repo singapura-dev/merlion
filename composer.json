@@ -9,7 +9,8 @@
         ]
     },
     "require": {
-        "spatie/laravel-query-builder": "^6.0"
+        "spatie/laravel-query-builder": "^6.0",
+        "intervention/image": "^3.11"
     },
     "extra": {
         "laravel": {
