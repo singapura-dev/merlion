@@ -1,6 +1,7 @@
 @php
     $name = $self->getName();
     $id = $self->getId();
+    $value = $self->getValue();
     $label = $self->getLabel();
     if(isset($errors) && $errors->has($name)) {
        $attributes = $attributes->merge(['class' => 'is-invalid']);
