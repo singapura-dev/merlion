@@ -127,8 +127,12 @@ trait HasIndex
     {
         $schemas = $this->schemas();
         $filters = [];
-        foreach ($schemas as $schema) {
+        foreach ($schemas as $name => $schema) {
             if (is_array($schema)) {
+                if (empty($schema['name']) && is_string($name)) {
+                    $schema['name'] = $name;
+                }
+
                 if ($schema['filterable'] ?? false) {
                     if (empty($schema['label'])) {
                         $schema['label'] = $this->lang($schema['name']);
