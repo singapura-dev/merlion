@@ -22,7 +22,9 @@ abstract class Field extends Schema
     public static array $fieldsMap = [
         'text' => Text::class,
         'select' => Select::class,
+        'editor' => Editor::class,
     ];
+
     public bool $full = false;
     public mixed $form = null;
     public mixed $ignore = false;
