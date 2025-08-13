@@ -1,0 +1,231 @@
+<?php
+declare(strict_types=1);
+
+namespace Merlion\Http\Controllers\Concerns;
+
+use Merlion\Components\Button;
+use Merlion\Components\Containers\Card;
+use Merlion\Components\Containers\Container;
+use Merlion\Components\Table\Columns\Actions;
+use Merlion\Components\Table\Columns\Column;
+use Merlion\Components\Table\Filters;
+use Merlion\Components\Table\Table;
+
+/**
+ * @mixin AsCurdController
+ */
+trait HasIndex
+{
+    protected Filters $filter;
+    protected Table $table;
+
+    public static int $perPage = 10;
+
+    public function index(...$args)
+    {
+        $this->authorize('viewAny', $this->getModel());
+
+        $this->callMethods('beforeIndex', ...$args);
+        $card = Card::make();
+
+        $filters = $this->getFilters();
+        $sorts = $this->getSorts();
+        $builder = $this->getQueryBuilder();
+
+        if (!empty($filters) || !empty($sorts)) {
+            $this->filter = Filters::make()->for($builder);
+            $this->filter->filters($filters);
+            $this->filter->sorts($sorts);
+
+            $header = Container::make()->class('card-header justify-content-between align-items-center');
+            $header->content($this->filter);
+            $card->content($header);
+        }
+
+        admin()->content($this->getIndexTools(), 'header');
+
+        $this->table = $this->table(...$args);
+
+        $actions = $this->getRowActions();
+
+        if (!empty($actions)) {
+            $this->table->column(Actions::make()->dropdown()->actions($actions));
+        }
+
+        if (request('trash')) {
+            $models = $builder->onlyTrashed()->get();
+            $this->table->models($models);
+        } else {
+            if (!empty($this->filter)) {
+                if (request('per_page') == 'all') {
+                    $this->table->models($this->filter->all());
+                } else {
+                    $models = $this->filter->paginate((int)request('per_page', static::$perPage));
+                    $this->table->models($models);
+                    $card->footer($models->links());
+                }
+            } else {
+                $this->table->models($builder->paginate((int)request('per_page', static::$perPage)));
+            }
+        }
+
+        $card->content($this->table);
+
+        admin()->pageTitle($this->getLabelPlural())
+            ->title($this->getLabelPlural())
+            ->content($card);
+
+        $this->callMethods('afterIndex', ...$args);
+
+        return admin()->render();
+    }
+
+    protected function table()
+    {
+        $table = Table::make();
+        $columns = $this->columns();
+        $table->columns($columns);
+        return $table;
+    }
+
+    protected function columns(): array
+    {
+        $schemas = $this->schemas();
+        $columns = [];
+        foreach ($schemas as $name => $schema) {
+
+            if (is_string($schema)) {
+                $schema = [
+                    'type' => 'text',
+                    'name' => $schema,
+                ];
+            }
+
+            if (is_array($schema)) {
+                if (is_string($name) && !isset($schema['name'])) {
+                    $schema['name'] = $name;
+                }
+
+                if (!isset($schema['label'])) {
+                    $schema['label'] = $this->lang($schema['name']);
+                }
+
+                if (isset($schema['show_index']) && !$schema['show_index']) {
+                    continue;
+                }
+            }
+
+            $column = Column::generate($schema);
+            if ($column->shouldShow('index')) {
+                $columns[] = $column;
+            }
+        }
+        return $columns;
+    }
+
+    protected function getFilters(): array
+    {
+        $schemas = $this->schemas();
+        $filters = [];
+        foreach ($schemas as $schema) {
+            if (is_array($schema)) {
+                if ($schema['filterable'] ?? false) {
+                    if (empty($schema['label'])) {
+                        $schema['label'] = $this->lang($schema['name']);
+                    }
+                    $filters[] = Filters\Filter::generate($schema);
+                }
+            }
+        }
+        return $filters;
+    }
+
+    protected function getSorts(): array
+    {
+        $schemas = $this->schemas();
+        $sorts = [];
+        foreach ($schemas as $schema) {
+            if (is_array($schema)) {
+                if (!empty($schema['sortable'] ?? null)) {
+                    if (is_array($schema['sortable'])) {
+                        foreach ($schema['sortable'] as $field => $label) {
+                            $sorts[] = Filters\Sort::make($field, $label);
+                        }
+                        continue;
+                    }
+                    $field = $schema['sortable'] === 'desc' ? ('-' . $schema['name']) : $schema['name'];
+                    $sorts[] = Filters\Sort::make($field, $schema['label'] ?? $this->lang($schema['name']));
+                }
+            }
+        }
+        return $sorts;
+    }
+
+    protected function getIndexTools(): array
+    {
+        $tools = [];
+        if ($this->can('create', $this->getModel())) {
+            $tools[] = Button::make()->primary()->link($this->route('create'))->icon('ti ti-plus me-1')->label(__('merlion::base.create'));
+        }
+        return $tools;
+    }
+
+    protected function getRowActions(): array
+    {
+        $actions = [];
+
+        $actions[] = Actions\Action::make('view')
+            ->class('btn-sm btn-ghost')->label('<i class="ti ti-eye"></i> ' . __('merlion::base.view'))
+            ->shouldRenderUsing(function ($action) {
+                return $this->can('view', $action->getModel());
+            })
+            ->rendering(function ($action) {
+                $action->withAttributes(['href' => $this->route('show', $action->getModel()->getKey())]);
+            });
+
+        $actions[] = Actions\Action::make('edit')->class('btn-sm btn-ghost')->label('<i class="ti ti-edit"></i> ' . __('merlion::base.edit'))
+            ->shouldRenderUsing(function ($action) {
+                $model = $action->getModel();
+                return $this->can('update', $model);
+            })
+            ->rendering(function ($action) {
+                $action->withAttributes(['href' => $this->route('edit', $action->getModel()->getKey())]);
+            });
+
+        $actions[] = Actions\Action::make('delete')->class('btn-sm btn-ghost-danger text-danger')
+            ->label('<i class="ti ti-trash"></i> ' . __('merlion::base.delete'))
+            ->shouldRenderUsing(function ($action) {
+                $model = $action->getModel();
+                if ($model->deleted_at) {
+                    return false;
+                }
+                return $this->can('delete', $model);
+            })
+            ->rendering(function ($action) {
+                $action->withAttributes([
+                    'data-method' => 'delete',
+                    'data-confirm' => 'Are you sure?',
+                    'data-action' => $this->route('destroy', $action->getModel()->getKey())
+                ]);
+            });
+
+        if ($this->canSoftDelete()) {
+            $actions[] = Actions\Action::make('restore')->class('btn-sm btn-ghost-success text-success')
+                ->label('<i class="ti ti-restore"></i> ' . __('merlion::base.restore'))
+                ->shouldRenderUsing(function ($action) {
+                    $model = $action->getModel();
+                    return $model->deleted_at && $this->can('restore', $model);
+                })
+                ->rendering(function ($action) {
+                    $action->withAttributes([
+                        'data-method' => 'put',
+                        'data-confirm' => 'Are you sure?',
+                        'data-action' => $this->route('restore', $action->getModel()->getKey())
+                    ]);
+                });
+        }
+        return $actions;
+    }
+
+}
+

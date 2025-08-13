@@ -1,0 +1,22 @@
+{
+    "name": "singapura/merlion",
+    "autoload": {
+        "psr-4": {
+            "Merlion\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "require": {
+        "php": "^8.3",
+        "spatie/laravel-query-builder": "^6.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Merlion\\MerlionServiceProvider"
+            ]
+        }
+    }
+}

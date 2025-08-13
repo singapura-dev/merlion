@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Merlion\Components\Table\Filters;
+
+use Merlion\Components\Concerns\AsCell;
+use Merlion\Components\Renderable;
+
+/**
+ * @method string getName()
+ */
+class Sort extends Renderable
+{
+    use AsCell;
+
+    public string $field = '';
+
+    public function selected(): bool
+    {
+        return request('sort') == $this->getName();
+    }
+}
