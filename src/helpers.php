@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Str;
 use Merlion\Components\Layouts\Admin;
 
 if (!function_exists('admin')) {
@@ -111,14 +112,11 @@ if (!function_exists('to_string')) {
             return (string)$data;
         }
 
-        if (\Illuminate\Support\Str::isJson($data) || is_array($data)) {
+        if (Str::isJson($data) || is_array($data)) {
             return json_encode($data);
         }
 
-        if (method_exists($data, 'toString')) {
-            return (string)$data->toString();
-        }
-        return (string)$data;
+        return render($data);
     }
 }
 
