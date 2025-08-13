@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'actions' => 'Actions',
-    'create' => 'Create',
-    'delete' => 'Delete',
-    'edit' => "Edit",
-    'logout' => 'Logout',
-    'record_deleted_at' => 'This record has been deleted, delete time :deleted_at',
-    'restore' => 'Restore',
-    'submit' => 'Submit',
-    'view' => 'View',
+    'actions' => '操作',
+    'create' => '新建',
+    'delete' => '删除',
+    'edit' => "编辑",
+    'logout' => '登出',
+    'record_deleted_at' => '该记录已经被删除, 删除时间 :deleted_at',
+    'restore' => '恢复',
+    'submit' => '提交',
+    'view' => '查看',
 ];
