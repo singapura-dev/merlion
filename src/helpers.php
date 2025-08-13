@@ -31,6 +31,14 @@ if (!function_exists('render')) {
             return $element;
         }
 
+        if (is_bool($element)) {
+            return $element ? 'true' : 'false';
+        }
+
+        if (is_numeric($element)) {
+            return (string)$element;
+        }
+
         if (is_array($element)) {
             $result = '';
             foreach ($element as $_element) {
@@ -39,7 +47,7 @@ if (!function_exists('render')) {
             return $result;
         }
 
-        if (method_exists($element, 'render')) {
+        if (is_object($element) && method_exists($element, 'render')) {
             if (!empty($context) && method_exists($element, 'context')) {
                 $element->context($context);
             }
