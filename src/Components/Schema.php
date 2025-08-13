@@ -6,6 +6,7 @@ namespace Merlion\Components;
 
 abstract class Schema extends Renderable
 {
+    public bool $full = false;
     public mixed $showOn = null;
     public mixed $hideFrom = null;
 

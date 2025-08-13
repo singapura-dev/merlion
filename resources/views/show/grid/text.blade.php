@@ -1,8 +1,5 @@
-<div class="datagrid-item">
-    <div class="datagrid-title">{!!  $self->getLabel() !!}</div>
-    <div class="datagrid-content">
-        <div {{$attributes}}>
-            {!! to_string($self->getValue()) !!}
-        </div>
+<x-merlion::datagrid :label="$self->getLabel()" :full="$self->getFull()">
+    <div {{$attributes}}>
+        {!! to_string($self->getValue()) !!}
     </div>
-</div>
+</x-merlion::datagrid>

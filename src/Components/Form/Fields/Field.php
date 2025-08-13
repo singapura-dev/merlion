@@ -25,7 +25,6 @@ abstract class Field extends Schema
         'editor' => Editor::class,
     ];
 
-    public bool $full = false;
     public mixed $form = null;
     public mixed $ignore = false;
 
