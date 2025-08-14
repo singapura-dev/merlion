@@ -7,7 +7,6 @@ namespace Merlion\Components\Table;
 use Merlion\Components\Renderable;
 use Merlion\Components\Table\Filters\Filter;
 use Merlion\Components\Table\Filters\Sort;
-use Opcodes\LogViewer\Logs\Log;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -76,10 +75,11 @@ class Filters extends Renderable
             }
             if ($sort instanceof Sort) {
                 $allowed_sorts[] = $sort->getName();
+                if ($sort->default) {
+                    $this->builder->defaultSort($sort->getName());
+                }
             }
         }
-        \Illuminate\Support\Facades\Log::debug($allowed_sorts);
-
         $this->builder->allowedSorts($allowed_sorts);
         return $this;
     }

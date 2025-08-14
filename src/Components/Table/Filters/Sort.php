@@ -16,6 +16,8 @@ class Sort extends Renderable
 
     public string $field = '';
 
+    public bool $default = false;
+
     public function selected(): bool
     {
         return request('sort') == $this->getName();
