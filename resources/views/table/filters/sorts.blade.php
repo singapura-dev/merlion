@@ -1,5 +1,5 @@
 @if(!empty($sorts))
-    <x-merlion::form.field label="排序" :$id :label_position="$labelPosition??null">
+    <x-merlion::form.field label="{{__('merlion::base.sort')}}" :$id :label_position="$labelPosition??null">
         <select name="sort" class="form-select">
             <option value="">-</option>
             @foreach($sorts as $sort)

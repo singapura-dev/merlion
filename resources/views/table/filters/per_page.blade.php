@@ -1,4 +1,4 @@
-<x-merlion::form.field label="每页" :$id :label_position="$labelPosition??null">
+<x-merlion::form.field label="{{__('merlion::base.per_page')}}" :$id :label_position="$labelPosition??null">
     <select name="per_page" class="form-select">
         @foreach($perPages as $perPage)
             <option value="{{$perPage}}" {{request('per_page', 10) == $perPage ? 'selected':''}}>{{$perPage}}</option>
