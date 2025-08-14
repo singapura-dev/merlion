@@ -7,7 +7,6 @@ namespace Merlion\Components\Table;
 use Merlion\Components\Renderable;
 use Merlion\Components\Table\Filters\Filter;
 use Merlion\Components\Table\Filters\Sort;
-use Merlion\Components\Table\Filters\Text;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,7 +18,9 @@ class Filters extends Renderable
 
     public mixed $perPages = [5, 10, 15, 50, 100];
     public mixed $allowAll = true;
+
     protected QueryBuilder $builder;
+
     protected array $filters = [];
     protected array $sorts = [];
 
@@ -42,9 +43,9 @@ class Filters extends Renderable
             ->appends(request()->query());
     }
 
-    protected function buildFilter()
+    protected function buildFilter(): static
     {
-        $filters = $this->getFilters();
+        $filters         = $this->getFilters();
         $allowed_filters = [];
         foreach ($filters as $filter) {
             /**
@@ -91,13 +92,10 @@ class Filters extends Renderable
         return $this->builder->get();
     }
 
-    public function filters($filters)
+    public function filters($filters): static
     {
         $filters = is_array($filters) ? $filters : func_get_args();
         foreach ($filters as $filter) {
-            if (is_string($filter)) {
-                $filter = Text::make($filter);
-            }
             if ($filter instanceof Filter) {
                 $this->filters[] = $filter;
             }
@@ -105,7 +103,7 @@ class Filters extends Renderable
         return $this;
     }
 
-    public function sorts($sorts)
+    public function sorts($sorts): static
     {
         $this->sorts = $sorts;
         return $this;
