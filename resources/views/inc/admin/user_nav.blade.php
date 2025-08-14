@@ -37,7 +37,12 @@
                     </a>
                 @endif
             @endforeach
-            <a href="{{admin()->getRoute('logout')}}" class="dropdown-item">{{__('merlion::base.logout')}}</a>
+            @if(admin()->routeExists('logout'))
+                <a href="{{admin()->getRoute('logout')}}" class="dropdown-item">
+                    <i class="ti ti-logout icon"></i>
+                    {{__('merlion::base.logout')}}
+                </a>
+            @endif
         </div>
     </div>
 </div>

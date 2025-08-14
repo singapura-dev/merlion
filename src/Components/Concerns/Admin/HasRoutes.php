@@ -2,6 +2,7 @@
 
 namespace Merlion\Components\Concerns\Admin;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 trait HasRoutes
@@ -21,5 +22,18 @@ trait HasRoutes
         }
 
         return route($route_name, ...$args);
+    }
+
+    public function routeExists(string $name): bool
+    {
+        $route_name = $name;
+
+        $as = $this->getContext('route.as');
+
+        if (!Str::startsWith($route_name, $as)) {
+            $route_name = $as . $route_name;
+        }
+
+        return Route::has($route_name);
     }
 }
