@@ -29,7 +29,12 @@
                        @if($target = $menu->getTarget())
                            target="{{$target}}"
                         @endif
-                    >{!! $menu->getLabel() !!}</a>
+                    >
+                        @if($icon = $menu->getIcon())
+                            {!! render($icon) !!}
+                        @endif
+                        {!! $menu->getLabel() !!}
+                    </a>
                 @endif
             @endforeach
             <a href="{{admin()->getRoute('logout')}}" class="dropdown-item">{{__('merlion::base.logout')}}</a>
