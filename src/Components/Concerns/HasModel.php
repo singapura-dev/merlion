@@ -21,7 +21,7 @@ trait HasModel
 
     public function getValue(): mixed
     {
-        if ($this->getValueUsing) {
+        if (!empty($this->getValueUsing)) {
             return $this->evaluate($this->getValueUsing);
         }
         return data_get($this->getModel(), $this->getName());
