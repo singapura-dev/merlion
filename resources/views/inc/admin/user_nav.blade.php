@@ -25,7 +25,11 @@
                 @if($menu->getDivider())
                     <div class="dropdown-divider"></div>
                 @else
-                    <a class="dropdown-item" href="{{ $menu->getLink()}}">{!! $menu->getLabel() !!}</a>
+                    <a class="dropdown-item" href="{{$menu->getLink()}}"
+                       @if($target = $menu->getTarget())
+                           target="{{$target}}"
+                        @endif
+                    >{!! $menu->getLabel() !!}</a>
                 @endif
             @endforeach
             <a href="{{admin()->getRoute('logout')}}" class="dropdown-item">{{__('merlion::base.logout')}}</a>
