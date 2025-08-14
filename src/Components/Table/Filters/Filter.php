@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Merlion\Components\Table\Filters;
 
 use Merlion\Components\Concerns\AsCell;
-use Merlion\Components\Renderable;
+use Merlion\Components\Schema;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 
-abstract class Filter extends Renderable
+abstract class Filter extends Schema
 {
     use AsCell;
 
