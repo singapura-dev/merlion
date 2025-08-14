@@ -13,9 +13,10 @@ abstract class Filter extends Renderable
     use AsCell;
 
     public static array $filters = [
-        'text' => Text::class,
+        'text'   => Text::class,
         'select' => Select::class,
-    ]; // partial | exact | operator | scope
+    ];
+
     protected string $filterType = 'partial';
     protected ?FilterOperator $operator = null;
 
@@ -60,7 +61,7 @@ abstract class Filter extends Renderable
     public function operator($operator): static
     {
         $this->filterType = 'operator';
-        $this->operator = $operator;
+        $this->operator   = $operator;
         return $this;
     }
 
