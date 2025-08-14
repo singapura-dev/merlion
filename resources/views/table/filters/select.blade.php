@@ -1,7 +1,7 @@
 @php
     $value = $self->getValue();
+    dump($value);
 @endphp
-
 <x-merlion::form.field :label="$self->getLabel()" :$id :label_position="$labelPosition">
     <select {{$attributes->merge(['class' => 'form-select'])}}
             name="{{$self->getFilterName()}}">
