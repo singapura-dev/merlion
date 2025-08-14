@@ -29,7 +29,7 @@ trait HasIndex
         $card = Card::make();
 
         $filters = $this->getFilters();
-        $sorts   = $this->getSorts();
+        $sorts = $this->getSorts();
         $builder = $this->getQueryBuilder();
 
         if (!empty($filters) || !empty($sorts)) {
@@ -82,7 +82,7 @@ trait HasIndex
 
     protected function table()
     {
-        $table   = Table::make();
+        $table = Table::make();
         $columns = $this->columns();
         $table->columns($columns);
         return $table;
@@ -147,16 +147,19 @@ trait HasIndex
     protected function getSorts(): array
     {
         $schemas = $this->schemas();
-        $sorts   = [];
+        $sorts = [];
         foreach ($schemas as $name => $schema) {
             if (is_array($schema)) {
+                if (empty($schema['name']) && is_string($name)) {
+                    $schema['name'] = $name;
+                }
                 if (!empty($schema['sortable'] ?? null)) {
                     if (is_array($schema['sortable'])) {
                         foreach ($schema['sortable'] as $sort_name => $sort) {
 
                             if (is_string($sort)) {
                                 $sort = [
-                                    'name'  => $sort_name,
+                                    'name' => $sort_name,
                                     'label' => $sort,
                                 ];
                             }
@@ -175,7 +178,7 @@ trait HasIndex
                         }
                         continue;
                     }
-                    $field   = $schema['sortable'] === 'desc' ? ('-' . $schema['name']) : $schema['name'];
+                    $field = $schema['sortable'] === 'desc' ? ('-' . $schema['name']) : $schema['name'];
                     $sorts[] = Filters\Sort::make($field, $schema['label'] ?? $this->lang($schema['name']));
                 }
             }
@@ -225,9 +228,9 @@ trait HasIndex
             })
             ->rendering(function ($action) {
                 $action->withAttributes([
-                    'data-method'  => 'delete',
+                    'data-method' => 'delete',
                     'data-confirm' => 'Are you sure?',
-                    'data-action'  => $this->route('destroy', $action->getModel()->getKey()),
+                    'data-action' => $this->route('destroy', $action->getModel()->getKey()),
                 ]);
             });
 
@@ -240,9 +243,9 @@ trait HasIndex
                 })
                 ->rendering(function ($action) {
                     $action->withAttributes([
-                        'data-method'  => 'put',
+                        'data-method' => 'put',
                         'data-confirm' => 'Are you sure?',
-                        'data-action'  => $this->route('restore', $action->getModel()->getKey()),
+                        'data-action' => $this->route('restore', $action->getModel()->getKey()),
                     ]);
                 });
         }
