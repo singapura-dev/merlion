@@ -6,8 +6,8 @@ namespace Merlion\Http\Controllers\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
-use Lang;
 use Merlion\Concerns\CanCallMethods;
 
 trait AsCurdController
@@ -75,6 +75,9 @@ trait AsCurdController
 
     protected function authorize($action, ...$args): void
     {
+        if (empty($this->policy)) {
+            return;
+        }
         $this->authorizeBase($action, ...$args);
     }
 
