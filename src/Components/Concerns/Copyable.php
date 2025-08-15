@@ -15,7 +15,6 @@ trait Copyable
     public function renderCopyable(): void
     {
         if ($this->copyable) {
-            Log::debug('rendering copyable' . $this->getName());
             $this->withAttributes([
                 'data-copyable' => $this->getCopyableValue()
             ]);
