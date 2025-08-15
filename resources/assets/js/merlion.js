@@ -11,20 +11,17 @@ async function copyText(text) {
 
     // 方法2: 使用 execCommand
     try {
-        const textArea = document.createElement('textarea');
+        const textArea = document.createElement('input');
         textArea.value = text;
         textArea.style.position = 'absolute';
         textArea.style.left = '-9999px';
-
         document.body.appendChild(textArea);
-
         // 选中文本
         textArea.select();
         textArea.setSelectionRange(0, 99999); // 移动端支持
 
         const successful = document.execCommand('copy');
         document.body.removeChild(textArea);
-
         if (successful) {
             return true;
         }
@@ -36,30 +33,6 @@ async function copyText(text) {
     console.log('自动复制失败，请手动复制');
     return false;
 }
-
-(function () {
-    document.querySelectorAll('[data-copyable]').forEach(function (element) {
-        // add a copy icon
-        element.insertAdjacentHTML('beforeend', '<i role="button" class="ti ti-clipboard"></i>');
-        // click icon to copy to clipboard
-        element.querySelector('i').addEventListener('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            copyText(element.getAttribute('data-copyable'))
-                .then(() => {
-                    element.querySelector('i').classList.add('ti-clipboard-check', 'text-success');
-                    element.querySelector('i').classList.remove('ti-clipboard');
-                    setTimeout(function () {
-                        element.querySelector('i').classList.remove('ti-clipboard-check', 'text-success');
-                        element.querySelector('i').classList.add('ti-clipboard');
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('复制失败:', err);
-                });
-        })
-    });
-})();
 
 (function () {
     'use strict';
@@ -164,10 +137,84 @@ async function copyText(text) {
     window.addEventListener('popstate', initActiveMenu);
 })();
 
-(function () {
+class LazyLoad {
+    constructor(element, options) {
+        this.element = element;
+        this.options = options;
+        this.loaded = false;
+        this.observer = null;
+        this.init();
+    }
 
-    function initActions() {
-        document.querySelectorAll("[data-action]").forEach(function (el) {
+    init() {
+        if (this.observer) {
+            this.observer.disconnect(); // 清理之前的 observer
+        }
+        let that = this;
+        this.observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (that.loaded) {
+                        return;
+                    }
+                    that.load(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1, // 当10%的元素可见时触发
+            rootMargin: '0px' // 可以设置边距
+        });
+        this.observer.observe(this.element);
+    }
+
+    async load(el) {
+        let renderable = el.getAttribute("data-renderable");
+        let payload = el.getAttribute("data-payload");
+        let response = await fetch('/merlion-api/lazy-render?renderable=' + renderable + '&payload=' + payload);
+        el.innerHTML = await response.text();
+        this.loaded = true;
+        admin().init(el);
+    }
+}
+
+class Merlion {
+    init(container) {
+        if (!container) {
+            container = document;
+        }
+        this.initCopyable(container);
+        this.initActions(container);
+        this.initLazyLoad(container);
+        return 'ok';
+    }
+
+    initCopyable(container) {
+        container.querySelectorAll('[data-copyable]').forEach(function (element) {
+            element.insertAdjacentHTML('beforeend', '<i role="button" class="ti ti-clipboard"></i>');
+            element.querySelector('i.ti-clipboard').addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                let textToCopy = element.getAttribute('data-copyable');
+                console.log(textToCopy);
+                copyText(element.getAttribute('data-copyable'))
+                    .then(() => {
+                        element.querySelector('i').classList.add('ti-clipboard-check', 'text-success');
+                        element.querySelector('i').classList.remove('ti-clipboard');
+                        setTimeout(function () {
+                            element.querySelector('i').classList.remove('ti-clipboard-check', 'text-success');
+                            element.querySelector('i').classList.add('ti-clipboard');
+                            console.log('成功:');
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        console.error('复制失败:', err);
+                    });
+            })
+        });
+    }
+
+    initActions(container) {
+        container.querySelectorAll("[data-action]").forEach(function (el) {
             el.addEventListener('click', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -215,54 +262,25 @@ async function copyText(text) {
         })
     }
 
-    document.addEventListener('DOMContentLoaded', initActions);
-})();
-
-(function () {
-    class LazyLoad {
-        constructor(element, options) {
-            this.element = element;
-            this.options = options;
-            this.loaded = false;
-            this.observer = null;
-            this.init();
-        }
-
-        init() {
-            if (this.observer) {
-                this.observer.disconnect(); // 清理之前的 observer
-            }
-            let that = this;
-            this.observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if (that.loaded) {
-                            return;
-                        }
-                        that.load(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1, // 当10%的元素可见时触发
-                rootMargin: '0px' // 可以设置边距
-            });
-            this.observer.observe(this.element);
-        }
-
-        async load(el) {
-            let renderable = el.getAttribute("data-renderable");
-            let payload = el.getAttribute("data-payload");
-            let response = await fetch('/merlion-api/lazy-render?renderable=' + renderable + '&payload=' + payload);
-            el.innerHTML = await response.text();
-            this.loaded = true;
-        }
+    initLazyLoad(container) {
+        container.querySelectorAll('[data-lazy]').forEach(function (element) {
+            new LazyLoad(element, {});
+        });
     }
 
-    window.lazyLoad = function (selector, options) {
-        new LazyLoad(selector, options);
+    static getInstance() {
+        if (!Merlion.instance) {
+            Merlion.instance = new Merlion()
+        }
+        return Merlion.instance
     }
+}
 
-    document.querySelectorAll('[data-lazy]').forEach(function (element) {
-        window.lazyLoad(element);
-    });
-})();
+window.admin = function () {
+    return Merlion.getInstance();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    admin().init();
+});
+

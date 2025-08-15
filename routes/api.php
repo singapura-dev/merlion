@@ -8,4 +8,3 @@ Route::group(['prefix' => 'merlion-api'], function () {
     Route::get('lazy-render', LazyRenderController::class);
     Route::post('form-submit', FormSubmitController::class);
 });
-

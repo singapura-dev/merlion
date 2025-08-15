@@ -12,7 +12,6 @@ trait Copyable
     protected bool $copyable = false;
     protected Closure $getCopyableValueUsing;
 
-
     public function renderCopyable(): void
     {
         if ($this->copyable) {
