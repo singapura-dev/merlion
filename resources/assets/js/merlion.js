@@ -286,9 +286,8 @@ class Merlion {
                 const method = button.getAttribute('data-method') || 'post';
                 const table_id = button.getAttribute('data-table');
                 const selected_ids = container.querySelector(`#${table_id}`).querySelectorAll('.row-select:checked');
-                console.log(selected_ids);
                 data.ids = selected_ids ? Array.from(selected_ids).map(el => el.value) : null;
-                console.log(data);
+                button.classList.add('disabled');
                 fetch(action, {
                     method: method,
                     headers: {
@@ -303,7 +302,6 @@ class Merlion {
                     if (response.ok) {
                         return response.json()
                     }
-                    console.log(response);
                 }).then(data => {
                     switch (data.action) {
                         case 'refresh':
@@ -318,7 +316,7 @@ class Merlion {
                             break;
                     }
                 }).catch(error => {
-                    onerror(error);
+                    console.error(error);
                 }).finally(() => {
                     button.classList.remove('disabled');
                 });
