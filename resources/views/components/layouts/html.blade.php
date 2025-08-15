@@ -1,5 +1,5 @@
 <!doctype html>
-<html {{$htmlAttributes->merge(['lang' => 'en'])}}>
+<html {{$htmlAttributes}}>
 <head>
     @include('merlion::components.layouts.inc.head')
 </head>

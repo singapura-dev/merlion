@@ -12,15 +12,22 @@ namespace Merlion\Components\Concerns\Admin;
  * @method $this cspNonce($cspNonce)
  * @method string getCspNonce()
  * @method $this brandLogo($logo)
+ * @method $this brandName($name)
  * @method string getBrandLogo()
+ * @method string getBrandName()
  */
 trait HasAssets
 {
 
     public string $cspNonce = '';
     public string $brandLogo = '';
+    public string $brandName = '';
 
     public array $css = [
+//        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap',
+//        '/vendor/merlion/vendors/apexcharts/apexcharts.css',
+//        '/vendor/merlion/vendors/keenicons/styles.bundle.css',
+//        '/vendor/merlion/css/styles.css',
         'https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-themes.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler-flags.min.css',
@@ -30,6 +37,10 @@ trait HasAssets
         '/vendor/merlion/css/merlion.css',
     ];
     public array $js = [
+//        '/vendor/merlion/js/core.bundle.js',
+//        '/vendor/merlion/vendors/ktui/ktui.min.js',
+//        '/vendor/merlion/vendors/apexcharts/apexcharts.min.js',
+//        '/vendor/merlion/js/widgets/general.js',
         'https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js',
         'https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js',
         'https://cdn.jsdelivr.net/npm/toastify-js',
