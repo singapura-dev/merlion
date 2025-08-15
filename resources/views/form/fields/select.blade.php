@@ -11,6 +11,9 @@
 
 <x-merlion::form.field :$label :$id :$full :$label_position>
     <select name="{{$name}}" id="{{$id}}" {{$attributes->merge(['class' => 'form-select'])}}>
+        @if($nullable)
+            <option value="">{{$self->getNullableLabel()}}</option>
+        @endif
         @foreach($options as $option_key=> $option_label)
             <option value="{{$option_key}}"
                     @if(old($name, $value) == $option_key) selected @endif

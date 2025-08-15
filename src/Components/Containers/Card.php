@@ -32,6 +32,8 @@ class Card extends Container
                 $container->class(static::$defaultClass[$position]);
             }
             $this->content($container, $position);
+        } else {
+            $container = $container[0];
         }
         $container->content($content);
         return $this;

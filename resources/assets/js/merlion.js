@@ -184,7 +184,9 @@ class Merlion {
         }
         this.initCopyable(container);
         this.initActions(container);
+        this.initBatchActions(container);
         this.initLazyLoad(container);
+        this.initTable(container);
         return 'ok';
     }
 
@@ -262,9 +264,83 @@ class Merlion {
         })
     }
 
+    initBatchActions(container) {
+        container.querySelectorAll("[data-batch-action]").forEach(function (el) {
+            el.addEventListener('click', async function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                let button = e.currentTarget;
+                const confirm_title = button.getAttribute('data-confirm');
+                if (confirm_title) {
+                    const result = await Swal.fire({
+                        title: confirm_title,
+                        icon: "warning",
+                        showCancelButton: true,
+                    })
+                    if (!result.isConfirmed) {
+                        return;
+                    }
+                }
+                const action = button.getAttribute('data-batch-action');
+                const data = button.getAttribute('data-payload') || {};
+                const method = button.getAttribute('data-method') || 'post';
+                const table_id = button.getAttribute('data-table');
+                const selected_ids = container.querySelector(`#${table_id}`).querySelectorAll('.row-select:checked');
+                console.log(selected_ids);
+                data.ids = selected_ids ? Array.from(selected_ids).map(el => el.value) : null;
+                console.log(data);
+                fetch(action, {
+                    method: method,
+                    headers: {
+                        "Content-type": "application/json",
+                        "Accept": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                        'X-CSP-NONCE': document.querySelector('meta[name="csp-nonce"]').getAttribute('content'),
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                    body: JSON.stringify(data)
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                    console.log(response);
+                }).then(data => {
+                    switch (data.action) {
+                        case 'refresh':
+                        case 'reload':
+                            location.reload();
+                            break;
+                        case 'rediret':
+                            location.href = data.url;
+                            break;
+                        case 'dismiss':
+                            button.closest('.modal').remove();
+                            break;
+                    }
+                }).catch(error => {
+                    onerror(error);
+                }).finally(() => {
+                    button.classList.remove('disabled');
+                });
+            });
+        })
+    }
+
     initLazyLoad(container) {
         container.querySelectorAll('[data-lazy]').forEach(function (element) {
             new LazyLoad(element, {});
+        });
+    }
+
+    initTable(container) {
+        container.querySelectorAll('.table-selectable').forEach(function (element) {
+            element.querySelectorAll('.row-select-all').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function (e) {
+                    element.querySelectorAll('.row-select').forEach(function (row_checkbox) {
+                        row_checkbox.checked = e.target.checked;
+                    });
+                })
+            });
         });
     }
 

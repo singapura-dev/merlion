@@ -24,27 +24,22 @@ trait HasAssets
     public string $brandName = '';
 
     public array $css = [
-//        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap',
-//        '/vendor/merlion/vendors/apexcharts/apexcharts.css',
-//        '/vendor/merlion/vendors/keenicons/styles.bundle.css',
-//        '/vendor/merlion/css/styles.css',
         'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-themes.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-flags.min.css',
         'https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
         'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css',
+        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.css',
         '/vendor/merlion/css/merlion.css',
     ];
+
     public array $js = [
-//        '/vendor/merlion/js/core.bundle.js',
-//        '/vendor/merlion/vendors/ktui/ktui.min.js',
-//        '/vendor/merlion/vendors/apexcharts/apexcharts.min.js',
-//        '/vendor/merlion/js/widgets/general.js',
         'https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js',
         'https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js',
         'https://cdn.jsdelivr.net/npm/toastify-js',
         'https://cdn.jsdelivr.net/npm/hugerte/hugerte.min.js',
+        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.js',
         '/vendor/merlion/js/merlion.js',
     ];
 

@@ -12,5 +12,8 @@ class Select extends Field
 {
     use AsInput;
 
+    public bool $nullable = false;
+    public mixed $nullableLabel = '-';
+
     public mixed $options = [];
 }

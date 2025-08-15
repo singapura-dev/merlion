@@ -18,6 +18,7 @@ trait HasIndex
 {
     protected Filters $filter;
     protected Table $table;
+    protected Card $indexCard;
 
     public static int $perPage = 10;
 
@@ -26,20 +27,20 @@ trait HasIndex
         $this->authorize('viewAny', $this->getModel());
 
         $this->callMethods('beforeIndex', ...$args);
-        $card = Card::make();
+
+        $this->indexCard = Card::make();
 
         $filters = $this->getFilters();
         $sorts = $this->getSorts();
         $builder = $this->getQueryBuilder();
+        $batchActions = $this->getBatchActions();
 
-        if (!empty($filters) || !empty($sorts)) {
+        if (!empty($filters) || !empty($sorts) || !empty($batchActions)) {
             $this->filter = Filters::make()->for($builder);
             $this->filter->filters($filters);
             $this->filter->sorts($sorts);
 
-            $header = Container::make()->class('card-header justify-content-between align-items-center');
-            $header->content($this->filter);
-            $card->content($header);
+            $this->indexCard->header($this->filter);
         }
 
         admin()->content($this->getIndexTools(), 'header');
@@ -62,22 +63,27 @@ trait HasIndex
                 } else {
                     $models = $this->filter->paginate((int)request('per_page', static::$perPage));
                     $this->table->models($models);
-                    $card->footer($models->links());
+                    $this->indexCard->footer($models->links());
                 }
             } else {
                 $this->table->models($builder->paginate((int)request('per_page', static::$perPage)));
             }
         }
 
-        $card->content($this->table);
+        $this->indexCard->content($this->table);
 
         admin()->pageTitle($this->getLabelPlural())
             ->title($this->getLabelPlural())
-            ->content($card);
+            ->content($this->indexCard);
 
         $this->callMethods('afterIndex', ...$args);
 
         return admin()->render();
+    }
+
+    protected function getBatchActions(): array
+    {
+        return [];
     }
 
     protected function table()

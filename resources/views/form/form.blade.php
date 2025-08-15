@@ -5,4 +5,9 @@
         'content' => $self->getContent(),
         'context' =>['model' => $self->getModel()]
     ])
+
+    @include('merlion::partials.content', [
+        'content' => $self->getContent('footer'),
+        'context' =>['model' => $self->getModel()]
+    ])
 </form>

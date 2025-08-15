@@ -48,6 +48,6 @@ trait AsCell
 
     protected function defaultId(): string
     {
-        return $this->getName();
+        return $this->getName() ?: Str::lower(class_basename($this)) . '_' . uniqid();
     }
 }

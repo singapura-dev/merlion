@@ -9,6 +9,8 @@ use Merlion\Components\Table\Columns\Column;
 /**
  * @method array getColumns() Get table columns
  * @method $this models(mixed $models) Set table data
+ * @method $this selectable(mixed $selectable) Set table selectable
+ * @method bool getSelectable() Get table selectable
  */
 class Table extends Renderable
 {
@@ -16,6 +18,8 @@ class Table extends Renderable
     public mixed $models = [];
     public TableHeader $header;
     public TableBody $body;
+    public mixed $selectable = false;
+
     protected mixed $rendingRowUsing = null;
 
     public function __construct(...$args)

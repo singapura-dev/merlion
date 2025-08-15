@@ -3,21 +3,17 @@ declare(strict_types=1);
 
 namespace Merlion\Components;
 
-use Closure;
+use Merlion\Components\Concerns\AsCell;
 use Merlion\Components\Concerns\AsLink;
 use Merlion\Components\Concerns\HasIcon;
 use Merlion\Components\Concerns\HasModal;
 
-/**
- * @method $this label(string|Closure $label) Set button label
- */
 class Button extends Renderable
 {
     use HasIcon;
     use AsLink;
     use HasModal;
-
-    public mixed $label = 'Button';
+    use AsCell;
 
     protected array $defaultAttributes = [
         'class' => 'btn',
