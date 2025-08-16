@@ -45,7 +45,7 @@ class Filters extends Renderable
 
     protected function buildFilter(): static
     {
-        $filters         = $this->getFilters();
+        $filters = $this->getFilters();
         $allowed_filters = [];
         foreach ($filters as $filter) {
             /**

@@ -5,7 +5,6 @@ namespace Merlion\Addons\Auth;
 
 use Arr;
 use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Merlion\Components\Layouts\Admin;
 

@@ -178,6 +178,13 @@ class LazyLoad {
 }
 
 class Merlion {
+    static getInstance() {
+        if (!Merlion.instance) {
+            Merlion.instance = new Merlion()
+        }
+        return Merlion.instance
+    }
+
     init(container) {
         if (!container) {
             container = document;
@@ -340,13 +347,6 @@ class Merlion {
                 })
             });
         });
-    }
-
-    static getInstance() {
-        if (!Merlion.instance) {
-            Merlion.instance = new Merlion()
-        }
-        return Merlion.instance
     }
 }
 

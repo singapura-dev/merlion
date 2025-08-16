@@ -4,6 +4,11 @@ namespace Merlion\Components\Concerns\Admin;
 
 trait HasToast
 {
+    public function success($message): static
+    {
+        return $this->toast($message, 'success');
+    }
+
     public function toast($message, $type = 'primary', $position = 'center'): static
     {
         session()->flash('toast', [
@@ -12,11 +17,6 @@ trait HasToast
             'position' => $position,
         ]);
         return $this;
-    }
-
-    public function success($message): static
-    {
-        return $this->toast($message, 'success');
     }
 
     public function info($message): static

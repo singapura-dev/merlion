@@ -34,6 +34,11 @@ class AuthBehavior extends Behavior
         return evaluate($this->usernamePlaceholder ?: $this->defaultUsernamePlaceholder(), $this->getHost());
     }
 
+    protected function defaultUsernamePlaceholder(): string
+    {
+        return __('merlion_auth::auth.input_email');
+    }
+
     public function usernamePlaceholder($usernamePlaceholder): mixed
     {
         $this->usernamePlaceholder = $usernamePlaceholder;
@@ -45,18 +50,13 @@ class AuthBehavior extends Behavior
         return evaluate($this->usernameLabel ?: $this->defaultUsernameLabel(), $this->getHost());
     }
 
-    public function authRoutes(): void
-    {
-        require __DIR__ . '/routes/auth.php';
-    }
-
     protected function defaultUsernameLabel(): string
     {
         return __('merlion_auth::auth.email');
     }
 
-    protected function defaultUsernamePlaceholder(): string
+    public function authRoutes(): void
     {
-        return __('merlion_auth::auth.input_email');
+        require __DIR__ . '/routes/auth.php';
     }
 }

@@ -5,7 +5,6 @@ namespace Merlion\Http\Controllers\Concerns;
 
 use Merlion\Components\Button;
 use Merlion\Components\Containers\Card;
-use Merlion\Components\Containers\Container;
 use Merlion\Components\Table\Columns\Actions;
 use Merlion\Components\Table\Columns\Column;
 use Merlion\Components\Table\Filters;
@@ -16,11 +15,10 @@ use Merlion\Components\Table\Table;
  */
 trait HasIndex
 {
+    public static int $perPage = 10;
     protected Filters $filter;
     protected Table $table;
     protected Card $indexCard;
-
-    public static int $perPage = 10;
 
     public function index(...$args)
     {
@@ -79,54 +77,6 @@ trait HasIndex
         $this->callMethods('afterIndex', ...$args);
 
         return admin()->render();
-    }
-
-    protected function getBatchActions(): array
-    {
-        return [];
-    }
-
-    protected function table()
-    {
-        $table = Table::make();
-        $columns = $this->columns();
-        $table->columns($columns);
-        return $table;
-    }
-
-    protected function columns(): array
-    {
-        $schemas = $this->schemas();
-        $columns = [];
-        foreach ($schemas as $name => $schema) {
-
-            if (is_string($schema)) {
-                $schema = [
-                    'type' => 'text',
-                    'name' => $schema,
-                ];
-            }
-
-            if (is_array($schema)) {
-                if (is_string($name) && !isset($schema['name'])) {
-                    $schema['name'] = $name;
-                }
-
-                if (!isset($schema['label'])) {
-                    $schema['label'] = $this->lang($schema['name']);
-                }
-
-                if (isset($schema['show_index']) && !$schema['show_index']) {
-                    continue;
-                }
-            }
-
-            $column = Column::generate($schema);
-            if ($column->shouldShow('index')) {
-                $columns[] = $column;
-            }
-        }
-        return $columns;
     }
 
     protected function getFilters(): array
@@ -192,6 +142,11 @@ trait HasIndex
         return $sorts;
     }
 
+    protected function getBatchActions(): array
+    {
+        return [];
+    }
+
     protected function getIndexTools(): array
     {
         $tools = [];
@@ -199,6 +154,49 @@ trait HasIndex
             $tools[] = Button::make()->primary()->link($this->route('create'))->icon('ti ti-plus me-1')->label(__('merlion::base.create'));
         }
         return $tools;
+    }
+
+    protected function table()
+    {
+        $table = Table::make();
+        $columns = $this->columns();
+        $table->columns($columns);
+        return $table;
+    }
+
+    protected function columns(): array
+    {
+        $schemas = $this->schemas();
+        $columns = [];
+        foreach ($schemas as $name => $schema) {
+
+            if (is_string($schema)) {
+                $schema = [
+                    'type' => 'text',
+                    'name' => $schema,
+                ];
+            }
+
+            if (is_array($schema)) {
+                if (is_string($name) && !isset($schema['name'])) {
+                    $schema['name'] = $name;
+                }
+
+                if (!isset($schema['label'])) {
+                    $schema['label'] = $this->lang($schema['name']);
+                }
+
+                if (isset($schema['show_index']) && !$schema['show_index']) {
+                    continue;
+                }
+            }
+
+            $column = Column::generate($schema);
+            if ($column->shouldShow('index')) {
+                $columns[] = $column;
+            }
+        }
+        return $columns;
     }
 
     protected function getRowActions(): array

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Merlion\Components\Concerns;
 
 use Closure;
-use Illuminate\Support\Facades\Log;
 
 trait Copyable
 {

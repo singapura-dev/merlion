@@ -13,7 +13,7 @@ abstract class Filter extends Schema
     use AsCell;
 
     public static array $filters = [
-        'text'   => Text::class,
+        'text' => Text::class,
         'select' => Select::class,
     ];
 
@@ -61,7 +61,7 @@ abstract class Filter extends Schema
     public function operator($operator): static
     {
         $this->filterType = 'operator';
-        $this->operator   = $operator;
+        $this->operator = $operator;
         return $this;
     }
 
