@@ -13,8 +13,8 @@ return [
             'data-bs-theme-primary' => 'indigo',
             'data-bs-theme' => 'light',
             'data-bs-theme-base' => 'gray',
-            'data-bs-theme-font' => 'serif',
-            'data-bs-theme-radius' => 0.5,
+            'data-bs-theme-font' => 'san-serif',
+            'data-bs-theme-radius' => 1,
         ],
     ],
     'providers' => [
