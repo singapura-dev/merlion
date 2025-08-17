@@ -8,13 +8,13 @@ return [
             'domain' => env("ADMIN_DOMAIN"),
             'redirect' => '/'
         ],
-        'title' => 'Admin',
+        'title' => env("ADMIN_NAME"),
         'attributes_html' => [
-            'data-bs-theme-primary' => 'indigo',
-            'data-bs-theme' => 'light',
-            'data-bs-theme-base' => 'gray',
-            'data-bs-theme-font' => 'san-serif',
-            'data-bs-theme-radius' => 1,
+//            'data-bs-theme-primary' => 'indigo',
+//            'data-bs-theme' => 'light',
+//            'data-bs-theme-base' => 'gray',
+//            'data-bs-theme-font' => 'san-serif',
+//            'data-bs-theme-radius' => 1,
         ],
     ],
     'providers' => [
