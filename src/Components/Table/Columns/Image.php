@@ -5,5 +5,4 @@ namespace Merlion\Components\Table\Columns;
 
 class Image extends Column
 {
-
 }

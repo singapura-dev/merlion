@@ -34,9 +34,4 @@ class Text extends Column
             $this->class('badge bg-' . $color . ' text-' . $color . '-fg');
         }
     }
-
-    public function diaplayValue()
-    {
-        return $this->getValue();
-    }
 }

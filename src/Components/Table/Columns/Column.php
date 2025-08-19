@@ -41,4 +41,9 @@ class Column extends Schema
         throw new Exception('Invalid column');
     }
 
+    public function diaplayValue()
+    {
+        return $this->getValue();
+    }
+
 }
