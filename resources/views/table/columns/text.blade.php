@@ -7,6 +7,6 @@
     {!! render($icon) !!}
 @endif
 
-{!! to_string($self->getValue()) !!}
+{!! to_string($self->diaplayValue()) !!}
 
 </{{$element}}>

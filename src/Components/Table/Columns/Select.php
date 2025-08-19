@@ -3,13 +3,18 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Table\Columns;
 
+/**
+ * @method array getOptions()
+ * @method $this options(array|\Closure $options)
+ */
 class Select extends Text
 {
-    public array $options;
+    public mixed $options;
 
-    public function getValue(): mixed
+    public function diaplayValue()
     {
-        $value = parent::getValue();
-        return $this->options[$value] ?? $value;
+        $value = $this->getValue();
+        $options = $this->getOptions();
+        return $options[$value] ?? $value;
     }
 }
