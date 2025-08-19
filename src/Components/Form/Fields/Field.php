@@ -20,9 +20,10 @@ abstract class Field extends Schema
     use HasModel;
 
     public static array $fieldsMap = [
-        'text' => Text::class,
-        'select' => Select::class,
-        'editor' => Editor::class,
+        'text'     => Text::class,
+        'textarea' => Textarea::class,
+        'select'   => Select::class,
+        'editor'   => Editor::class,
     ];
 
     public mixed $form = null;
@@ -67,7 +68,7 @@ abstract class Field extends Schema
     public function dependsOn(string $name, array|string|bool $values = true): static
     {
         $this->dependsFields[] = [
-            'name' => $name,
+            'name'   => $name,
             'values' => $values,
         ];
         return $this;
