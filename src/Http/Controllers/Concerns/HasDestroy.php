@@ -13,12 +13,16 @@ trait HasDestroy
 {
     public function destroy(...$args)
     {
+        $this->callMethods('beforeDestroy', ...$args);
+
         $id = Arr::last($args);
         $model = app($this->getModel())->findOrFail($id);
 
         $this->authorize('delete', $model);
 
         $model->delete();
+
+        $this->callMethods('afterDestroy', ...$args);
 
         if (request()->ajax()) {
             return response()->json([
@@ -27,7 +31,6 @@ trait HasDestroy
                 'message' => __('merlion::base.deleted')
             ]);
         }
-
         return back();
     }
 
@@ -49,5 +52,18 @@ trait HasDestroy
         }
 
         return back();
+    }
+
+    public function batchDestroy()
+    {
+        $ids = request('ids');
+        $this->callMethods('beforeBatchDestroy', $ids);
+        $this->getQueryBuilder()->whereIn('id', $ids)->delete();
+        admin()->success('批量删除成功');
+        $this->callMethods('afterBatchDestroy');
+        return response([
+            'success' => true,
+            'action' => 'refresh'
+        ]);
     }
 }

@@ -1,7 +1,16 @@
-<button {{$attributes->merge(['class' => 'btn'])}} data-bs-toggle="modal"
-        data-bs-target="#modal_{{$id}}">{{$self->getLabel()}}</button>
+@php
+    $form = $self->getForm()
+@endphp
 
-@if(!empty($form = $self->getForm()))
+<button {{$attributes->merge(['class' => 'btn'])}}
+    @if(!empty($form))
+            data-bs-toggle="modal" data-bs-target="#modal_{{$id}}"
+    @endif
+>
+    {!! $self->getLabel() !!}
+</button>
+
+@if(!empty($form))
     <div class="modal" id="modal_{{$id}}">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -15,5 +24,4 @@
             </div>
         </div>
     </div>
-
 @endif

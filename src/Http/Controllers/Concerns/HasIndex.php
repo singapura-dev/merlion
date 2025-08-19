@@ -5,6 +5,7 @@ namespace Merlion\Http\Controllers\Concerns;
 
 use Merlion\Components\Button;
 use Merlion\Components\Containers\Card;
+use Merlion\Components\Table\BatchActions;
 use Merlion\Components\Table\Columns\Actions;
 use Merlion\Components\Table\Columns\Column;
 use Merlion\Components\Table\Filters;
@@ -28,6 +29,8 @@ trait HasIndex
 
         $this->indexCard = Card::make();
 
+        $this->table = $this->table(...$args);
+
         $filters = $this->getFilters();
         $sorts = $this->getSorts();
         $builder = $this->getQueryBuilder();
@@ -39,11 +42,18 @@ trait HasIndex
             $this->filter->sorts($sorts);
 
             $this->indexCard->header($this->filter);
+            if (!empty($batchActions)) {
+                $batchActionDropdown = BatchActions::make()
+                    ->table($this->table)
+                    ->label(__('merlion::base.batch_actions'))
+                    ->icon('ti ti-bolt me-1')
+                    ->class('ms-3')
+                    ->content($batchActions);
+                $this->indexCard->header($batchActionDropdown);
+            }
         }
 
         admin()->content($this->getIndexTools(), 'header');
-
-        $this->table = $this->table(...$args);
 
         $actions = $this->getRowActions();
 

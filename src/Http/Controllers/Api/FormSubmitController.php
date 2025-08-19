@@ -11,11 +11,14 @@ class FormSubmitController
     {
         $renderable = base64_decode(request('renderable'));
         if (is_subclass_of($renderable, Renderable::class)) {
-            $payload = base64_decode(request('payload') ?? []);
+            $payload = base64_decode(to_string(request('payload') ?? []));
             /**
              * @var Renderable $renderable
              */
-            $form = $renderable::make()->context(to_json($payload));
+            $form = $renderable::make();
+            if (!empty($payload)) {
+                $form->context(to_json($payload));
+            }
             return $form->submit();
         }
         return 'ok';

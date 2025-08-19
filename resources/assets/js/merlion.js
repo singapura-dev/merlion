@@ -199,6 +199,10 @@ class Merlion {
 
     initCopyable(container) {
         container.querySelectorAll('[data-copyable]').forEach(function (element) {
+            const value = element.getAttribute('data-copyable');
+            if (!value) {
+                return;
+            }
             element.insertAdjacentHTML('beforeend', '<i role="button" class="ti ti-clipboard"></i>');
             element.querySelector('i.ti-clipboard').addEventListener('click', function (e) {
                 e.preventDefault();
@@ -223,15 +227,20 @@ class Merlion {
     }
 
     initActions(container) {
+        let that = this;
         container.querySelectorAll("[data-action]").forEach(function (el) {
-            el.addEventListener('click', function (e) {
+            el.addEventListener('click', async function (e) {
                 e.stopPropagation();
                 e.preventDefault();
                 let button = e.currentTarget;
                 const confirm_title = button.getAttribute('data-confirm');
-                if (confirm_title && !confirm(confirm_title)) {
-                    return;
+                if (confirm_title) {
+                    let result = await that.showConfirm(confirm_title);
+                    if (!result.isConfirmed) {
+                        return;
+                    }
                 }
+
                 const action = button.getAttribute('data-action');
                 const data = button.getAttribute('data-payload');
                 const method = button.getAttribute('data-method') || 'post';
@@ -245,25 +254,11 @@ class Merlion {
                     },
                     body: data,
                 }).then(response => {
-                    if (response.ok) {
-                        return response.json()
-                    }
-                    console.log(response);
+                    return response.json();
                 }).then(data => {
-                    switch (data.action) {
-                        case 'refresh':
-                        case 'reload':
-                            location.reload();
-                            break;
-                        case 'rediret':
-                            location.href = data.url;
-                            break;
-                        case 'dismiss':
-                            button.closest('.modal').remove();
-                            break;
-                    }
+                    that.handleFetchData(data);
                 }).catch(error => {
-                    onerror(error);
+                    console.error(error);
                 }).finally(() => {
                     button.classList.remove('disabled');
                 });
@@ -272,18 +267,21 @@ class Merlion {
     }
 
     initBatchActions(container) {
+        let that = this;
         container.querySelectorAll("[data-batch-action]").forEach(function (el) {
             el.addEventListener('click', async function (e) {
                 e.stopPropagation();
                 e.preventDefault();
                 let button = e.currentTarget;
+                const table_id = button.getAttribute('data-table');
+                const selected_ids = container.querySelector(`#${table_id}`).querySelectorAll('.row-select:checked');
+                const ids = selected_ids ? Array.from(selected_ids).map(el => el.value) : null;
+                if (ids.length === 0) {
+                    return;
+                }
                 const confirm_title = button.getAttribute('data-confirm');
                 if (confirm_title) {
-                    const result = await Swal.fire({
-                        title: confirm_title,
-                        icon: "warning",
-                        showCancelButton: true,
-                    })
+                    const result = await that.showConfirm(confirm_title, 'total:' + ids.length);
                     if (!result.isConfirmed) {
                         return;
                     }
@@ -291,9 +289,8 @@ class Merlion {
                 const action = button.getAttribute('data-batch-action');
                 const data = button.getAttribute('data-payload') || {};
                 const method = button.getAttribute('data-method') || 'post';
-                const table_id = button.getAttribute('data-table');
-                const selected_ids = container.querySelector(`#${table_id}`).querySelectorAll('.row-select:checked');
-                data.ids = selected_ids ? Array.from(selected_ids).map(el => el.value) : null;
+
+                data.ids = ids;
                 button.classList.add('disabled');
                 fetch(action, {
                     method: method,
@@ -306,22 +303,9 @@ class Merlion {
                     },
                     body: JSON.stringify(data)
                 }).then(response => {
-                    if (response.ok) {
-                        return response.json()
-                    }
+                    return response.json()
                 }).then(data => {
-                    switch (data.action) {
-                        case 'refresh':
-                        case 'reload':
-                            location.reload();
-                            break;
-                        case 'rediret':
-                            location.href = data.url;
-                            break;
-                        case 'dismiss':
-                            button.closest('.modal').remove();
-                            break;
-                    }
+                    that.handleFetchData(data);
                 }).catch(error => {
                     console.error(error);
                 }).finally(() => {
@@ -347,6 +331,40 @@ class Merlion {
                 })
             });
         });
+    }
+
+    handleFetchData(data, onsuccess, onerror) {
+        if (data && data.action) {
+            switch (data.action) {
+                case 'refresh':
+                case 'reload':
+                    location.reload();
+                    break;
+                case 'rediret':
+                    location.href = data.url;
+                    break;
+            }
+            if (onsuccess) {
+                onsuccess(data);
+            }
+        } else {
+            if (onerror) {
+                onerror(data);
+            }
+            Swal.fire({
+                icon: "error",
+                title: data.message,
+            })
+        }
+    }
+
+    async showConfirm(title, text) {
+        return await Swal.fire({
+            title: title,
+            text: text,
+            icon: "warning",
+            showCancelButton: true,
+        })
     }
 }
 

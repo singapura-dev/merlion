@@ -2,6 +2,7 @@
 
 return [
     'actions' => 'Actions',
+    'batch_actions' => 'Batch Actions',
     'create' => 'Create',
     'delete' => 'Delete',
     'edit' => "Edit",

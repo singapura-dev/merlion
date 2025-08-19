@@ -2,6 +2,7 @@
 
 return [
     'actions' => '操作',
+    'batch_actions' => '批量操作',
     'create' => '新建',
     'delete' => '删除',
     'edit' => "编辑",

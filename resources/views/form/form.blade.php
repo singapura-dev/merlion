@@ -1,4 +1,4 @@
-<form {{$attributes}} method="{{$self->getMethod() == 'get' ? 'get':'post'}}">
+<form {{$attributes}} method="{{$self->getMethod() == 'get' ? 'get':'post'}}" enctype="multipart/form-data">
     @csrf
     @method($self->getMethod())
     @include('merlion::partials.content', [

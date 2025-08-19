@@ -9,9 +9,9 @@ use Merlion\Components\Layouts\Admin;
 
 class SetCurrentAdmin
 {
-    public function handle($request, Closure $next, $id)
+    public function handle($request, Closure $next, $id = null)
     {
-        Context::add('merlion_id', $id ?? 'admin');
+        Context::add('merlion_id', $id ?: 'admin');
         Admin::callStaticHooks('serving');
         admin()->callHooks('serving', admin());
         return $next($request);
