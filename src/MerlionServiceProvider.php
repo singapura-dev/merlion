@@ -30,10 +30,7 @@ class MerlionServiceProvider extends ServiceProvider
     protected function publishAssets(): void
     {
         $this->publishes([
-            __DIR__ . '/../resources/dist/' => public_path('vendor/merlion'),
-            __DIR__ . '/../resources/assets/js/' => public_path('vendor/merlion/js'),
-            __DIR__ . '/../resources/assets/css/' => public_path('vendor/merlion/css'),
-
+            __DIR__ . '/../resources/assets/'  => public_path('vendor/merlion/'),
         ], 'merlion-assets');
     }
 }
