@@ -22,6 +22,11 @@ class BatchAction extends Renderable
         return back();
     }
 
+    public function action($action, $method = 'post'): static
+    {
+        return $this->withAttributes(['data-batch-action' => $action, 'data-method' => $method]);
+    }
+
     public function getForm()
     {
         return $this->form;
