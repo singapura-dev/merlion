@@ -15,7 +15,7 @@ trait HasDestroy
     {
         $this->callMethods('beforeDestroy', ...$args);
 
-        $id = Arr::last($args);
+        $id    = Arr::last($args);
         $model = app($this->getModel())->findOrFail($id);
 
         $this->authorize('delete', $model);
@@ -27,8 +27,8 @@ trait HasDestroy
         if (request()->ajax()) {
             return response()->json([
                 'success' => true,
-                'action' => 'refresh',
-                'message' => __('merlion::base.deleted')
+                'action'  => 'refresh',
+                'message' => __('merlion::base.deleted'),
             ]);
         }
         return back();
@@ -36,7 +36,7 @@ trait HasDestroy
 
     public function restore(...$args)
     {
-        $id = Arr::last($args);
+        $id    = Arr::last($args);
         $model = app($this->getModel())->withTrashed()->findOrFail($id);
 
         $this->authorize('restore', $model);
@@ -46,8 +46,8 @@ trait HasDestroy
         if (request()->ajax()) {
             return response()->json([
                 'success' => true,
-                'action' => 'refresh',
-                'message' => __('merlion::base.restored')
+                'action'  => 'refresh',
+                'message' => __('merlion::base.restored'),
             ]);
         }
 
@@ -59,11 +59,11 @@ trait HasDestroy
         $ids = request('ids');
         $this->callMethods('beforeBatchDestroy', $ids);
         $this->getQueryBuilder()->whereIn('id', $ids)->delete();
-        admin()->success('批量删除成功');
+        admin()->success(__('merlion::base.batch_delete_success'));
         $this->callMethods('afterBatchDestroy');
         return response([
             'success' => true,
-            'action' => 'refresh'
+            'action'  => 'refresh',
         ]);
     }
 }
