@@ -269,6 +269,10 @@ class Merlion {
     initBatchActions(container) {
         let that = this;
         container.querySelectorAll("[data-batch-action]").forEach(function (el) {
+            const action = el.getAttribute('data-batch-action');
+            if (!action) {
+                return;
+            }
             el.addEventListener('click', async function (e) {
                 e.stopPropagation();
                 e.preventDefault();
