@@ -19,6 +19,11 @@ class Button extends Renderable
         'class' => 'btn',
     ];
 
+    public function confirm($confirm): static
+    {
+        return $this->withAttributes(['data-confirm' => $confirm]);
+    }
+
     public function submit(): static
     {
         return $this->withAttributes(['type' => 'submit']);
