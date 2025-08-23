@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Form;
 
+use Merlion\Components\Concerns\HasAction;
 use Merlion\Components\Concerns\HasContent;
 use Merlion\Components\Concerns\HasModel;
 use Merlion\Components\Containers\Flex;
@@ -11,10 +12,9 @@ use Merlion\Components\Renderable;
 
 class Form extends Renderable
 {
+    use HasAction;
     use HasContent;
     use HasModel;
-
-    public mixed $method = 'post';
 
     public function __construct(...$args)
     {
@@ -52,21 +52,6 @@ class Form extends Renderable
         $this->fields($field);
         return $this;
     }
-
-    public function put($action): static
-    {
-        $this->method = 'put';
-        $this->withAttributes(['action' => $action]);
-        return $this;
-    }
-
-    public function post($action): static
-    {
-        $this->method = 'post';
-        $this->withAttributes(['action' => $action]);
-        return $this;
-    }
-
 
     public function validate(): array
     {

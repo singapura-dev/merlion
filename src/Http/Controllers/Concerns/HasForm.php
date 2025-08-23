@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Merlion\Http\Controllers\Concerns;
 
-use Illuminate\Support\Arr;
 use Merlion\Components\Button;
 use Merlion\Components\Containers\Card;
 use Merlion\Components\Form\Fields\Field;
 use Merlion\Components\Form\Form;
+use Illuminate\Support\Arr;
 
 /**
  * @mixin AsCurdController
@@ -20,7 +20,7 @@ trait HasForm
         $form = $this->form();
         $validated = $form->validate();
         app($this->getModel())->create($validated);
-
+        admin()->success(__('merlion::base.action_performace_success'));
         return redirect($this->route('index'));
     }
 
@@ -114,7 +114,7 @@ trait HasForm
         $form = $this->form($model);
         $validated = $form->validate();
         $model->update($validated);
-        admin()->success('成功');
+        admin()->success(__('merlion::base.action_performace_success'));
         return redirect($this->route('index'));
     }
 }
