@@ -59,7 +59,11 @@ class Renderable extends Element
                     $position = $position == 'class' ? null : $position;
                     $this->class($_value, $position);
                 } elseif (public_property_exists($this, $_key) || public_method_exists($this, $_key)) {
-                    $this->{$_key}($_value);
+                    if ('addHook' === $_key) {
+                        $this->addHook($_value[0], $_value[1]);
+                    } else {
+                        $this->{$_key}($_value);
+                    }
                 } else {
                     $this->context($_key, $_value);
                 }
