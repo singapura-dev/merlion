@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Table\Columns;
 
+use Merlion\Components\Concerns\HasIcon;
+
 class Actions extends Column
 {
+    use HasIcon;
+
     public mixed $name = 'actions';
 
     protected array $actions = [];
@@ -43,6 +47,6 @@ class Actions extends Column
 
     protected function defaultLabel(): string
     {
-        return __("merlion::base.actions");
+        return '';
     }
 }

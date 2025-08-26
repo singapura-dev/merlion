@@ -4,6 +4,7 @@ return [
     'admin' => [
         'route' => [
             'prefix' => 'admin',
+            'middleware' => ['web', 'merlion'],
             'as' => 'admin.',
             'domain' => env("ADMIN_DOMAIN"),
             'redirect' => '/'

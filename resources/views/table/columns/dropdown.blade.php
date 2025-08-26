@@ -1,6 +1,6 @@
 <div>
-    <button role="button" {{$attributes->merge(['class' => 'dropdown-toggle'])}}
-    data-bs-toggle="dropdown">{!! render($self->getLabel()) !!}
+    <button role="button" {{$attributes->merge(['class' => ''])}}
+    data-bs-toggle="dropdown">{!! render($self->getIcon()) !!} {!! render($self->getLabel()) !!}
     </button>
     <div class="dropdown-menu dropdown-menu-end">
         @foreach($self->getActions() as $action)

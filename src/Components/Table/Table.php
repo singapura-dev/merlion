@@ -61,7 +61,7 @@ class Table extends Renderable
 
     public function getRendingRow(): ?callable
     {
-        return $this->rendingRowUsing ?? null;
+        return $this->rendingRowUsing;
     }
 
     public function body($callback): static

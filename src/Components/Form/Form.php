@@ -55,6 +55,7 @@ class Form extends Renderable
 
     public function validate(): array
     {
+        $this->build();
         $rules = $this->getRules();
         return request()->validate($rules);
     }
