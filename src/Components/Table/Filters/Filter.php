@@ -31,8 +31,11 @@ abstract class Filter extends Schema
         }
 
         if (is_array($cell)) {
-            $cell_class = static::$filters[$cell['type'] ?? 'text'] ?? Text::class;
-            $type = $cell['type'];
+            $type = $cell['type'] ?? 'text';
+            if (empty($cell['type'])) {
+                $cell['type'] = $type;
+            }
+            $cell_class = static::$filters[$type] ?? Text::class;
             unset($cell['type']);
             $cell = $cell_class::make($cell);
         }
