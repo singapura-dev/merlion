@@ -1,0 +1,38 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Merlion\Components\Concerns;
+
+/**
+ * @method $this labels(array|\Closure $labels)
+ * @method array getLabels()
+ * @method $this displayValueUsing(mixed $displayValueUsing)
+ */
+trait AsText
+{
+    public mixed $displayValueUsing = null;
+    public mixed $labels = [];
+
+    public function diaplayValue()
+    {
+        if (!empty($this->displayValueUsing)) {
+            return $this->evaluate($this->displayValueUsing);
+        }
+        return $this->getValue();
+    }
+
+    public function renderAsText()
+    {
+        if (!empty($labels = $this->getLabels())) {
+            $value = $this->getValue();
+            $color = 'primary';
+            foreach ($labels as $_value => $_color) {
+                if ($value == $_value) {
+                    $color = $_color;
+                }
+            }
+            $this->class('badge bg-' . $color . ' text-' . $color . '-fg');
+        }
+    }
+}

@@ -1,12 +1,3 @@
-@php
-    $element = $self->hasLink() ? 'a':'span';
-@endphp
-<{{$element}} {{$attributes}}>
-
-@if($icon = $self->getIcon())
-    {!! render($icon) !!}
-@endif
-
-{!! to_string($self->diaplayValue()) !!}
-
-</{{$element}}>
+<x-merlion::text {{$attributes}} :icon="$self->getIcon()" :hasLink="$self->hasLink()">
+    {!! to_string($self->diaplayValue()) !!}
+</x-merlion::text>
