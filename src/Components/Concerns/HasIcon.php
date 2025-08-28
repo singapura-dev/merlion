@@ -1,6 +1,4 @@
 <?php
-
-
 declare(strict_types=1);
 
 namespace Merlion\Components\Concerns;
@@ -10,6 +8,8 @@ use Merlion\Components\Icon;
 trait HasIcon
 {
     protected mixed $icon = null;
+
+    public mixed $iconPosition = null; // start | end
 
     public function icon(mixed $icon): static
     {
@@ -22,6 +22,10 @@ trait HasIcon
         if (empty($this->icon)) {
             return null;
         }
-        return Icon::generate($this->evaluate($this->icon));
+        $icon = Icon::generate($this->evaluate($this->icon));
+        if (!empty($this->iconPosition)) {
+            $icon->position($this->evaluate($this->iconPosition));
+        }
+        return $icon;
     }
 }

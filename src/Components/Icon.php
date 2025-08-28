@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace Merlion\Components;
 
+/**
+ * @method $this position($position)
+ */
 class Icon extends Renderable
 {
+    public mixed $position = 'start';
+
     public static function generate($icon): static
     {
         if (is_string($icon)) {
