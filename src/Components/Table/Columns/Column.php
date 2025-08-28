@@ -45,7 +45,7 @@ class Column extends Schema
 
     public function diaplayValue()
     {
-        if (empty($this->displayValueUsing)) {
+        if (!empty($this->displayValueUsing)) {
             return $this->evaluate($this->displayValueUsing);
         }
         return $this->getValue();
