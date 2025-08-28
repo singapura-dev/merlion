@@ -11,6 +11,10 @@ namespace Merlion\Components\Concerns;
  */
 trait AsText
 {
+    use Copyable;
+    use AsLink;
+    use HasIcon;
+
     public mixed $displayValueUsing = null;
     public mixed $labels = [];
 
