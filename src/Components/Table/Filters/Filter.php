@@ -22,20 +22,25 @@ abstract class Filter extends Schema
 
     public static function generate($cell): static
     {
+        $type = 'text';
         if (is_string($cell)) {
             $cell = [
                 'name' => $cell,
-                'type' => 'text',
+                'type' => $type,
             ];
         }
 
         if (is_array($cell)) {
             $cell_class = static::$filters[$cell['type'] ?? 'text'] ?? Text::class;
+            $type = $cell['type'];
             unset($cell['type']);
             $cell = $cell_class::make($cell);
         }
 
         if ($cell instanceof Filter) {
+            if ($type == 'select') {
+                $cell->exact();
+            }
             return $cell;
         }
     }
