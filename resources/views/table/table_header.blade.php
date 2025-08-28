@@ -5,7 +5,7 @@
                                  class="form-check-input row-select-all"></th>
     @endif
     @foreach($table->getColumns() as $column)
-        <th>{{$column->getLabel()}}</th>
+        <th {{$column->getAttributes('th')}}>{{$column->getLabel()}}</th>
     @endforeach
 </tr>
 </thead>
