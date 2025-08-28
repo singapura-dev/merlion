@@ -4,7 +4,7 @@
     'value' => '',
 ])
 @php
-    $element = $self->hasLink() ? 'a':'span';
+    $element = $hasLink ? 'a':'span';
 @endphp
 <{{$element}} {{$attributes}}>
 
