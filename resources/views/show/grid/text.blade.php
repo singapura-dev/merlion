@@ -1,8 +1,5 @@
-@php
-    $element = $self->hasLink() ? 'a':'div';
-@endphp
 <x-merlion::datagrid :label="$self->getLabel()" :full="$self->getFull()">
-    <{{$element}} {{$attributes}}>
-    {!! to_string($self->getValue()) !!}
-</{{$element}}>
+    <x-merlion::text {{$attributes}} :icon="$self->getIcon()" :hasLink="$self->hasLink()">
+        {!! to_string($self->diaplayValue()) !!}
+    </x-merlion::text>
 </x-merlion::datagrid>
