@@ -19,6 +19,8 @@ class Column extends Schema
         'image' => Image::class,
     ];
 
+    public mixed $displayValueUsing = null;
+
     public static function generate($column): static
     {
         if (is_string($column)) {
@@ -43,6 +45,9 @@ class Column extends Schema
 
     public function diaplayValue()
     {
+        if (empty($this->displayValueUsing)) {
+            return $this->evaluate($this->displayValueUsing);
+        }
         return $this->getValue();
     }
 
