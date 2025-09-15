@@ -7,11 +7,7 @@
         'content' => admin()->getContent('top')
     ])
     <div class="page">
-        @include(admin('merchant')->view('header'))
         <div class="page-wrapper">
-            @if(admin()->hasPageHeader())
-                @include(admin('merchant')->view('page_header'))
-            @endif
             <div class="page-body">
                 <div class="container-xl">
                     @include('merlion::components.errors')
