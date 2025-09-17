@@ -83,6 +83,9 @@ trait AsCurdController
 
     protected function can($action, ...$args): bool
     {
+        if (empty($this->policy)) {
+            return true;
+        }
         return auth()->user()->can($action, ...$args);
     }
 

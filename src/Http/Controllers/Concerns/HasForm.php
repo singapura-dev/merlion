@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Merlion\Http\Controllers\Concerns;
 
+use Illuminate\Support\Arr;
 use Merlion\Components\Button;
 use Merlion\Components\Containers\Card;
 use Merlion\Components\Form\Fields\Field;
 use Merlion\Components\Form\Form;
-use Illuminate\Support\Arr;
 
 /**
  * @mixin AsCurdController
@@ -17,7 +17,7 @@ trait HasForm
     public function store(...$args)
     {
         $this->authorize('create', $this->getModel());
-        $form = $this->form();
+        $form      = $this->form();
         $validated = $form->validate();
         app($this->getModel())->create($validated);
         admin()->success(__('merlion::base.action_performace_success'));
@@ -26,7 +26,7 @@ trait HasForm
 
     protected function form($model = null)
     {
-        $form = Form::make()->model($model);
+        $form   = Form::make()->model($model);
         $fields = $this->fields($model);
         $form->fields($fields);
         return $form;
@@ -34,8 +34,8 @@ trait HasForm
 
     protected function fields($model = null): array
     {
-        $action = $model ? 'edit' : 'create';
-        $fields = [];
+        $action  = $model ? 'edit' : 'create';
+        $fields  = [];
         $schemas = $this->schemas();
         foreach ($schemas as $name => $schema) {
             if (is_string($schema)) {
@@ -84,7 +84,7 @@ trait HasForm
 
     public function edit(...$args)
     {
-        $id = Arr::last($args);
+        $id    = Arr::last($args);
         $model = app($this->getModel())->findOrFail($id);
 
         $this->authorize('update', $model);
@@ -106,13 +106,14 @@ trait HasForm
 
     public function update(...$args)
     {
-        $id = Arr::last($args);
+        $id    = Arr::last($args);
         $model = app($this->getModel())->findOrFail($id);
 
         $this->authorize('update', $model);
 
-        $form = $this->form($model);
+        $form      = $this->form($model);
         $validated = $form->validate();
+        \Illuminate\Support\Facades\Log::debug($validated);
         $model->update($validated);
         admin()->success(__('merlion::base.action_performace_success'));
         return redirect($this->route('index'));

@@ -1,0 +1,11 @@
+<?php
+declare(strict_types=1);
+
+namespace Merlion\Components\Form\Fields;
+
+use Merlion\Components\Concerns\AsInput;
+
+class Toggle extends Field
+{
+    use AsInput;
+}

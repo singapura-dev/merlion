@@ -24,6 +24,7 @@ abstract class Field extends Schema
         'textarea' => Textarea::class,
         'select'   => Select::class,
         'editor'   => Editor::class,
+        'toggle'   => Toggle::class,
     ];
 
     public mixed $form = null;

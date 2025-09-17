@@ -14,9 +14,10 @@ class Column extends Schema
     use AsCell;
 
     public static array $columns = [
-        'text' => Text::class,
+        'text'   => Text::class,
         'select' => Select::class,
-        'image' => Image::class,
+        'image'  => Image::class,
+        'toggle' => Toggle::class,
     ];
 
     public static function generate($column): static

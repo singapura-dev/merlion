@@ -90,6 +90,49 @@ trait HasIndex
         return admin()->render();
     }
 
+    protected function table()
+    {
+        $table   = Table::make();
+        $columns = $this->columns();
+        $table->columns($columns);
+        return $table;
+    }
+
+    protected function columns(): array
+    {
+        $schemas = $this->schemas();
+        $columns = [];
+        foreach ($schemas as $name => $schema) {
+
+            if (is_string($schema)) {
+                $schema = [
+                    'type' => 'text',
+                    'name' => $schema,
+                ];
+            }
+
+            if (is_array($schema)) {
+                if (is_string($name) && !isset($schema['name'])) {
+                    $schema['name'] = $name;
+                }
+
+                if (!isset($schema['label'])) {
+                    $schema['label'] = $this->lang($schema['name']);
+                }
+
+                if (isset($schema['show_index']) && !$schema['show_index']) {
+                    continue;
+                }
+            }
+
+            $column = Column::generate($schema);
+            if ($column->shouldShow('index')) {
+                $columns[] = $column;
+            }
+        }
+        return $columns;
+    }
+
     protected function getFilters(): array
     {
         $schemas = $this->schemas();
@@ -165,49 +208,6 @@ trait HasIndex
             $tools[] = Button::make()->primary()->link($this->route('create'))->icon('ti ti-plus me-1')->label(__('merlion::base.create'));
         }
         return $tools;
-    }
-
-    protected function table()
-    {
-        $table   = Table::make();
-        $columns = $this->columns();
-        $table->columns($columns);
-        return $table;
-    }
-
-    protected function columns(): array
-    {
-        $schemas = $this->schemas();
-        $columns = [];
-        foreach ($schemas as $name => $schema) {
-
-            if (is_string($schema)) {
-                $schema = [
-                    'type' => 'text',
-                    'name' => $schema,
-                ];
-            }
-
-            if (is_array($schema)) {
-                if (is_string($name) && !isset($schema['name'])) {
-                    $schema['name'] = $name;
-                }
-
-                if (!isset($schema['label'])) {
-                    $schema['label'] = $this->lang($schema['name']);
-                }
-
-                if (isset($schema['show_index']) && !$schema['show_index']) {
-                    continue;
-                }
-            }
-
-            $column = Column::generate($schema);
-            if ($column->shouldShow('index')) {
-                $columns[] = $column;
-            }
-        }
-        return $columns;
     }
 
     protected function getRowActions(): array
