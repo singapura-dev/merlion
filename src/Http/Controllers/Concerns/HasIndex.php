@@ -9,7 +9,7 @@ use Merlion\Components\Table\BatchActions;
 use Merlion\Components\Table\Columns\Actions;
 use Merlion\Components\Table\Columns\Column;
 use Merlion\Components\Table\Filters;
-use tinker\packages\singapura\merlion\src\Components\Table\Table;
+use Merlion\Components\Table\Table;
 
 /**
  * @mixin AsCurdController
