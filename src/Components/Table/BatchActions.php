@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Table;
 
-use Merlion\Components\Concerns\AsCell;
+use use use Merlion\Components\Concerns\AsCell;
 use Merlion\Components\Concerns\HasContent;
 use Merlion\Components\Concerns\HasIcon;
 use Merlion\Components\Renderable;

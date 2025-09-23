@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Table;
 
-use Merlion\Components\Concerns\HasModel;
+use use use Merlion\Components\Concerns\HasModel;
 use Merlion\Components\Renderable;
 use Merlion\Components\Table\Columns\Column;
 

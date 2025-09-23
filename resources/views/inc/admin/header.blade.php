@@ -11,11 +11,13 @@
                 </div>
             </a>
         </div>
+        {!! render(admin()->getContent('before_main_nav')) !!}
         @include(admin()->view('user_nav'))
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="navbar-nav">
                 @include(admin()->view('main_nav'))
             </ul>
         </div>
+        {!! render(admin()->getContent('after_main_nav')) !!}
     </div>
 </header>

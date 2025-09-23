@@ -36,4 +36,11 @@ trait HasRoutes
 
         return Route::has($route_name);
     }
+
+    public function bootApiRoutes(): void
+    {
+        if (config('merlion.admin.api_routes_enabled')) {
+            require __DIR__ . '/../../../../routes/api.php';
+        }
+    }
 }

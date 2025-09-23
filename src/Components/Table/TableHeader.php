@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Table;
 
-use Merlion\Components\Renderable;
+use use use Merlion\Components\Renderable;
 
 /**
  * @method $this table(Table $table) Set table

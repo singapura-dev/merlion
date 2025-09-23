@@ -23,7 +23,6 @@ class MerlionServiceProvider extends ServiceProvider
         $this->app['router']->aliasMiddleware('merlion', SetCurrentAdmin::class);
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'merlion');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'merlion');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->publishAssets();
     }
 
