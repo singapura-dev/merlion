@@ -6,6 +6,7 @@ namespace Merlion\Http\Controllers\Concerns;
 use Illuminate\Support\Arr;
 use Merlion\Components\Alert;
 use Merlion\Components\Containers\Card;
+use Merlion\Components\Renderable;
 use Merlion\Components\Show\Grid\Grid;
 use Merlion\Components\Show\Show;
 
@@ -30,7 +31,8 @@ trait HasShow
         if ($model->deleted_at) {
             admin()->content(Alert::make()
                 ->closable(false)
-                ->content(__('merlion::base.record_deleted_at', ['deleted_at' => $model->deleted_at]))->icon('ti ti-alert-triangle alert-icon icon'));
+                ->content(__('merlion::base.record_deleted_at',
+                    ['deleted_at' => $model->deleted_at]))->icon('ti ti-alert-triangle alert-icon icon'));
         }
 
         $card = Card::make();
@@ -51,9 +53,9 @@ trait HasShow
         return admin()->render();
     }
 
-    protected function grid($model)
+    protected function grid($model): Renderable
     {
-        $grid = Show::make()->model($model);
+        $grid  = Show::make()->model($model);
         $grids = $this->grids($model);
         $grid->content($grids);
         return $grid;
@@ -61,7 +63,7 @@ trait HasShow
 
     protected function grids($model): array
     {
-        $grids = [];
+        $grids   = [];
         $schemas = $this->schemas();
         foreach ($schemas as $name => $schema) {
             if (is_string($schema)) {

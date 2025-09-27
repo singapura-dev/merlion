@@ -113,7 +113,6 @@ trait HasForm
 
         $form      = $this->form($model);
         $validated = $form->validate();
-        \Illuminate\Support\Facades\Log::debug($validated);
         $model->update($validated);
         admin()->success(__('merlion::base.action_performace_success'));
         return redirect($this->route('index'));
