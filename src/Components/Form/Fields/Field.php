@@ -25,6 +25,7 @@ abstract class Field extends Schema
         'select'   => Select::class,
         'editor'   => Editor::class,
         'toggle'   => Toggle::class,
+        'json'     => Json::class,
     ];
 
     public mixed $form = null;
@@ -78,5 +79,14 @@ abstract class Field extends Schema
     public function dependsFields(): array
     {
         return $this->dependsFields;
+    }
+
+    public function getDataFromRequest($request = null)
+    {
+        if (empty($request)) {
+            $request = request();
+        }
+
+        return $request->input($this->getName());
     }
 }

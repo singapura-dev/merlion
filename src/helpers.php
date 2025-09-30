@@ -10,7 +10,7 @@ if (!function_exists('admin')) {
         $id = $id ?? Context::get('merlion_id', 'admin');
         if (empty(app()->bound("merlion.admin.{$id}"))) {
             $config = config("merlion.{$id}", []);
-            $admin = Admin::make(array_merge(['id' => $id], $config));
+            $admin  = Admin::make(array_merge(['id' => $id], $config));
             $admin->boot();
             app()->instance("merlion.admin.{$id}", $admin);
         }
@@ -64,7 +64,7 @@ if (!function_exists('public_property_exists')) {
     {
         try {
             $reflection = new ReflectionClass($class);
-            $prop = $reflection->getProperty($property);
+            $prop       = $reflection->getProperty($property);
             return $prop->isPublic();
         } catch (Exception $e) {
             return false;
@@ -77,7 +77,7 @@ if (!function_exists('public_method_exists')) {
     {
         try {
             $reflection = new ReflectionClass($class);
-            $prop = $reflection->getMethod($property);
+            $prop       = $reflection->getMethod($property);
             return $prop->isPublic();
         } catch (Exception $e) {
             return false;
@@ -106,14 +106,14 @@ if (!function_exists('to_json')) {
 }
 
 if (!function_exists('to_string')) {
-    function to_string($data): string
+    function to_string($data, $pretty = false): string
     {
         if (is_numeric($data)) {
             return (string)$data;
         }
 
         if (Str::isJson($data) || is_array($data)) {
-            return json_encode($data);
+            return json_encode($data, $pretty ? JSON_PRETTY_PRINT : 0);
         }
 
         return render($data);

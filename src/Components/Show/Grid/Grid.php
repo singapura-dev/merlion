@@ -13,9 +13,10 @@ abstract class Grid extends Schema
     use AsCell;
 
     public static array $grids = [
-        'text' => Text::class,
-        'image' => Image::class,
+        'text'   => Text::class,
+        'image'  => Image::class,
         'select' => Select::class,
+        'json'   => Json::class,
     ];
 
     public static function generate($grid): static

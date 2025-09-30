@@ -57,13 +57,19 @@ class Form extends Renderable
     {
         $this->build();
         $rules = $this->getRules();
-        return request()->validate($rules);
+        request()->validate($rules);
+        $fields    = $this->getFlatFields();
+        $validated = [];
+        foreach ($fields as $field) {
+            $validated[$field->getName()] = $field->getDataFromRequest();
+        }
+        return $validated;
     }
 
     public function getRules($include_empty = true): array
     {
         $fields = $this->getFlatFields();
-        $rules = [];
+        $rules  = [];
         foreach ($fields as $field) {
             /**
              * @var Field $field
