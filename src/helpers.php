@@ -106,17 +106,22 @@ if (!function_exists('to_json')) {
 }
 
 if (!function_exists('to_string')) {
-    function to_string($data, $pretty = false): string
+    function to_string($data, $pretty = false, $html_filter = true): string
     {
         if (is_numeric($data)) {
             return (string)$data;
         }
 
         if (Str::isJson($data) || is_array($data)) {
-            return json_encode($data, $pretty ? JSON_PRETTY_PRINT : 0);
+            $str = json_encode($data, $pretty ? JSON_PRETTY_PRINT : 0);
+        } else {
+            $str = render($data);
         }
 
-        return render($data);
+        if ($html_filter) {
+            $str = str_replace(['"##HTML##', '##HTML##"'], ['', ''], $str);
+        }
+        return $str;
     }
 }
 
