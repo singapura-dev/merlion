@@ -34,7 +34,12 @@ class File extends Text
             ]);
             return Storage::disk($disk)->url($path);
         }
-        return parent::getDataFromRequest($request);
+
+        if($request->input($name.'_deleted') == 1) {
+            return null;
+        }
+
+        return $request->input($name.'_original');
     }
 
     public function getDisk(): string

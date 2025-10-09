@@ -10,7 +10,8 @@
 @endphp
 
 <x-merlion::form.field :$label :$id :$full :$label_position>
-    <input {{$attributes->merge(['class' => 'form-control'])}}
+    @stack('before_file_input')
+    <input class="form-control"
            type="file"
            id="{{$id}}"
            name="{{$name}}"
@@ -20,4 +21,6 @@
            @endif
            accept="{{$self->getAccept()}}"
     >
+    <input type="hidden" name="{{$name}}_original" value="{{$self->getValue()}}">
+    @stack('after_file_input')
 </x-merlion::form.field>
