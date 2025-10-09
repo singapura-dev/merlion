@@ -11,7 +11,7 @@ class SetCurrentAdmin
 {
     public function handle($request, Closure $next, $id = null)
     {
-        Context::add('merlion_id', $id ?: 'admin');
+        Context::addHidden('merlion_id', $id ?: 'admin');
         Admin::callStaticHooks('serving');
         admin()->callHooks('serving', admin());
         return $next($request);

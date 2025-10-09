@@ -28,4 +28,11 @@ trait HasId
     {
         return Str::lower(class_basename($this));
     }
+
+    protected function buildHasId(): void
+    {
+        if (!empty($id = $this->getId())) {
+            $this->withAttributes(['id' => $id]);
+        }
+    }
 }

@@ -9,6 +9,8 @@ class Action extends Column
 {
     public string $element = 'a';
 
+    public mixed $link = null;
+
     public function button($class = 'btn'): static
     {
         $this->element = 'button';

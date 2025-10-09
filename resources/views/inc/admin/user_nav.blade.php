@@ -1,7 +1,7 @@
 <div class="navbar-nav flex-row order-md-last">
     <div class="nav-item dropdown">
         <a href="#" class="nav-link d-flex lh-1 p-0 px-2" data-bs-toggle="dropdown" aria-label="Open user menu">
-            <span class="avatar avatar-sm">
+            <span class="avatar avatar-sm overflow-hidden">
                 @if($avatar = auth()->user()->avatar)
                     <img src="{{$avatar}}" alt="Avatar">
                 @else

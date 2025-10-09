@@ -44,7 +44,6 @@ class Actions extends Column
         $this->class($class);
         return $this;
     }
-
     protected function defaultLabel(): string
     {
         return '';

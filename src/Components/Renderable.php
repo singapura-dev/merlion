@@ -4,11 +4,13 @@ declare(strict_types=1);
 namespace Merlion\Components;
 
 use Illuminate\Support\Str;
+use Merlion\Components\Concerns\Admin\HasAssets;
 use Merlion\Components\Concerns\HasId;
 
 class Renderable extends Element
 {
     use HasId;
+    use HasAssets;
 
     public mixed $parent = null;
     protected mixed $view = null;
@@ -115,9 +117,9 @@ class Renderable extends Element
         $this->callMethods('render', $this);
         $data = array_merge(
             [
-                'id' => $this->getId(),
+                'id'         => $this->getId(),
                 'attributes' => $this->getAttributes(),
-                'self' => $this,
+                'self'       => $this,
             ],
             $this->data(),
         );
@@ -183,10 +185,13 @@ STYLE
         return $this->guessViewName();
     }
 
-    protected function guessViewName($prefix = 'merlion::', $namespace = 'Merlion\\Components\\', $instance = null): string
-    {
-        $instance = $instance ?: get_class($this);
-        $names = explode('\\', Str::after($instance, $namespace));
+    protected function guessViewName(
+        $prefix = 'merlion::',
+        $namespace = 'Merlion\\Components\\',
+        $instance = null
+    ): string {
+        $instance   = $instance ?: get_class($this);
+        $names      = explode('\\', Str::after($instance, $namespace));
         $view_names = [];
         foreach ($names as $name) {
             $view_names [] = Str::snake($name);

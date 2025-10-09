@@ -21,6 +21,8 @@ abstract class Field extends Schema
 
     public static array $fieldsMap = [
         'text'     => Text::class,
+        'file'     => File::class,
+        'image'    => Image::class,
         'textarea' => Textarea::class,
         'select'   => Select::class,
         'editor'   => Editor::class,

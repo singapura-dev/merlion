@@ -7,7 +7,7 @@ use Merlion\Components\Layouts\Admin;
 if (!function_exists('admin')) {
     function admin($id = null): Admin
     {
-        $id = $id ?? Context::get('merlion_id', 'admin');
+        $id = $id ?? Context::getHidden('merlion_id', 'admin');
         if (empty(app()->bound("merlion.admin.{$id}"))) {
             $config = config("merlion.{$id}", []);
             $admin  = Admin::make(array_merge(['id' => $id], $config));
@@ -118,8 +118,8 @@ if (!function_exists('to_string')) {
             $str = render($data);
         }
 
-        if ($html_filter) {
-            $str = str_replace(['"##HTML##', '##HTML##"'], ['', ''], $str);
+        if ($html_filter && Str::contains($str, '{!!') && Str::contains($str, '!!}')) {
+            $str = str_replace(['"{!!', '!!}"'], ['', ''], $str);
         }
         return $str;
     }

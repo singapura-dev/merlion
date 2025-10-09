@@ -16,6 +16,10 @@ trait HasForm
 {
     public function store(...$args)
     {
+        if (request('id')) {
+            $args[] = request('id');
+            return $this->update(...$args);
+        }
         $this->authorize('create', $this->getModel());
         $form      = $this->form();
         $validated = $form->validate();

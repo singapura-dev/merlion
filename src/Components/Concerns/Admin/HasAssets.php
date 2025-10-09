@@ -9,39 +9,12 @@ namespace Merlion\Components\Concerns\Admin;
  * @method array getJs()
  * @method array getStyle()
  * @method array getScript()
- * @method $this cspNonce($cspNonce)
- * @method string getCspNonce()
- * @method $this brandLogo($logo)
- * @method $this brandName($name)
- * @method string getBrandLogo()
- * @method string getBrandName()
  */
 trait HasAssets
 {
+    public array $css = [];
 
-    public string $cspNonce = '';
-    public string $brandLogo = '';
-    public string $brandName = '';
-
-    public array $css = [
-        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-themes.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-flags.min.css',
-        'https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
-        'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css',
-        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.css',
-        '/vendor/merlion/css/merlion.css',
-    ];
-
-    public array $js = [
-        'https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js',
-        'https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js',
-        'https://cdn.jsdelivr.net/npm/toastify-js',
-        'https://cdn.jsdelivr.net/npm/hugerte/hugerte.min.js',
-        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.js',
-        '/vendor/merlion/js/merlion.js',
-    ];
+    public array $js = [];
 
     public array $style = [];
     public array $script = [];
@@ -70,14 +43,5 @@ trait HasAssets
         $script = is_array($script) ? $script : func_get_args();
         array_push($this->script, ...$script);
         return $this;
-    }
-
-    public function view($path): string
-    {
-        $full_path = 'merlion::inc.' . $this->id . '.' . $path;
-        if (view()->exists($full_path)) {
-            return $full_path;
-        }
-        return 'merlion::inc.admin.' . $path;
     }
 }

@@ -5,7 +5,6 @@ namespace Merlion\Components\Layouts;
 
 use Illuminate\Pagination\Paginator;
 use Merlion\Addons\Auth\AuthBehavior;
-use Merlion\Components\Concerns\Admin\HasAssets;
 use Merlion\Components\Concerns\Admin\HasMenus;
 use Merlion\Components\Concerns\Admin\HasRoutes;
 use Merlion\Components\Concerns\Admin\HasToast;
@@ -20,12 +19,17 @@ use Merlion\Components\Renderable;
  * @method string getPagePreTitle()
  * @method string getPageTitle()
  * @method string getBackUrl()
+ * @method $this cspNonce($cspNonce)
+ * @method string getCspNonce()
+ * @method $this brandLogo($logo)
+ * @method $this brandName($name)
+ * @method string getBrandLogo()
+ * @method string getBrandName()
  *
  * @mixin AuthBehavior
  */
 class Admin extends Renderable
 {
-    use HasAssets;
     use HasContent;
     use HasMenus;
     use HasRoutes;
@@ -33,6 +37,30 @@ class Admin extends Renderable
 
     public static string $adminView = 'merlion::layouts.admin';
     public static string $blankView = 'merlion::layouts.admin_blank';
+
+    public string $cspNonce = '';
+    public string $brandLogo = '';
+    public string $brandName = '';
+
+    public array $css = [
+        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler.min.css',
+        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-themes.min.css',
+        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-flags.min.css',
+        'https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.min.css',
+        'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
+        'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css',
+        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.css',
+        '/vendor/merlion/css/merlion.css',
+    ];
+
+    public array $js = [
+        'https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js',
+        'https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js',
+        'https://cdn.jsdelivr.net/npm/toastify-js',
+        'https://cdn.jsdelivr.net/npm/hugerte/hugerte.min.js',
+        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.js',
+        '/vendor/merlion/js/merlion.js',
+    ];
 
     public mixed $title = null;
     public mixed $pageTitle = null;
@@ -64,6 +92,15 @@ class Admin extends Renderable
     {
         $this->view = static::$blankView;
         return $this;
+    }
+
+    public function view($path): string
+    {
+        $full_path = 'merlion::inc.' . $this->id . '.' . $path;
+        if (view()->exists($full_path)) {
+            return $full_path;
+        }
+        return 'merlion::inc.admin.' . $path;
     }
 
     public function getView(): string
