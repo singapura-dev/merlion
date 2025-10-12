@@ -21,21 +21,23 @@
 
 @push('scripts')
     <script nonce="{{csp_nonce()}}">
-        const container = document.getElementById("{{$id}}");
-        const options = {
-            mode: 'tree',
-            modes: ['code', 'form', 'tree'],
-            onChangeText: function (jsonString) {
-                document.querySelector('input[name="{{$name}}"]').value = jsonString;
-            }
-        };
-        const editor = new JSONEditor(container, options);
+        (function() {
+            const container = document.getElementById("{{$id}}");
+            const options = {
+                mode: 'tree',
+                modes: ['code', 'form', 'tree'],
+                onChangeText: function(jsonString) {
+                    document.querySelector('input[name="{{$name}}"]').value = jsonString;
+                }
+            };
+            const editor = new JSONEditor(container, options);
 
-        // set json
-        const initialJson = @json($value);
-        editor.set(initialJson);
+            // set json
+            const initialJson = @json($value);
+            editor.set(initialJson);
 
-        // get json
-        const updatedJson = editor.get();
+            // get json
+            const updatedJson = editor.get();
+        })();
     </script>
 @endpush
