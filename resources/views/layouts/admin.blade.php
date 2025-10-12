@@ -14,6 +14,7 @@
             @endif
             <div class="page-body">
                 <div class="container-xl">
+                    @include('merlion::components.alerts')
                     @include('merlion::components.errors')
                     @include('merlion::partials.content', [
                         'content' => $self->getContent(),
