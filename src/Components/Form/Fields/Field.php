@@ -5,6 +5,7 @@ namespace Merlion\Components\Form\Fields;
 
 use Closure;
 use Merlion\Components\Concerns\AsCell;
+use Merlion\Components\Concerns\HasContent;
 use Merlion\Components\Concerns\HasModel;
 use Merlion\Components\Form\Form;
 use Merlion\Components\Schema;
@@ -16,6 +17,7 @@ use Merlion\Components\Schema;
  */
 abstract class Field extends Schema
 {
+    use HasContent;
     use AsCell;
     use HasModel;
 

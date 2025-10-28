@@ -42,14 +42,16 @@ trait HasIndex
 
         if (!empty($filters) || !empty($sorts) || !empty($batchActions) || !empty($searches)) {
             if (!empty($searches)) {
-                $search_form = Form::make()->class('me-3')->method('get');
-                $search_form->field(Text::make('search')->value(request('search'))->noLabel()->placeholder("Search"));
+                $search_form = Form::make()->class('me-1')->method('get');
+                $search_form->field(
+                    Text::make('search')->value(request('search'))
+                        ->content('<span class="input-icon-addon"><i class="ti ti-search"></i></span>', 'after')
+                        ->class('input-icon', 'wrapper')
+                        ->noLabel()
+                        ->placeholder(__('merlion::table.search') . '...')
+                );
                 $this->indexCard->header($search_form);
-                if (request('search')) {
-                    foreach ($searches as $search) {
-                        $builder->where($search, 'like', "%" . request('search') . "%");
-                    }
-                }
+                $builder = $this->applyQuickSearch($builder);
             }
 
             $this->filter = Filters::make()->for($builder);
@@ -283,6 +285,17 @@ trait HasIndex
     protected function searches(): array
     {
         return [];
+    }
+
+    protected function applyQuickSearch($builder)
+    {
+        $searches = $this->searches();
+        if (request('search')) {
+            foreach ($searches as $search) {
+                $builder->where($search, 'like', "%" . request('search') . "%");
+            }
+        }
+        return $builder;
     }
 
 }
