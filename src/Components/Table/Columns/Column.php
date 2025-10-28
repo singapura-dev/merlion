@@ -7,10 +7,14 @@ use Exception;
 use Merlion\Components\Concerns\AsCell;
 use Merlion\Components\Concerns\HasModel;
 use Merlion\Components\Schema;
+use Merlion\Components\Table\Filters\Filter;
+use Merlion\Components\Table\Filters\Sort;
 
 /**
  * @method bool getSortable()
  * @method bool getFilterable()
+ * @method array|Filter getFilter()
+ * @method array|Sort getSort()
  */
 class Column extends Schema
 {
@@ -19,6 +23,8 @@ class Column extends Schema
 
     public mixed $filterable = false;
     public mixed $sortable = false;
+    public mixed $sort = null;
+    public mixed $filter = null;
 
     public static array $columns = [
         'text'   => Text::class,

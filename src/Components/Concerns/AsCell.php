@@ -18,6 +18,7 @@ trait AsCell
     public mixed $name = null;
     public mixed $label = null;
     public mixed $value = null;
+    public mixed $noLabel = false;
 
     public function __construct(...$args)
     {
@@ -32,8 +33,18 @@ trait AsCell
         parent::__construct(...$args);
     }
 
+    public function noLabel($noLabel = true): static
+    {
+        $this->noLabel = $noLabel;
+        return $this;
+    }
+
     public function getLabel()
     {
+        if ($this->noLabel) {
+            return null;
+        }
+
         if (!empty($this->label)) {
             return evaluate($this->label, $this);
         }
@@ -41,8 +52,11 @@ trait AsCell
         return $this->defaultLabel();
     }
 
-    protected function defaultLabel(): string
+    protected function defaultLabel(): ?string
     {
+        if ($this->label === ' ') {
+            return '';
+        }
         return Str::title($this->getName());
     }
 

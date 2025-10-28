@@ -6,7 +6,7 @@
     @endif
     @foreach($table->getColumns() as $column)
         <th {{$column->getAttributes('th')}}>
-            @if($column->getSortable())
+            @if($column->getSortable() && empty($column->getSort()))
                 <a href="{{$column->getSortUrl()}}" class="d-flex justify-content-between">
                     {{$column->getLabel()}}
                     <i class="{{$column->getSortIcon()}}"></i>

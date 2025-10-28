@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Concerns;
 
+use Merlion\Enums\Color;
+
 /**
  * @method $this labels(array|\Closure $labels)
  * @method array getLabels()
@@ -33,6 +35,9 @@ trait AsText
             $color = 'primary';
             foreach ($labels as $_value => $_color) {
                 if ($value == $_value) {
+                    if ($_color instanceof Color) {
+                        $_color = $_color->value;
+                    }
                     $color = $_color;
                 }
             }

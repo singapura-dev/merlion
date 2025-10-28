@@ -1,12 +1,15 @@
 @php
     /** @var Merlion\Components\Form\Form $self */
+$method = $self->getMethod();
 @endphp
 <form {{$attributes}}
-      method="{{$self->getMethod() == 'get' ? 'get':'post'}}"
+      method="{{$method == 'get' ? 'get':'post'}}"
       action="{{$self->getAction()}}"
       enctype="multipart/form-data">
-    @csrf
-    @method($self->getMethod())
+    @if($method != 'get')
+        @csrf
+        @method($self->getMethod())
+    @endif
     @include('merlion::partials.content', [
         'content' => $self->getContent(),
         'context' =>['model' => $self->getModel()]

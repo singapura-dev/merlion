@@ -242,7 +242,11 @@ class Merlion {
                 let button = e.currentTarget;
                 const confirm_title = button.getAttribute('data-confirm');
                 if (confirm_title) {
-                    let result = await that.showConfirm(confirm_title);
+                    let result = await that.showConfirm(confirm_title,
+                        button.getAttribute('data-confirm-text'),
+                        button.getAttribute('data-confirm-button-text'),
+                        button.getAttribute('data-cancel-button-text'),
+                    );
                     if (!result.isConfirmed) {
                         return;
                     }
@@ -396,11 +400,13 @@ class Merlion {
         }
     }
 
-    async showConfirm(title, text) {
+    async showConfirm(title, text, confirm_text, cancel_text) {
         return await Swal.fire({
             title: title,
             text: text,
             icon: "warning",
+            cancelButtonText: cancel_text || "Cancel",
+            confirmButtonText: confirm_text || "Confirm",
             showCancelButton: true,
         })
     }

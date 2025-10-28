@@ -5,6 +5,8 @@ namespace Merlion\Http\Controllers\Concerns;
 
 use Merlion\Components\Button;
 use Merlion\Components\Containers\Card;
+use Merlion\Components\Form\Fields\Text;
+use Merlion\Components\Form\Form;
 use Merlion\Components\Table\BatchActions;
 use Merlion\Components\Table\Columns\Actions;
 use Merlion\Components\Table\Columns\Column;
@@ -33,16 +35,28 @@ trait HasIndex
         $this->table = $this->table(...$args);
 
         $filters      = $this->filters();
+        $searches     = $this->searches();
         $sorts        = $this->sorts();
         $builder      = $this->getQueryBuilder();
         $batchActions = $this->getBatchActions();
 
-        if (!empty($filters) || !empty($sorts) || !empty($batchActions)) {
+        if (!empty($filters) || !empty($sorts) || !empty($batchActions) || !empty($searches)) {
+            if (!empty($searches)) {
+                $search_form = Form::make()->class('me-3')->method('get');
+                $search_form->field(Text::make('search')->value(request('search'))->noLabel()->placeholder("Search"));
+                $this->indexCard->header($search_form);
+                if (request('search')) {
+                    foreach ($searches as $search) {
+                        $builder->where($search, 'like', "%" . request('search') . "%");
+                    }
+                }
+            }
+
             $this->filter = Filters::make()->for($builder);
             $this->filter->filters($filters);
             $this->filter->sorts($sorts);
-
             $this->indexCard->header($this->filter);
+
             if (!empty($batchActions)) {
                 $this->table->selectable(true);
                 $batchActionDropdown = BatchActions::make()
@@ -117,7 +131,7 @@ trait HasIndex
                     $schema['name'] = $name;
                 }
 
-                if (!isset($schema['label'])) {
+                if (!array_key_exists('label', $schema)) {
                     $schema['label'] = $this->lang($schema['name']);
                 }
 
@@ -143,16 +157,24 @@ trait HasIndex
                 continue;
             }
             if ($column->getFilterable()) {
-                $type = get_class($column) === Select::class ? "select" : "text";
-                $data = [
-                    'name'  => $column->getName(),
-                    'label' => $column->getLabel(),
-                    'type'  => $type,
-                ];
-                if ($type == 'select') {
-                    $data['options'] = $column->getOptions();
+                if ($filter = $column->getFilter()) {
+                    $filter  = is_array($filter) ? $filter : [$filter];
+                    $filters = [
+                        ...$filters,
+                        ...$filter,
+                    ];
+                } else {
+                    $type = get_class($column) === Select::class ? "select" : "text";
+                    $data = [
+                        'name'  => $column->getName(),
+                        'label' => $column->getLabel(),
+                        'type'  => $type,
+                    ];
+                    if ($type == 'select') {
+                        $data['options'] = $column->getOptions();
+                    }
+                    $filters[] = Filters\Filter::generate($data);
                 }
-                $filters[] = Filters\Filter::generate($data);
             }
         }
         return $filters;
@@ -167,10 +189,18 @@ trait HasIndex
                 continue;
             }
             if ($column->getSortable()) {
-                $sorts[] = Filters\Sort::make($column->getName(),
-                    $column->getLabel() . ' ' . __('merlion::base.sort_asc'));
-                $sorts[] = Filters\Sort::make('-' . $column->getName(),
-                    $column->getLabel() . ' ' . __('merlion::base.sort_desc'));
+                if ($sort = $column->getSort()) {
+                    $sort  = is_array($sort) ? $sort : [$sort];
+                    $sorts = [
+                        ...$sorts,
+                        ...$sort,
+                    ];
+                } else {
+                    $sorts[] = Filters\Sort::make($column->getName(),
+                        $column->getLabel() . ' ' . __('merlion::base.sort_asc'));
+                    $sorts[] = Filters\Sort::make('-' . $column->getName(),
+                        $column->getLabel() . ' ' . __('merlion::base.sort_desc'));
+                }
             }
         }
         return $sorts;
@@ -223,9 +253,12 @@ trait HasIndex
             })
             ->rendering(function ($action) {
                 $action->withAttributes([
-                    'data-method'  => 'delete',
-                    'data-confirm' => 'Are you sure?',
-                    'data-action'  => $this->route('destroy', $action->getModel()->getKey()),
+                    'data-method'              => 'delete',
+                    'data-confirm'             => __('merlion::table.delete_confirm.title'),
+                    'data-confirm-text'        => __('merlion::table.delete_confirm.text'),
+                    'data-cancel-button-text'  => __('merlion::table.delete_confirm.cancel'),
+                    'data-confirm-button-text' => __('merlion::table.delete_confirm.delete'),
+                    'data-action'              => $this->route('destroy', $action->getModel()->getKey()),
                 ]);
             });
 
@@ -245,6 +278,11 @@ trait HasIndex
                 });
         }
         return $actions;
+    }
+
+    protected function searches(): array
+    {
+        return [];
     }
 
 }
