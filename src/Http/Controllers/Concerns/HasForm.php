@@ -38,6 +38,8 @@ trait HasForm
         $id    = Arr::last($args);
         $model = app($this->getModel())->findOrFail($id);
 
+        $this->current_model = $model;
+
         $this->authorize('update', $model);
 
         $card = Card::make();
@@ -73,6 +75,8 @@ trait HasForm
     {
         $id    = Arr::last($args);
         $model = app($this->getModel())->findOrFail($id);
+
+        $this->current_model = $model;
 
         $this->authorize('update', $model);
 

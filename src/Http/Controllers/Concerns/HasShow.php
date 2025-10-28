@@ -26,6 +26,8 @@ trait HasShow
             $model = $this->getQueryBuilder()->findOrFail($id);
         }
 
+        $this->current_model = $model;
+
         $this->authorize('view', $model);
 
         if ($model->deleted_at) {

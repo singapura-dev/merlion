@@ -14,12 +14,18 @@ abstract class Schema extends Renderable
     {
         if (!empty($this->showOn)) {
             $showOn = $this->evaluate($this->showOn);
+            if (is_string($showOn)) {
+                $showOn = explode(',', $showOn);
+            }
             $showOn = is_array($showOn) ? $showOn : [$showOn];
             return in_array($action, $showOn);
         }
 
         if (!empty($this->hideFrom)) {
             $hideFrom = $this->evaluate($this->hideFrom);
+            if (is_string($hideFrom)) {
+                $hideFrom = explode(',', $hideFrom);
+            }
             $hideFrom = is_array($hideFrom) ? $hideFrom : [$hideFrom];
             return !in_array($action, $hideFrom);
         }

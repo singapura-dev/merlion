@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\SerializableClosure\Serializers\Native;
 use Merlion\Http\Controllers\Home;
+use Merlion\Http\Middleware\Authenticate;
 use Merlion\Http\Middleware\SetCurrentAdmin;
 
 /**
  * @method static path($path) Set prefix
+ * @method static home($home) Set home controller
  * @method array getDomains()
  * @method array getAuthenticatedRoutes()
  * @method array getRoutes()
@@ -87,7 +89,7 @@ trait HasRoutes
     public function getAuthMiddleware(): array
     {
         return [
-            ...config('merlion.admin.route.auth_middlewares'),
+            Authenticate::class.':'.$this->getId(),
             ...$this->authMiddleware,
         ];
     }

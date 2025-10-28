@@ -24,6 +24,8 @@ trait AsCurdController
     protected string $label = '';
     protected string $policy = '';
 
+    protected mixed $current_model = null;
+
     protected function route($name, ...$args): string
     {
         return admin()->getRoute($this->getRoute() . '.' . $name, ...$args);

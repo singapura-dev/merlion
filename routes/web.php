@@ -18,6 +18,10 @@ foreach (app(AdminManager::class)->getAdmins() as $admin) {
             ->middleware($admin->getMiddleware())
             ->group(function () use ($admin) {
 
+                foreach ($admin->getRoutes() as $routes) {
+                    $routes($admin);
+                }
+
                 if (config('merlion.admin.api_routes_enabled')) {
                     Route::group([
                         'prefix' => 'api',
@@ -28,9 +32,6 @@ foreach (app(AdminManager::class)->getAdmins() as $admin) {
                     });
                 }
 
-                foreach ($admin->getRoutes() as $routes) {
-                    $routes($admin);
-                }
                 if ($admin->hasLogin()) {
                     Route::name('auth.')->group(function () {
                         Route::get('login', [LoginController::class, 'showLogin'])->name('login');
@@ -42,6 +43,7 @@ foreach (app(AdminManager::class)->getAdmins() as $admin) {
                         foreach ($admin->getAuthenticatedRoutes() as $routes) {
                             $routes($admin);
                         }
+
                         if (!empty($home_url = $admin->getHomeUrl())) {
                             Route::get($home_url, admin()->getHome())->name('home');
                         }
