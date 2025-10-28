@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Merlion\Components\Concerns\Admin\HasAssets;
 use Merlion\Components\Concerns\HasId;
 
-class Renderable extends Element
+abstract class Renderable extends Element
 {
     use HasId;
     use HasAssets;

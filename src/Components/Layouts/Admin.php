@@ -5,6 +5,8 @@ namespace Merlion\Components\Layouts;
 
 use Illuminate\Pagination\Paginator;
 use Merlion\Addons\Auth\AuthBehavior;
+use Merlion\Components\Concerns\Admin\Defaultable;
+use Merlion\Components\Concerns\Admin\HasAuth;
 use Merlion\Components\Concerns\Admin\HasMenus;
 use Merlion\Components\Concerns\Admin\HasRoutes;
 use Merlion\Components\Concerns\Admin\HasToast;
@@ -12,24 +14,24 @@ use Merlion\Components\Concerns\HasContent;
 use Merlion\Components\Renderable;
 
 /**
- * @method $this title($title) Set page title
- * @method $this pageTitle($title)
- * @method $this pagePreTitle($title)
- * @method $this backUrl($back)
+ * @method static title($title) Set page title
+ * @method static pageTitle($title)
+ * @method static pagePreTitle($title)
+ * @method static backUrl($back)
  * @method string getPagePreTitle()
  * @method string getPageTitle()
  * @method string getBackUrl()
- * @method $this cspNonce($cspNonce)
+ * @method static cspNonce($cspNonce)
  * @method string getCspNonce()
- * @method $this brandLogo($logo)
- * @method $this brandName($name)
+ * @method static brandLogo($logo)
+ * @method static brandName($name)
  * @method string getBrandLogo()
  * @method string getBrandName()
- *
- * @mixin AuthBehavior
  */
 class Admin extends Renderable
 {
+    use Defaultable;
+    use HasAuth;
     use HasContent;
     use HasMenus;
     use HasRoutes;
@@ -69,9 +71,10 @@ class Admin extends Renderable
 
     protected bool $booted = false;
 
-    public static function serving($callback): void
+    public function serving($callback): static
     {
-        static::addStaticHook('serving', $callback);
+        $this->addHook('serving', $callback);
+        return $this;
     }
 
     public function boot(): void

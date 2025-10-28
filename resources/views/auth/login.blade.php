@@ -9,22 +9,21 @@
                 <form method="post" autocomplete="off">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">{{admin()->getUsernameLabel()}}</label>
+                        <label class="form-label">{{__('merlion::auth.username')}}</label>
                         <input type="text"
-                               placeholder="{{admin()->getUsernamePlaceholder()}}"
-                               name="{{admin()->getUsername()}}" class="form-control" autocomplete="off"/>
+                               name="email" class="form-control" autocomplete="off"/>
                     </div>
                     <div class="mb-2">
                         <label class="form-label">
-                            {{__('merlion_auth::auth.password')}}
+                            {{__('merlion::auth.password')}}
                         </label>
                         <div class="input-group input-group-flat">
                             <input type="password" name="password" class="form-control password-input"
-                                   placeholder="{{__('merlion_auth::auth.input_password')}}"
+                                   placeholder="{{__('merlion::auth.input_password')}}"
                                    autocomplete="off"/>
                             <span class="input-group-text">
                                 <a role="button" class="link-secondary password-addon"
-                                   title="{{__('merlion_auth::auth.show_password')}}"
+                                   title="{{__('merlioh::auth.show_password')}}"
                                    data-bs-toggle="tooltip">
                                   <i class="ti ti-eye-closed icon"></i>
                                 </a>
@@ -34,11 +33,11 @@
                     <div class="mb-2">
                         <label class="form-check">
                             <input type="checkbox" class="form-check-input"/>
-                            <span class="form-check-label">{{__('merlion_auth::auth.remember_me')}}</span>
+                            <span class="form-check-label">{{__('merlion::auth.remember_me')}}</span>
                         </label>
                     </div>
                     <div class="form-footer">
-                        <button type="submit" class="btn btn-primary w-100">{{__('merlion_auth::auth.login')}}</button>
+                        <button type="submit" class="btn btn-primary w-100">{{__('merlion::auth.login')}}</button>
                     </div>
                 </form>
             </div>

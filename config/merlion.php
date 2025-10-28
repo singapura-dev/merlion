@@ -1,14 +1,30 @@
 <?php
 
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Merlion\Http\Middleware\Authenticate;
+
 return [
     'admin'     => [
         'api_routes_enabled' => env('MERLION_API_ROUTES_ENABLED', true),
         'route'              => [
-            'prefix'     => 'admin',
-            'middleware' => ['web', 'merlion'],
-            'as'         => 'admin.',
-            'domain'     => env("ADMIN_DOMAIN"),
-            'redirect'   => '/',
+            'middlewares'      => [
+                EncryptCookies::class,
+                AddQueuedCookiesToResponse::class,
+                StartSession::class,
+                ShareErrorsFromSession::class,
+                VerifyCsrfToken::class,
+                SubstituteBindings::class,
+            ],
+            'auth_middlewares' => [
+                Authenticate::class,
+            ],
+            'domain'           => env("ADMIN_DOMAIN"),
+            'redirect'         => '/',
         ],
         'title'              => env("ADMIN_NAME"),
         'attributes_html'    => [

@@ -17,6 +17,6 @@ class LazyRenderController
              */
             return $renderable::make()->context(to_json($payload))->render();
         }
-        return 'ok';
+        return 'content not found ' . $renderable;
     }
 }

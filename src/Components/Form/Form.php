@@ -16,6 +16,8 @@ class Form extends Renderable
     use HasContent;
     use HasModel;
 
+    public mixed $creating = null;
+    public mixed $updating = null;
     public function __construct(...$args)
     {
         parent::__construct($args);

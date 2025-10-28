@@ -4,15 +4,13 @@ declare(strict_types=1);
 namespace Merlion\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Context;
-use Merlion\Components\Layouts\Admin;
+use Merlion\AdminManager;
 
 class SetCurrentAdmin
 {
     public function handle($request, Closure $next, $id = null)
     {
-        Context::addHidden('merlion_id', $id ?: 'admin');
-        Admin::callStaticHooks('serving');
+        app(AdminManager::class)->setCurrentAdmin($id);
         admin()->callHooks('serving', admin());
         return $next($request);
     }

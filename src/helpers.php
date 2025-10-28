@@ -1,20 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Str;
+use Merlion\AdminManager;
 use Merlion\Components\Layouts\Admin;
 
 if (!function_exists('admin')) {
     function admin($id = null): Admin
     {
-        $id = $id ?? Context::getHidden('merlion_id', 'admin');
-        if (empty(app()->bound("merlion.admin.{$id}"))) {
-            $config = config("merlion.{$id}", []);
-            $admin  = Admin::make(array_merge(['id' => $id], $config));
-            $admin->boot();
-            app()->instance("merlion.admin.{$id}", $admin);
-        }
-        return app("merlion.admin.{$id}");
+        return app(AdminManager::class)->getAdmin($id);
     }
 }
 

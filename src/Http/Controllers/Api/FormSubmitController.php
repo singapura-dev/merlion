@@ -21,6 +21,6 @@ class FormSubmitController
             }
             return $form->submit();
         }
-        return 'ok';
+        return '';
     }
 }

@@ -70,7 +70,9 @@ trait AsCurdController
 
     protected function schemas(): array
     {
-        return [];
+        return [
+            'id',
+        ];
     }
 
     protected function authorize($action, ...$args): void

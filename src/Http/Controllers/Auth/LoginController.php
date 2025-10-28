@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Merlion\Addons\Auth\Http\Controllers;
+namespace Merlion\Http\Controllers\Auth;
 
 class LoginController
 {
+
     public function showLogin()
     {
         return admin()->blank()->content(view('merlion::auth.login'))->render();
@@ -14,7 +15,7 @@ class LoginController
     {
         $username = admin()->getUsername();
         request()->validate([
-            $username => ['required'],
+            $username  => ['required'],
             'password' => ['required'],
         ]);
 
@@ -29,7 +30,7 @@ class LoginController
 
     public function auth()
     {
-        return auth();
+        return admin()->auth();
     }
 
     public function logout()

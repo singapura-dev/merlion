@@ -8,6 +8,7 @@ use Merlion\Components\Containers\Card;
 use Merlion\Components\Table\BatchActions;
 use Merlion\Components\Table\Columns\Actions;
 use Merlion\Components\Table\Columns\Column;
+use Merlion\Components\Table\Columns\Select;
 use Merlion\Components\Table\Filters;
 use Merlion\Components\Table\Table;
 
@@ -31,8 +32,8 @@ trait HasIndex
 
         $this->table = $this->table(...$args);
 
-        $filters      = $this->getFilters();
-        $sorts        = $this->getSorts();
+        $filters      = $this->filters();
+        $sorts        = $this->sorts();
         $builder      = $this->getQueryBuilder();
         $batchActions = $this->getBatchActions();
 
@@ -133,64 +134,43 @@ trait HasIndex
         return $columns;
     }
 
-    protected function getFilters(): array
+    protected function filters(): array
     {
-        $schemas = $this->schemas();
+        $columns = $this->columns();
         $filters = [];
-        foreach ($schemas as $name => $schema) {
-            if (is_array($schema)) {
-                if (empty($schema['name']) && is_string($name)) {
-                    $schema['name'] = $name;
+        foreach ($columns as $column) {
+            if (!($column instanceof Column)) {
+                continue;
+            }
+            if ($column->getFilterable()) {
+                $type = get_class($column) === Select::class ? "select" : "text";
+                $data = [
+                    'name'  => $column->getName(),
+                    'label' => $column->getLabel(),
+                    'type'  => $type,
+                ];
+                if ($type == 'select') {
+                    $data['options'] = $column->getOptions();
                 }
-
-                if ($schema['filterable'] ?? false) {
-                    if (empty($schema['label'])) {
-                        $schema['label'] = $this->lang($schema['name']);
-                    }
-                    $filters[] = Filters\Filter::generate($schema);
-                }
+                $filters[] = Filters\Filter::generate($data);
             }
         }
         return $filters;
     }
 
-    protected function getSorts(): array
+    protected function sorts(): array
     {
-        $schemas = $this->schemas();
+        $columns = $this->columns();
         $sorts   = [];
-        foreach ($schemas as $name => $schema) {
-            if (is_array($schema)) {
-                if (empty($schema['name']) && is_string($name)) {
-                    $schema['name'] = $name;
-                }
-                if (!empty($schema['sortable'] ?? null)) {
-                    if (is_array($schema['sortable'])) {
-                        foreach ($schema['sortable'] as $sort_name => $sort) {
-
-                            if (is_string($sort)) {
-                                $sort = [
-                                    'name'  => $sort_name,
-                                    'label' => $sort,
-                                ];
-                            }
-
-                            if (is_array($sort)) {
-                                if (empty($sort['name'])) {
-                                    $sort['name'] = $sort_name ?? $name;
-                                }
-
-                                $sort = Filters\Sort::make($sort);
-                            }
-
-                            if ($sort instanceof Filters\Sort) {
-                                $sorts[] = $sort;
-                            }
-                        }
-                        continue;
-                    }
-                    $field   = $schema['sortable'] === 'desc' ? ('-' . $schema['name']) : $schema['name'];
-                    $sorts[] = Filters\Sort::make($field, $schema['label'] ?? $this->lang($schema['name']));
-                }
+        foreach ($columns as $column) {
+            if (!($column instanceof Column)) {
+                continue;
+            }
+            if ($column->getSortable()) {
+                $sorts[] = Filters\Sort::make($column->getName(),
+                    $column->getLabel() . ' ' . __('merlion::base.sort_asc'));
+                $sorts[] = Filters\Sort::make('-' . $column->getName(),
+                    $column->getLabel() . ' ' . __('merlion::base.sort_desc'));
             }
         }
         return $sorts;

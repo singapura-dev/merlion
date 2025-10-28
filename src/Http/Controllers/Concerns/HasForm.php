@@ -14,6 +14,47 @@ use Merlion\Components\Form\Form;
  */
 trait HasForm
 {
+
+    public function create(...$args)
+    {
+        $this->authorize('create', $this->getModel());
+        $card = Card::make();
+        $form = $this->form();
+        $form->withAttributes(['action' => $this->route('store')]);
+        $form->content(Button::make()
+            ->class('mt-3')
+            ->primary()
+            ->label(__('merlion::base.submit')));
+        $card->body($form);
+        admin()->backUrl($this->route('index'))
+            ->pageTitle(__('merlion::base.create') . ' ' . $this->getLabel())
+            ->title(__('merlion::base.create') . ' ' . $this->getLabel())
+            ->content($card);
+        return admin()->render();
+    }
+
+    public function edit(...$args)
+    {
+        $id    = Arr::last($args);
+        $model = app($this->getModel())->findOrFail($id);
+
+        $this->authorize('update', $model);
+
+        $card = Card::make();
+        $form = $this->form($model);
+        $form->model($model);
+        $form->put($this->route('update', $id));
+        $form->content(Button::make()->primary()->class('mt-3')->label(__('merlion::base.submit')));
+
+        $card->body($form);
+
+        admin()->backUrl($this->route('index'))
+            ->pageTitle(__('merlion::base.edit') . ' ' . $this->getLabel())
+            ->title(__('merlion::base.edit') . ' ' . $this->getLabel())->content($card);
+
+        return admin()->render();
+    }
+
     public function store(...$args)
     {
         if (request('id')) {
@@ -24,6 +65,20 @@ trait HasForm
         $form      = $this->form();
         $validated = $form->validate();
         app($this->getModel())->create($validated);
+        admin()->success(__('merlion::base.action_performace_success'));
+        return redirect($this->route('index'));
+    }
+
+    public function update(...$args)
+    {
+        $id    = Arr::last($args);
+        $model = app($this->getModel())->findOrFail($id);
+
+        $this->authorize('update', $model);
+
+        $form      = $this->form($model);
+        $validated = $form->validate();
+        $model->update($validated);
         admin()->success(__('merlion::base.action_performace_success'));
         return redirect($this->route('index'));
     }
@@ -66,59 +121,5 @@ trait HasForm
             }
         }
         return $fields;
-    }
-
-    public function create(...$args)
-    {
-        $this->authorize('create', $this->getModel());
-        $card = Card::make();
-        $form = $this->form();
-        $form->withAttributes(['action' => $this->route('store')]);
-        $form->content(Button::make()
-            ->class('mt-3')
-            ->primary()
-            ->label(__('merlion::base.submit')));
-        $card->body($form);
-        admin()->backUrl($this->route('index'))
-            ->pageTitle(__('merlion::base.create') . ' ' . $this->getLabel())
-            ->title(__('merlion::base.create') . ' ' . $this->getLabel())
-            ->content($card);
-        return admin()->render();
-    }
-
-    public function edit(...$args)
-    {
-        $id    = Arr::last($args);
-        $model = app($this->getModel())->findOrFail($id);
-
-        $this->authorize('update', $model);
-
-        $card = Card::make();
-        $form = $this->form($model);
-        $form->model($model);
-        $form->put($this->route('update', $id));
-        $form->content(Button::make()->primary()->class('mt-3')->label(__('merlion::base.submit')));
-
-        $card->body($form);
-
-        admin()->backUrl($this->route('index'))
-            ->pageTitle(__('merlion::base.edit') . ' ' . $this->getLabel())
-            ->title(__('merlion::base.edit') . ' ' . $this->getLabel())->content($card);
-
-        return admin()->render();
-    }
-
-    public function update(...$args)
-    {
-        $id    = Arr::last($args);
-        $model = app($this->getModel())->findOrFail($id);
-
-        $this->authorize('update', $model);
-
-        $form      = $this->form($model);
-        $validated = $form->validate();
-        $model->update($validated);
-        admin()->success(__('merlion::base.action_performace_success'));
-        return redirect($this->route('index'));
     }
 }

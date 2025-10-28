@@ -26,7 +26,7 @@
                     <a class="dropdown-item" href="{{$menu->getLink()}}"
                        @if($target = $menu->getTarget())
                            target="{{$target}}"
-                        @endif
+                            @endif
                     >
                         @if($icon = $menu->getIcon())
                             {!! render($icon) !!}
@@ -35,8 +35,8 @@
                     </a>
                 @endif
             @endforeach
-            @if(admin()->routeExists('logout'))
-                <a href="{{admin()->getRoute('logout')}}" class="dropdown-item">
+            @if(admin()->hasLogin())
+                <a href="{{admin()->getRoute('auth.logout')}}" class="dropdown-item">
                     <i class="ti ti-logout icon"></i>
                     {{__('merlion::base.logout')}}
                 </a>

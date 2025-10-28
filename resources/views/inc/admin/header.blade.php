@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{admin()->getRoute('home')}}">
                 <div class="brand-logo h-28px">
                     @include(admin()->view('brand_logo'))
                 </div>

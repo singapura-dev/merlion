@@ -12,4 +12,9 @@ use Merlion\Components\Renderable;
 class Lazy extends Renderable
 {
     public mixed $renderable = '';
+
+    public function getRenderUrl()
+    {
+        return admin()->getRoute('api.lazy-render') . '?renderable=' . base64_encode($this->renderable) . '&payload=' . base64_encode(to_string($this->getContext()));
+    }
 }

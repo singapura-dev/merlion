@@ -168,9 +168,10 @@ class LazyLoad {
     }
 
     async load(el) {
-        let renderable = el.getAttribute("data-renderable");
-        let payload = el.getAttribute("data-payload");
-        let response = await fetch('/merlion-api/lazy-render?renderable=' + renderable + '&payload=' + payload);
+        // let renderable = el.getAttribute("data-renderable");
+        // let payload = el.getAttribute("data-payload");
+        let render_url = el.getAttribute("data-url");
+        let response = await fetch(render_url);
         el.innerHTML = await response.text();
         this.loaded = true;
         admin().init(el);
