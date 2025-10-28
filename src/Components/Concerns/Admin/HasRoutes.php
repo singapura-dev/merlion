@@ -78,9 +78,9 @@ trait HasRoutes
     public function getMiddleware(): array
     {
         return [
-            SetCurrentAdmin::class . ":{$this->getId()}",
             ...config('merlion.admin.route.middlewares'),
             ...$this->middleware,
+            SetCurrentAdmin::class . ":{$this->getId()}",
         ];
     }
 
