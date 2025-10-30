@@ -290,11 +290,12 @@ trait HasIndex
     protected function applyQuickSearch($builder)
     {
         $searches = $this->searches();
-        if (request('search')) {
+        $keyword  = request('search');
+        $builder->where(function ($query) use ($searches, $keyword) {
             foreach ($searches as $search) {
-                $builder->where($search, 'like', "%" . request('search') . "%");
+                $query->orWhere($search, 'like', "%" . $keyword . "%");
             }
-        }
+        });
         return $builder;
     }
 
