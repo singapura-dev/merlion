@@ -10,7 +10,7 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">{{__('merlion::auth.username')}}</label>
-                        <input type="text"
+                        <input type="text" placeholder="{{__('merlion::auth.input_username')}}"
                                name="email" class="form-control" autocomplete="off"/>
                     </div>
                     <div class="mb-2">

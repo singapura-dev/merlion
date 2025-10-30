@@ -68,7 +68,7 @@ trait HasForm
         $validated = $form->validate();
         app($this->getModel())->create($validated);
         admin()->success(__('merlion::base.action_performace_success'));
-        return redirect($this->route('index'));
+        return redirect(request('redirect', $this->route('index')));
     }
 
     public function update(...$args)
@@ -84,7 +84,7 @@ trait HasForm
         $validated = $form->validate();
         $model->update($validated);
         admin()->success(__('merlion::base.action_performace_success'));
-        return redirect($this->route('index'));
+        return redirect(request('redirect', $this->route('index')));
     }
 
     protected function form($model = null)

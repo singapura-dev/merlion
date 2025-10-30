@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Table\Columns;
 
+use Merlion\Components\Concerns\HasSize;
+
 class Image extends Column
 {
-    public mixed $size = null;
-    public mixed $width = null;
-    public mixed $height = null;
-
+    use HasSize;
 }

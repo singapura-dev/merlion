@@ -26,7 +26,7 @@ trait HasId
 
     protected function defaultId(): string
     {
-        return Str::lower(class_basename($this));
+        return Str::lower(class_basename($this)) . '_' . uniqid();
     }
 
     protected function buildHasId(): void

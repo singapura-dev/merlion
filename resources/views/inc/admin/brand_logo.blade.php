@@ -1,5 +1,9 @@
 @if($brandLogo = admin()->getBrandLogo())
     <img src="{{$brandLogo}}" alt="Brand logo">
 @else
-    <strong>Mer</strong>lion
+    @if($brandName = admin()->getBrandName())
+        {!! admin()->getBrandName() !!}
+    @else
+        <strong>Mer</strong>lion
+    @endif
 @endif
