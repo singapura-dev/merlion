@@ -53,6 +53,16 @@ trait HasRoutes
         return $this;
     }
 
+    public function domains($domain): static
+    {
+        $domains       = is_array($domain) ? $domain : [$domain];
+        $this->domains = [
+            ...$this->domains,
+            ...$domains,
+        ];
+        return $this;
+    }
+
     public function middleware($middleware): static
     {
         $middleware       = is_array($middleware) ? $middleware : [$middleware];
