@@ -45,7 +45,7 @@ class Filters extends Renderable
 
     protected function buildFilter(): static
     {
-        $filters = $this->getFilters();
+        $filters         = $this->getFilters();
         $allowed_filters = [];
         foreach ($filters as $filter) {
             /**
@@ -69,6 +69,7 @@ class Filters extends Renderable
         $this->builder->allowedFilters($allowed_filters);
 
         $allowed_sorts = [];
+        $default_sorts = [];
         foreach ($this->sorts as $sort) {
             if (is_string($sort)) {
                 $allowed_sorts[] = $sort;
@@ -76,11 +77,14 @@ class Filters extends Renderable
             if ($sort instanceof Sort) {
                 $allowed_sorts[] = $sort->getName();
                 if ($sort->default) {
-                    $this->builder->defaultSort($sort->getName());
+                    $default_sorts[] = $sort->getName();
                 }
             }
         }
         $this->builder->allowedSorts($allowed_sorts);
+        if (!empty($default_sorts)) {
+            $this->builder->defaultSort($default_sorts);
+        }
         return $this;
     }
 

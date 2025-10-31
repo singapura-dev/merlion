@@ -44,8 +44,8 @@ foreach (app(AdminManager::class)->getAdmins() as $admin) {
                             $routes($admin);
                         }
 
-                        if (!empty($home_url = $admin->getHomeUrl())) {
-                            Route::get($home_url, admin()->getHome())->name('home');
+                        if ($home = $admin->getHome()) {
+                            Route::get('/', $home)->name('home');
                         }
 
                         if ($admin->hasLogin()) {

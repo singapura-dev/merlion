@@ -22,4 +22,10 @@ class Sort extends Renderable
     {
         return request('sort') == $this->getName();
     }
+
+    public function default($defualt = true): static
+    {
+        $this->default = $defualt;
+        return $this;
+    }
 }

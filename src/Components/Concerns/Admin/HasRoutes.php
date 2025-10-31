@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\SerializableClosure\Serializers\Native;
-use Merlion\Http\Controllers\Home;
 use Merlion\Http\Middleware\Authenticate;
 use Merlion\Http\Middleware\SetCurrentAdmin;
 
@@ -18,7 +17,6 @@ use Merlion\Http\Middleware\SetCurrentAdmin;
  * @method array getRoutes()
  * @method string getPath()
  * @method string getHome()
- * @method string getHomeUrl()
  */
 trait HasRoutes
 {
@@ -40,7 +38,7 @@ trait HasRoutes
 
     public mixed $domains = '';
 
-    public mixed $home = Home::class;
+    public mixed $home = null;
     public mixed $homeUrl = '/';
 
     public function routes(Closure $routes): static
@@ -89,7 +87,7 @@ trait HasRoutes
     public function getAuthMiddleware(): array
     {
         return [
-            Authenticate::class.':'.$this->getId(),
+            Authenticate::class . ':' . $this->getId(),
             ...$this->authMiddleware,
         ];
     }
@@ -124,10 +122,24 @@ trait HasRoutes
         return Route::has($route_name);
     }
 
-//    public function bootApiRoutes(): void
-//    {
-//        if (config('merlion.admin.api_routes_enabled')) {
-//            require __DIR__ . '/../../../../routes/api.php';
-//        }
-//    }
+    public function getHomeUrl()
+    {
+        if (empty($this->homeUrl)) {
+            return $this->getRoute('home');
+        }
+
+        if (is_callable($this->homeUrl)) {
+            $this->homeUrl = $this->evaluate($this->homeUrl);
+        }
+
+        if (Str::isUrl($this->homeUrl)) {
+            return $this->homeUrl;
+        }
+
+        if (Str::startsWith($this->homeUrl, '/')) {
+            return $this->homeUrl;
+        }
+
+        return '/' . $this->path . '/' . $this->homeUrl;
+    }
 }
