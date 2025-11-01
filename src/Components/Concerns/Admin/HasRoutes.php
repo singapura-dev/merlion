@@ -36,7 +36,7 @@ trait HasRoutes
 
     public mixed $path = '';
 
-    public mixed $domains = '';
+    public mixed $domains = [];
 
     public mixed $home = null;
     public mixed $homeUrl = '/';
