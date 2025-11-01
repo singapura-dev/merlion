@@ -7,9 +7,9 @@ use Closure;
 use Illuminate\Support\Str;
 
 /**
- * @method $this label(string|Closure $label) Set field label
- * @method $this name(string|Closure $name) Set field name
- * @method $this value(string|Closure $value) Set field value
+ * @method $this|static label(string|Closure $label) Set field label
+ * @method $this|static name(string|Closure $name) Set field name
+ * @method $this|static value(string|Closure $value) Set field value
  * @method string|null getName() Get field name
  * @method mixed getValue() Get field value
  */

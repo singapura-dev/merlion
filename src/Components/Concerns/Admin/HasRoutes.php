@@ -10,8 +10,8 @@ use Merlion\Http\Middleware\Authenticate;
 use Merlion\Http\Middleware\SetCurrentAdmin;
 
 /**
- * @method static path($path) Set prefix
- * @method static home($home) Set home controller
+ * @method $this|static path($path) Set prefix
+ * @method $this|static home($home) Set home controller
  * @method array getDomains()
  * @method array getAuthenticatedRoutes()
  * @method array getRoutes()

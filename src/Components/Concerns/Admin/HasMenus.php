@@ -4,8 +4,8 @@ namespace Merlion\Components\Concerns\Admin;
 
 trait HasMenus
 {
-    const MENU_POSITION_MAIN = 'main';
-    const MENU_POSITION_USER = 'user';
+    const string MENU_POSITION_MAIN = 'main';
+    const string MENU_POSITION_USER = 'user';
 
     protected array $menus = [];
 

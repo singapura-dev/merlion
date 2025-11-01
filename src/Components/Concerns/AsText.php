@@ -7,7 +7,7 @@ namespace Merlion\Components\Concerns;
 use Merlion\Enums\Color;
 
 /**
- * @method $this labels(array|\Closure $labels)
+ * @method $this|static labels(array|\Closure $labels)
  * @method array getLabels()
  * @method $this displayValueUsing(mixed $displayValueUsing)
  */

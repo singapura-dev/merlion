@@ -6,8 +6,8 @@ namespace Merlion\Components\Concerns;
 use Closure;
 
 /**
- * @method $this placeholder(string|Closure $placeholder) Set place holder
- * @method $this inputType(string|Closure $inputType) Set input type
+ * @method $this|static placeholder(string|Closure $placeholder) Set place holder
+ * @method $this|static inputType(string|Closure $inputType) Set input type
  */
 trait AsInput
 {

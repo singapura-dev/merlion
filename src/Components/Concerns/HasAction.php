@@ -9,7 +9,7 @@ use Closure;
 /**
  * @method string getMethod()
  * @method string getAction()
- * @method $this method(string|Closure $method)
+ * @method $this|static method(string|Closure $method)
  */
 trait HasAction
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Merlion\Components\Concerns;
 
 /**
- * @method $this model($model) Set model
+ * @method $this|static model($model) Set model
  */
 trait HasModel
 {

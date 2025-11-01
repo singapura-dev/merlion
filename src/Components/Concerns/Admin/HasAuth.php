@@ -3,7 +3,7 @@
 namespace Merlion\Components\Concerns\Admin;
 
 /**
- * @method static guard($guard) Set admin guard, like 'web'
+ * @method $this|static guard($guard) Set admin guard, like 'web'
  */
 trait HasAuth
 {
