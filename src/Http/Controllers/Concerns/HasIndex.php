@@ -76,7 +76,8 @@ trait HasIndex
         $actions = $this->getRowActions();
 
         if (!empty($actions)) {
-            $this->table->column(Actions::make()->icon('ti ti-dots')->dropdown()->actions($actions));
+            $this->table->column(Actions::make()->class('float-end',
+                'wrapper')->icon('ti ti-dots')->dropdown()->actions($actions));
         }
 
         if (request('trash')) {

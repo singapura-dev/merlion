@@ -41,13 +41,13 @@ trait HasRoutes
     public mixed $home = null;
     public mixed $homeUrl = '/';
 
-    public function routes(Closure $routes): static
+    public function routes(Closure|string $routes): static
     {
         $this->routes[] = $routes;
         return $this;
     }
 
-    public function authenticatedRoutes(Closure $routes): static
+    public function authenticatedRoutes(Closure|string $routes): static
     {
         $this->authenticatedRoutes[] = $routes;
         return $this;

@@ -24,6 +24,9 @@ trait HasModel
         if (!empty($this->getValueUsing)) {
             return $this->evaluate($this->getValueUsing);
         }
+        if (!empty($this->value)) {
+            return $this->evaluate($this->value);
+        }
         return data_get($this->getModel(), $this->getName());
     }
 

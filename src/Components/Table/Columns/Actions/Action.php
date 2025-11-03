@@ -17,4 +17,11 @@ class Action extends Column
         $this->class($class);
         return $this;
     }
+
+    public function renderAction()
+    {
+        if (!empty($this->link)) {
+            $this->withAttributes(['href' => $this->getLink()]);
+        }
+    }
 }

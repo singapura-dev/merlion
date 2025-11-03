@@ -19,7 +19,12 @@ foreach (app(AdminManager::class)->getAdmins() as $admin) {
             ->group(function () use ($admin) {
 
                 foreach ($admin->getRoutes() as $routes) {
-                    $routes($admin);
+                    if (is_string($routes)) {
+                        require $routes;
+                    }
+                    if (is_callable($routes)) {
+                        $routes($admin);
+                    }
                 }
 
                 if (config('merlion.admin.api_routes_enabled')) {
@@ -41,7 +46,12 @@ foreach (app(AdminManager::class)->getAdmins() as $admin) {
                 Route::middleware($admin->getAuthMiddleware())
                     ->group(function () use ($admin) {
                         foreach ($admin->getAuthenticatedRoutes() as $routes) {
-                            $routes($admin);
+                            if (is_string($routes)) {
+                                require $routes;
+                            }
+                            if (is_callable($routes)) {
+                                $routes($admin);
+                            }
                         }
 
                         if ($home = $admin->getHome()) {
