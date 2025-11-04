@@ -45,9 +45,9 @@ class Admin extends Renderable
     public string $brandName = '';
 
     public array $css = [
-        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-themes.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/core/dist/css/tabler-flags.min.css',
+        '/vendor/merlion/tabler/css/tabler.min.css',
+        '/vendor/merlion/tabler/css/tabler-themes.min.css',
+        '/vendor/merlion/tabler/css/tabler-flags.min.css',
         'https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.min.css',
         'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
         'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css',
@@ -56,7 +56,7 @@ class Admin extends Renderable
     ];
 
     public array $js = [
-        'https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js',
+        '/vendor/merlion/tabler/js/tabler.min.js',
         'https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js',
         'https://cdn.jsdelivr.net/npm/toastify-js',
         'https://cdn.jsdelivr.net/npm/hugerte/hugerte.min.js',
