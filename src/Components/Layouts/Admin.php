@@ -46,6 +46,7 @@ class Admin extends Renderable
 
     public array $css = [
         '/vendor/merlion/tabler/css/tabler.min.css',
+        '/vendor/merlion/tabler/css/tabler-vendors.min.css',
         '/vendor/merlion/tabler/css/tabler-themes.min.css',
         '/vendor/merlion/tabler/css/tabler-flags.min.css',
         'https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.min.css',
