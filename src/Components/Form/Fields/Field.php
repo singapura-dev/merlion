@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Merlion\Components\Form\Fields;
 
 use Closure;
+use Exception;
 use Merlion\Components\Concerns\AsCell;
 use Merlion\Components\Concerns\HasContent;
 use Merlion\Components\Concerns\HasModel;
@@ -14,6 +15,7 @@ use Merlion\Components\Schema;
  * @method $this rules(string|Closure|array $rules) Set rules
  * @method string|array|null getRules() Get rules
  * @method Form getForm() Get form
+ * @method bool getRelationship() If this field is a relationship
  */
 abstract class Field extends Schema
 {
@@ -22,18 +24,20 @@ abstract class Field extends Schema
     use HasModel;
 
     public static array $fieldsMap = [
-        'text'     => Text::class,
-        'file'     => File::class,
-        'image'    => Image::class,
-        'textarea' => Textarea::class,
-        'select'   => Select::class,
-        'editor'   => Editor::class,
-        'toggle'   => Toggle::class,
-        'json'     => Json::class,
+        'text'          => Text::class,
+        'file'          => File::class,
+        'image'         => Image::class,
+        'textarea'      => Textarea::class,
+        'select'        => Select::class,
+        'editor'        => Editor::class,
+        'toggle'        => Toggle::class,
+        'json'          => Json::class,
+        'belongsToMany' => BelongsToMany::class,
     ];
 
     public mixed $form = null;
     public mixed $ignore = false;
+    public mixed $relationship = false;
 
     public array|string|Closure|null $rules = null;
     protected array $dependsFields = [];
@@ -56,6 +60,8 @@ abstract class Field extends Schema
         if ($field instanceof Field) {
             return $field;
         }
+
+        throw new Exception('Invalid field');
     }
 
     public function getValue()
@@ -92,5 +98,11 @@ abstract class Field extends Schema
         }
 
         return $request->input($this->getName());
+    }
+
+    public function save($model)
+    {
+        $model->{$this->getName()} = $this->getDataFromRequest();
+        return $model;
     }
 }

@@ -64,9 +64,9 @@ trait HasForm
             return $this->update(...$args);
         }
         $this->authorize('create', $this->getModel());
-        $form      = $this->form();
-        $validated = $form->validate();
-        app($this->getModel())->create($validated);
+        $form = $this->form();
+        $this->createOrUpdate($form);
+
         admin()->success(__('merlion::base.action_performace_success'));
         return redirect(request('redirect', $this->route('index')));
     }
@@ -77,18 +77,44 @@ trait HasForm
         $model = app($this->getModel())->findOrFail($id);
 
         $this->current_model = $model;
-
         $this->authorize('update', $model);
 
-        $form      = $this->form($model);
-        $validated = $form->validate();
-        $model->update($validated);
+        $form = $this->form($model);
+        $this->createOrUpdate($form);
+
         admin()->success(__('merlion::base.action_performace_success'));
         return redirect(request('redirect', $this->route('index')));
     }
 
+    protected function createOrUpdate(Form $form)
+    {
+        $model = $form->getModel();
+        $form->validate();
+
+        if (is_string($model) || empty($model->getKey())) {
+            $model = new $model;
+        }
+        $fields = $form->getFlatFields();
+        foreach ($fields as $field) {
+            if ($field->getRelationship()) {
+                continue;
+            }
+            $field->save($model);
+        }
+
+        $model->save();
+
+        foreach ($fields as $field) {
+            if (!$field->getRelationship()) {
+                continue;
+            }
+            $field->saveRelationship($model);
+        }
+    }
+
     protected function form($model = null)
     {
+        $model  = $model ?: app($this->getModel());
         $form   = Form::make()->model($model);
         $fields = $this->fields($model);
         $form->fields($fields);
