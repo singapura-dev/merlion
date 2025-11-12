@@ -8,4 +8,6 @@ use Merlion\Components\Concerns\HasSize;
 class Image extends Grid
 {
     use HasSize;
+
+    public mixed $multiple = false;
 }

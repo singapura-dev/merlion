@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Merlion\Components\Form\Fields;
 
 use Closure;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -27,20 +26,38 @@ class File extends Text
     {
         $request = $request ?: request();
         $name    = $this->getName();
+
+        $multiple = $this->getMultiple();
+
+        if (!$multiple) {
+            if ($request->hasFile($name)) {
+                $disk = $this->getDisk();
+                $path = $request->file($name)->store($this->getPath(), [
+                    'disk'       => $disk,
+                    'visibility' => $this->getVisibility(),
+                ]);
+                return Storage::disk($disk)->url($path);
+            }
+            if ($request->input($name . '_deleted') == 1) {
+                return null;
+            }
+            return $request->input($name . '_original');
+        }
+
+        $files = $request->input($name . '_original');
+
         if ($request->hasFile($name)) {
-            $disk = $this->getDisk();
-            $path = $request->file($name)->store($this->getPath(), [
-                'disk'       => $disk,
-                'visibility' => $this->getVisibility(),
-            ]);
-            return Storage::disk($disk)->url($path);
+            foreach ($request->file($name) as $file) {
+                $disk    = $this->getDisk();
+                $path    = $file->store($this->getPath(), [
+                    'disk'       => $disk,
+                    'visibility' => $this->getVisibility(),
+                ]);
+                $files[] = Storage::disk($disk)->url($path);
+            }
         }
 
-        if($request->input($name.'_deleted') == 1) {
-            return null;
-        }
-
-        return $request->input($name.'_original');
+        return $files;
     }
 
     public function getDisk(): string

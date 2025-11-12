@@ -8,4 +8,6 @@ use Merlion\Components\Concerns\HasSize;
 class Image extends Column
 {
     use HasSize;
+
+    public mixed $multiple = false;
 }
