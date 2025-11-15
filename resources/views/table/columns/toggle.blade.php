@@ -1,7 +1,7 @@
 <x-merlion::text {{$attributes}} :icon="$self->getIcon()" :hasLink="$self->hasLink()">
-    @if($self->getValue())
-        {!! $self->getYesLabel() !!}
+    @if((bool)$self->getValue())
+        {!! $self->getTrueLabel() !!}
     @else
-        {!! $self->getNoLabel() !!}
+        {!! $self->getFalseLabel() !!}
     @endif
 </x-merlion::text>

@@ -9,7 +9,10 @@ use Merlion\Components\Table\Columns\Column;
 /**
  * @method array getColumns() Get table columns
  * @method $this models(mixed $models) Set table data
- * @method $this selectable(mixed $selectable) Set table selectable
+ * @method $this paginate($perPage) Set models per page
+ * @method $this multiple($multiple) Set table multiple selectable
+ * @method $this selectable($selectable) Set table selectable
+ * @method $this crossPageSelection($selectable) Set table cross-page selectable
  * @method bool getSelectable() Get table selectable
  */
 class Table extends Renderable
@@ -19,6 +22,9 @@ class Table extends Renderable
     public TableHeader $header;
     public TableBody $body;
     public mixed $selectable = false;
+    public mixed $multiple = true;
+    public mixed $paginate = null;
+    public mixed $crossPageSelection = false;
 
     protected mixed $rendingRowUsing = null;
 
@@ -30,6 +36,18 @@ class Table extends Renderable
         if (is_array($first) && $first[0] instanceof Column) {
             $this->columns($first);
         }
+    }
+
+    public function getModels()
+    {
+        if (is_string($this->models)) {
+            $models = app($this->models);
+            if ($this->paginate) {
+                return $models->paginate($this->paginate);
+            }
+            return $models->get();
+        }
+        return $this->evaluate($this->models);
     }
 
     public function columns($columns): static

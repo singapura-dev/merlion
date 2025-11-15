@@ -21,7 +21,7 @@ class TableBody extends Renderable
 
         $table = $this->table;
         $index = 0;
-        foreach ($table->models as $model) {
+        foreach ($table->getModels() as $model) {
             $row = TableRow::make()->table($this->table)->model($model);
             if (!empty($callback = $table->getRendingRow())) {
                 call_user_func($callback, $row, $index);

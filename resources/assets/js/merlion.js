@@ -358,6 +358,17 @@ class Merlion {
                     });
                 })
             });
+            element
+                .querySelectorAll('.row-clear-all')
+                .forEach(function (checkbox) {
+                    checkbox.addEventListener('click', function () {
+                        element
+                            .querySelectorAll('.row-select')
+                            .forEach(function (row_checkbox) {
+                                row_checkbox.checked = false;
+                            });
+                    });
+                });
         });
     }
 

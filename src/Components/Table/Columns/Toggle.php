@@ -5,8 +5,8 @@ namespace Merlion\Components\Table\Columns;
 
 class Toggle extends Text
 {
-    public mixed $yesLabel = 'Y';
-    public mixed $noLabel = 'N';
+    public mixed $trueLabel = 'Y';
+    public mixed $falseLabel = 'N';
 
     public function asIcon($icons = null): static
     {
@@ -16,8 +16,8 @@ class Toggle extends Text
                 '<i class="ti ti-toggle-left text-muted"></i>',
             ];
         }
-        $this->yesLabel = $icons[0];
-        $this->noLabel  = $icons[1];
+        $this->trueLabel  = $icons[0];
+        $this->falseLabel = $icons[1];
         return $this;
     }
 }

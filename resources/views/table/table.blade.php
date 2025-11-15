@@ -11,3 +11,9 @@
         {!! $self->body->render() !!}
     </table>
 </div>
+
+@if($self->getPaginate())
+    <div {{$self->getAttributes('pagination')}}>
+        {{$self->getModels()->links()}}
+    </div>
+@endif

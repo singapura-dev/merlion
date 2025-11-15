@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Merlion\AdminManager;
 use Merlion\Components\Layouts\Admin;
@@ -130,5 +131,21 @@ if (!function_exists('deep_clone')) {
             return clone $renderable;
         }
         return $renderable;
+    }
+}
+
+if (!function_exists('title')) {
+    /**
+     * @see trans
+     */
+    function title($lang_key, ...$args)
+    {
+        if (Lang::has($lang_key)) {
+            return Str::ucfirst(__($lang_key, ...$args));
+        }
+        $lang = explode('.', $lang_key);
+        $lang = array_pop($lang);
+        $lang = str_replace('_', ' ', $lang);
+        return Str::title($lang);
     }
 }
