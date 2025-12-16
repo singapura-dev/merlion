@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Layouts;
 
+use Closure;
 use Illuminate\Pagination\Paginator;
-use Merlion\Addons\Auth\AuthBehavior;
 use Merlion\Components\Concerns\Admin\Defaultable;
 use Merlion\Components\Concerns\Admin\HasAuth;
 use Merlion\Components\Concerns\Admin\HasMenus;
@@ -50,7 +50,7 @@ class Admin extends Renderable
         '/vendor/merlion/tabler/css/tabler-themes.min.css',
         '/vendor/merlion/tabler/css/tabler-flags.min.css',
         'https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/dist/tabler-icons.min.css',
+        'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css',
         'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css',
         'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.css',
         '/vendor/merlion/css/merlion.css',
@@ -69,13 +69,17 @@ class Admin extends Renderable
     public mixed $pageTitle = null;
     public mixed $pagePreTitle = null;
     public mixed $backUrl = null;
-
     protected bool $booted = false;
 
     public function serving($callback): static
     {
         $this->addHook('serving', $callback);
         return $this;
+    }
+
+    public static function booting(Closure $callback): void
+    {
+        static::addStaticHook('booting', $callback);
     }
 
     public function boot(): void

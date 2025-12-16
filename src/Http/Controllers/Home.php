@@ -8,6 +8,6 @@ class Home
 {
     public function __invoke()
     {
-        return admin()->context('Home')->render();
+        return admin()->content('This is home page, can change by admin()->home(YourHome::class)')->render();
     }
 }

@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\SerializableClosure\Serializers\Native;
+use Merlion\Http\Controllers\Home;
 use Merlion\Http\Middleware\Authenticate;
 use Merlion\Http\Middleware\SetCurrentAdmin;
 
@@ -38,7 +39,7 @@ trait HasRoutes
 
     public mixed $domains = [];
 
-    public mixed $home = null;
+    public mixed $home = Home::class;
     public mixed $homeUrl = '/';
 
     public function routes(Closure|string $routes): static

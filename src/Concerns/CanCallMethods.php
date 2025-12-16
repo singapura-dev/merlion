@@ -11,6 +11,7 @@ trait CanCallMethods
         'rendering',
         'building',
         'registering',
+        'booting',
     ];
 
     public function callMethods($startWith, ...$args): void
