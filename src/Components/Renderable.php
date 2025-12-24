@@ -129,10 +129,15 @@ abstract class Renderable extends Element
             if (!empty($this->display)) {
                 return render($this->evaluate($this->display));
             }
-            return view($this->getView(), $data);
+            return $this->__render($this->getView(), $data);
         }
 
         return '';
+    }
+
+    protected function __render(...$args)
+    {
+        return view($args[0], $args[1] ?? []);
     }
 
     public function build(): static
