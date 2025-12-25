@@ -22,6 +22,7 @@ trait HasIndex
     public static int $perPage = 10;
     protected Filters $filter;
     protected Table $table;
+    protected mixed $builder;
     protected Card $indexCard;
 
     public function index(...$args)
@@ -42,7 +43,7 @@ trait HasIndex
 
         if (!empty($filters) || !empty($sorts) || !empty($batchActions) || !empty($searches)) {
             if (!empty($searches)) {
-                $search_form = Form::make()->class('me-1')->method('get');
+                $search_form = Form::make()->class('me-2')->method('get');
                 $search_form->field(
                     Text::make('search')->value(request('search'))
                         ->content('<span class="input-icon-addon"><i class="ti ti-search"></i></span>', 'after')
@@ -103,8 +104,8 @@ trait HasIndex
             ->title($this->getLabelPlural())
             ->content($this->indexCard);
 
+        $this->builder = $builder;
         $this->callMethods('afterIndex', ...$args);
-
         return admin()->render();
     }
 

@@ -204,26 +204,24 @@ class Merlion {
             if (!value) {
                 return;
             }
-            element.insertAdjacentHTML('beforeend', '<i role="button" class="ti ti-clipboard"></i>');
-            element.querySelector('i.ti-clipboard').addEventListener('click', function (e) {
+            element.insertAdjacentHTML('beforeend', '<i role="button" class="btn-copyable ti ti-clipboard text-muted"></i>');
+            const iconEl = element.querySelector('i.btn-copyable');
+            iconEl.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                let textToCopy = element.getAttribute('data-copyable');
-                console.log(textToCopy);
                 copyText(element.getAttribute('data-copyable'))
                     .then(() => {
-                        element.querySelector('i').classList.add('ti-clipboard-check', 'text-success');
-                        element.querySelector('i').classList.remove('ti-clipboard');
+                        iconEl.classList.add('ti-clipboard-check', 'text-success');
+                        iconEl.classList.remove('ti-clipboard', 'text-muted');
                         setTimeout(function () {
-                            element.querySelector('i').classList.remove('ti-clipboard-check', 'text-success');
-                            element.querySelector('i').classList.add('ti-clipboard');
-                            console.log('成功:');
+                            iconEl.classList.remove('ti-clipboard-check', 'text-success');
+                            iconEl.classList.add('ti-clipboard', 'text-muted');
                         }, 2000);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         console.error('复制失败:', err);
                     });
-            })
+            });
         });
     }
 

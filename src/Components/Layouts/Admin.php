@@ -7,6 +7,7 @@ use Closure;
 use Illuminate\Pagination\Paginator;
 use Merlion\Components\Concerns\Admin\Defaultable;
 use Merlion\Components\Concerns\Admin\HasAuth;
+use Merlion\Components\Concerns\Admin\HasBrand;
 use Merlion\Components\Concerns\Admin\HasMenus;
 use Merlion\Components\Concerns\Admin\HasRoutes;
 use Merlion\Components\Concerns\Admin\HasToast;
@@ -23,15 +24,12 @@ use Merlion\Components\Renderable;
  * @method string getBackUrl()
  * @method static cspNonce($cspNonce)
  * @method string getCspNonce()
- * @method static brandLogo($logo)
- * @method static brandName($name)
- * @method string getBrandLogo()
- * @method string getBrandName()
  */
 class Admin extends Renderable
 {
     use Defaultable;
     use HasAuth;
+    use HasBrand;
     use HasContent;
     use HasMenus;
     use HasRoutes;
@@ -40,9 +38,7 @@ class Admin extends Renderable
     public static string $adminView = 'merlion::layouts.admin';
     public static string $blankView = 'merlion::layouts.admin_blank';
 
-    public string $cspNonce = '';
-    public string $brandLogo = '';
-    public string $brandName = '';
+    public mixed $cspNonce = '';
 
     public array $css = [
         '/vendor/merlion/tabler/css/tabler.min.css',

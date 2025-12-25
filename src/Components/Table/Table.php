@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Merlion\Components\Table;
 
+use Merlion\Components\Concerns\HasContent;
 use Merlion\Components\Renderable;
 use Merlion\Components\Table\Columns\Column;
 
@@ -17,6 +18,8 @@ use Merlion\Components\Table\Columns\Column;
  */
 class Table extends Renderable
 {
+    use HasContent;
+
     public mixed $columns = [];
     public mixed $models = [];
     public TableHeader $header;
