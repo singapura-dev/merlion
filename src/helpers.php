@@ -149,3 +149,18 @@ if (!function_exists('title')) {
         return Str::title($lang);
     }
 }
+
+if (!function_exists('is_html')) {
+    function is_html($string): bool
+    {
+        if ($string === '' || trim($string) === '') {
+            return false;
+        }
+
+        if (preg_match('/<\s*\/?\s*[a-zA-Z][a-zA-Z0-9\-]*\b[^>]*>/s', $string)) {
+            return true;
+        }
+
+        return false;
+    }
+}

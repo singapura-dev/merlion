@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Merlion\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Log;
+
 class LoginController
 {
 
@@ -19,7 +21,7 @@ class LoginController
             'password' => ['required'],
         ]);
 
-        if ($this->auth()->attempt(request()->only($username, 'password'))) {
+        if ($this->auth()->attempt(request()->only($username, 'password'), (bool)request('remember', false))) {
             return redirect()->intended(admin()->getContext('route.redirect'));
         }
 

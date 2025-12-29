@@ -13,12 +13,12 @@ class Inertia extends Renderable
 
     public static function withResources($resources): void
     {
-        static::$resources = $resources;
+        Inertia::$resources = $resources;
     }
 
     public static function withBuildDirectory($buildDirectory): void
     {
-        static::$buildDirectory = $buildDirectory;
+        Inertia::$buildDirectory = $buildDirectory;
     }
 
     public function __construct(...$args)

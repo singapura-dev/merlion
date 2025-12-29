@@ -1,9 +1,9 @@
 <!doctype html>
-<html {{$htmlAttributes}}>
+<html {{$htmlAttributes??''}} lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     @include('merlion::components.layouts.inc.head')
 </head>
-<body {{$bodyAttributes}}>
+<body {{$bodyAttributes??''}}>
 {{$slot}}
 @include('merlion::components.layouts.inc.scritps')
 </body>

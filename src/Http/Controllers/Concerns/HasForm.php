@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Merlion\Http\Controllers\Concerns;
 
 use Illuminate\Support\Arr;
+use Merlion\Components\Alert;
 use Merlion\Components\Button;
 use Merlion\Components\Containers\Card;
 use Merlion\Components\Form\Fields\Field;
@@ -36,7 +37,14 @@ trait HasForm
     public function edit(...$args)
     {
         $id    = Arr::last($args);
-        $model = app($this->getModel())->findOrFail($id);
+        $model = $this->findById($id);
+
+        if ($model->deleted_at) {
+            admin()->content(Alert::make()
+                ->closable(false)
+                ->content(__('merlion::base.record_deleted_at',
+                    ['deleted_at' => $model->deleted_at]))->icon('ti ti-alert-triangle alert-icon icon'));
+        }
 
         $this->current_model = $model;
 
@@ -74,7 +82,7 @@ trait HasForm
     public function update(...$args)
     {
         $id    = Arr::last($args);
-        $model = app($this->getModel())->findOrFail($id);
+        $model = $this->findById($id, includeTrashed: false);
 
         $this->current_model = $model;
         $this->authorize('update', $model);

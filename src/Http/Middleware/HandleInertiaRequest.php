@@ -16,6 +16,7 @@ class HandleInertiaRequest extends Middleware
     public function share(Request $request): array
     {
         return [
+            "nonce" => csp_nonce(),
             ...parent::share($request),
         ];
     }

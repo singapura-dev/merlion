@@ -100,4 +100,15 @@ trait AsCurdController
         }
         return false;
     }
+
+    protected function findById($id, $includeTrashed = true)
+    {
+        if ($this->canSoftDelete() && $includeTrashed) {
+            $model = $this->getQueryBuilder()->withTrashed()->findOrFail($id);
+        } else {
+            $model = $this->getQueryBuilder()->findOrFail($id);
+        }
+
+        return $model;
+    }
 }

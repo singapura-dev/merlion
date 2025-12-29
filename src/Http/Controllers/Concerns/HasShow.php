@@ -20,11 +20,7 @@ trait HasShow
         $this->callMethods('beforeShow', ...$args);
 
         $id = Arr::last($args);
-        if ($this->canSoftDelete()) {
-            $model = $this->getQueryBuilder()->withTrashed()->findOrFail($id);
-        } else {
-            $model = $this->getQueryBuilder()->findOrFail($id);
-        }
+        $model = $this->findById($id);
 
         $this->current_model = $model;
 
