@@ -10,6 +10,9 @@ add to composer.json
 
 ```php
 // app/Providers/AdminServiceProvider.php
+
+use Merlion\AdminProvider;
+
 class AdminSericeProvider extends AdminProvider
 {
 
