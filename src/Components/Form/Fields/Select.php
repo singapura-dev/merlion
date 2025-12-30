@@ -26,10 +26,12 @@ class Select extends Field
     public mixed $relationship = null;
     public mixed $relationshipTitleAttribute = null;
 
-    public function relationship($name = null, $titleAttrubute = 'name')
+    public function relationship($name = null, $titleAttribute = 'name')
     {
         $this->relationship               = $name ?: $this->getName();
-        $this->relationshipTitleAttribute = $titleAttrubute;
+        $this->relationshipTitleAttribute = $titleAttribute;
+
+        return $this;
     }
 
     public function renderSelect()
