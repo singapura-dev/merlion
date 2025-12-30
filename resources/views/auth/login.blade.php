@@ -9,9 +9,11 @@
                 <form method="post" autocomplete="off">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">{{__('merlion::auth.username')}}</label>
-                        <input type="text" placeholder="{{__('merlion::auth.input_username')}}"
-                               name="email" class="form-control" autocomplete="off"/>
+                        <label
+                            class="form-label">{{admin()->getUsernameLabel() ?? __('merlion::auth.username')}}</label>
+                        <input type="{{admin()->getUsernameType()}}"
+                               placeholder="{{__('merlion::auth.input_username')}}"
+                               name="{{admin()->getUsername()}}" class="form-control" autocomplete="off" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label">
@@ -20,7 +22,7 @@
                         <div class="input-group input-group-flat">
                             <input type="password" name="password" class="form-control password-input"
                                    placeholder="{{__('merlion::auth.input_password')}}"
-                                   autocomplete="off"/>
+                                   autocomplete="off" />
                             <span class="input-group-text">
                                 <a role="button" class="link-secondary password-addon"
                                    title="{{__('merlioh::auth.show_password')}}"

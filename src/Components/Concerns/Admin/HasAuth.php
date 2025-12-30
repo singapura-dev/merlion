@@ -4,6 +4,12 @@ namespace Merlion\Components\Concerns\Admin;
 
 /**
  * @method $this|static guard($guard) Set admin guard, like 'web'
+ * @method $this|static username($username) Set login username field
+ * @method $this|static usernameType($type) Set login username input type
+ * @method $this|static usernameLabel($label) Set login username label
+ * @method string getUsername() Get login username field
+ * @method string getUsernameType() Get login username input type
+ * @method string getUsernameLabel() Get login username label
  */
 trait HasAuth
 {
@@ -13,6 +19,7 @@ trait HasAuth
 
     public mixed $username = 'email';
     public mixed $usernameType = 'email';
+    public mixed $usernameLabel = null;
 
     public function loginUrl($url): static
     {
