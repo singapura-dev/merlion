@@ -7,3 +7,7 @@
 @stack('meta')
 <title>{{$title??config('app.name')}}</title>
 @include('merlion::components.layouts.inc.styles')
+
+@if(!empty($vite = admin()->getVite()))
+    @vite($vite)
+@endif

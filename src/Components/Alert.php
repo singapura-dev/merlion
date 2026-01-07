@@ -17,4 +17,9 @@ class Alert extends Renderable
 
     public mixed $type = 'danger';
     public bool $closable = true;
+
+    public function success()
+    {
+        return $this->type('success');
+    }
 }
