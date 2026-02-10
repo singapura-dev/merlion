@@ -20,6 +20,7 @@ trait HasAuth
     public mixed $username = 'email';
     public mixed $usernameType = 'email';
     public mixed $usernameLabel = null;
+    public mixed $canAccessUsing = null;
 
     public function loginUrl($url): static
     {
@@ -51,5 +52,17 @@ trait HasAuth
     public function getGuard(): string
     {
         return $this->guard ?: config('auth.defaults.guard');
+    }
+
+    public function canAccessPanel($user):bool
+    {
+        if(!empty($this->canAccessUsing)) {
+            return call_user_func($this->canAccessUsing, $user);
+        }
+
+        if(app()->isLocal()) {
+            return  true;
+        }
+        return false;
     }
 }

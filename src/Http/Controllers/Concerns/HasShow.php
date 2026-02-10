@@ -17,10 +17,12 @@ trait HasShow
 {
     public function show(...$args)
     {
+
         $this->callMethods('beforeShow', ...$args);
 
         $id = Arr::last($args);
         $model = $this->findById($id);
+        $this->authorize($model, 'view');
 
         $this->current_model = $model;
 

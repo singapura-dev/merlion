@@ -6,6 +6,7 @@ namespace Merlion\Http\Controllers\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Merlion\Concerns\CanCallMethods;
@@ -79,18 +80,28 @@ trait AsCurdController
 
     protected function authorize($action, ...$args): void
     {
-        if (empty($this->policy)) {
+        if (empty($this->getPolicy())) {
             return;
         }
-        $this->authorizeBase($action, ...$args);
+        Gate::authorize($action, ...$args);
+//        $this->authorizeBase($action, ...$args);
     }
 
     protected function can($action, ...$args): bool
     {
-        if (empty($this->policy)) {
+        if (empty($policy = $this->getPolicy())) {
             return true;
         }
-        return auth()->user()->can($action, ...$args);
+        return Gate::forUser(auth()->user())->allows($action, ...$args);
+    }
+
+    protected function getPolicy()
+    {
+        if (!empty($this->policy)) {
+            return app($this->policy);
+        }
+
+        return Gate::getPolicyFor($this->model);
     }
 
     protected function canSoftDelete(): bool

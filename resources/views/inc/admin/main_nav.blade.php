@@ -1,4 +1,7 @@
 @foreach(admin()->getMenus() as $menu)
+    @if(!$menu->shouldRender())
+        @continue
+    @endif
     @php
         $sub_menus = $menu->getContent();
     @endphp
@@ -19,6 +22,9 @@
         @if(!empty($sub_menus))
             <div class="dropdown-menu">
                 @foreach($sub_menus as $sub_menu)
+                    @if(!$sub_menu->shouldRender())
+                        @continue
+                    @endif
                     <a class="dropdown-item" href="{{$sub_menu->getLink()}}"
                        target="{{$menu->getTarget()}}">{!! render($sub_menu->getIcon()?:'') !!} {!! $sub_menu->getLabel() !!} </a>
                 @endforeach

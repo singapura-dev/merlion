@@ -11,7 +11,7 @@ trait HasContent
     const string POSITION_DEFAULT = 'default';
     protected array $content = [];
 
-    public function content($args, $position = null): static
+    public function content($args = null, $position = null): static
     {
         $position = $position ?? static::POSITION_DEFAULT;
         if (empty($this->content[$position])) {

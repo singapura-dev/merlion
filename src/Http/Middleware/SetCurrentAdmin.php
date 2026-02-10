@@ -11,6 +11,9 @@ class SetCurrentAdmin
     public function handle($request, Closure $next, $id = null)
     {
         app(AdminManager::class)->setCurrentAdmin($id);
+        if(!admin()->canAccessPanel(auth()->user())) {
+            abort(403);
+        }
         admin()->callHooks('serving', admin());
         return $next($request);
     }
