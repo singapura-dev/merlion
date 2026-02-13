@@ -214,3 +214,8 @@ p, .pagination {
 .tabular-nums {
     font-variant-numeric: tabular-nums !important;
 }
+
+.ts-wrapper.multi .ts-control > div,
+.ts-wrapper.multi.disabled .ts-control > div {
+    border: none !important;
+}
