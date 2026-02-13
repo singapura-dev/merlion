@@ -2,7 +2,7 @@
     $filters_count = count(array_filter(request('filter',[]), fn($v) => !is_null($v)));
 @endphp
 <div class="dropdown">
-    <a href="#" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+    <a href="#" class="btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">
         <i class="ti ti-filter"></i>
         @if($filters_count)
             <span class="badge bg-red badge-notification text-red-fg">
