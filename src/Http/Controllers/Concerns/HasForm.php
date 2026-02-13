@@ -18,6 +18,8 @@ trait HasForm
 
     public function create(...$args)
     {
+        $this->callMethods('beforeCreate', ...$args);
+
         $this->authorize('create', $this->getModel());
         $card = Card::make();
         $form = $this->form();
@@ -31,11 +33,15 @@ trait HasForm
             ->pageTitle(__('merlion::base.create') . ' ' . $this->getLabel())
             ->title(__('merlion::base.create') . ' ' . $this->getLabel())
             ->content($card);
+
+        $this->callMethods('afterCreate', ...$args);
         return admin()->render();
     }
 
     public function edit(...$args)
     {
+        $this->callMethods('beforeEdit', ...$args);
+
         $id    = Arr::last($args);
         $model = $this->findById($id);
 
@@ -62,11 +68,14 @@ trait HasForm
             ->pageTitle(__('merlion::base.edit') . ' ' . $this->getLabel())
             ->title(__('merlion::base.edit') . ' ' . $this->getLabel())->content($card);
 
+        $this->callMethods('afterEdit', ...$args);
         return admin()->render();
     }
 
     public function store(...$args)
     {
+        $this->callMethods('beforeStore', ...$args);
+
         if (request('id')) {
             $args[] = request('id');
             return $this->update(...$args);
@@ -81,6 +90,8 @@ trait HasForm
 
     public function update(...$args)
     {
+        $this->callMethods('beforeUpdate', ...$args);
+
         $id    = Arr::last($args);
         $model = $this->findById($id, includeTrashed: false);
 
@@ -96,6 +107,8 @@ trait HasForm
 
     protected function createOrUpdate(Form $form)
     {
+        $this->callMethods('beforeCreateOrUpdate', $form);
+
         $model = $form->getModel();
         $form->validate();
 
@@ -122,6 +135,7 @@ trait HasForm
 
     protected function form($model = null)
     {
+
         $model  = $model ?: app($this->getModel());
         $form   = Form::make()->model($model);
         $fields = $this->fields($model);

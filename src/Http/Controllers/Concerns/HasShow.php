@@ -17,16 +17,13 @@ trait HasShow
 {
     public function show(...$args)
     {
-
         $this->callMethods('beforeShow', ...$args);
 
         $id = Arr::last($args);
         $model = $this->findById($id);
-        $this->authorize($model, 'view');
+        $this->authorize('view', $model);
 
         $this->current_model = $model;
-
-        $this->authorize('view', $model);
 
         if ($model->deleted_at) {
             admin()->content(Alert::make()

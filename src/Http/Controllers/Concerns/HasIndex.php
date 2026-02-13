@@ -27,9 +27,9 @@ trait HasIndex
 
     public function index(...$args)
     {
-        $this->authorize('viewAny', $this->getModel());
-
         $this->callMethods('beforeIndex', ...$args);
+
+        $this->authorize('viewAny', $this->getModel());
 
         $this->indexCard = Card::make();
 

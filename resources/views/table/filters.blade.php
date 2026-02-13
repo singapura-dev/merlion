@@ -13,8 +13,10 @@
     </a>
     <div class="dropdown-menu dropdown-menu-card dropdown-menu-md p-0">
         <form class="d-flex flex-column gap-3 p-3">
-            <div class="d-flex flex-wrap gap-3 ">
+            <div class="d-flex flex-wrap gap-3">
                 {!! render($self->getFilters()) !!}
+            </div>
+            <div class="d-flex flex-wrap gap-3">
                 @include('merlion::table.filters.per_page', ['id'=>$id.'_per_page', 'perPages' => $self->perPages, 'allowAll' => $self->allowAll])
                 @include('merlion::table.filters.sorts', ['id'=>$id.'_sort','sorts' => $self->getSorts()])
             </div>

@@ -14,7 +14,7 @@ use Merlion\Concerns\CanCallMethods;
 trait AsCurdController
 {
     use AuthorizesRequests {
-        authorize as authorizeBase;
+        AuthorizesRequests::authorize as authorizeBase;
     }
 
     use CanCallMethods;
@@ -26,6 +26,14 @@ trait AsCurdController
     protected string $policy = '';
 
     protected mixed $current_model = null;
+
+    public function __construct()
+    {
+        if (method_exists($this, 'setup')) {
+            $this->setup();
+        }
+        $this->callMethods('init');
+    }
 
     protected function route($name, ...$args): string
     {
@@ -89,7 +97,7 @@ trait AsCurdController
 
     protected function can($action, ...$args): bool
     {
-        if (empty($policy = $this->getPolicy())) {
+        if (empty($this->getPolicy())) {
             return true;
         }
         return Gate::forUser(auth()->user())->allows($action, ...$args);
