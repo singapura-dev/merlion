@@ -17,6 +17,7 @@ abstract class Grid extends Schema
         'image'  => Image::class,
         'select' => Select::class,
         'json'   => Json::class,
+        'toggle' => Toggle::class,
     ];
 
     public static function generate($grid): static
