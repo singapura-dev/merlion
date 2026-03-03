@@ -16,6 +16,8 @@ use Merlion\Components\Renderable;
 
 /**
  * @method static title($title) Set page title
+ * @method static livewire($value) include livewire
+ * @method bool getLivewire() check if include livewire
  * @method static pageTitle($title)
  * @method static pagePreTitle($title)
  * @method static backUrl($back)
@@ -61,6 +63,7 @@ class Admin extends Renderable
         '/vendor/merlion/js/merlion.js',
     ];
 
+    public mixed $livewire = false;
     public mixed $title = null;
     public mixed $pageTitle = null;
     public mixed $pagePreTitle = null;

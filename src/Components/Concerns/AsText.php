@@ -32,7 +32,7 @@ trait AsText
     {
         if (!empty($labels = $this->getLabels())) {
             $value = $this->getValue();
-            $color = 'primary';
+            $color = $labels['default'] ?? 'light';
             foreach ($labels as $_value => $_color) {
                 if ($value == $_value) {
                     if ($_color instanceof Color) {

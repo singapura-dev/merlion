@@ -6,8 +6,7 @@ namespace Merlion\Components;
 
 use Merlion\Components\Concerns\HasContent;
 use Merlion\Components\Concerns\HasIcon;
-class Dropdown extends Renderable
+
+class Dropdown extends Button
 {
-    use HasIcon;
-    use HasContent;
 }

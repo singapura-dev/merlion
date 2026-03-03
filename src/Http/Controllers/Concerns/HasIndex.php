@@ -293,9 +293,13 @@ trait HasIndex
     {
         $searches = $this->searches();
         $keyword  = request('search');
-        $builder->where(function ($query) use ($searches, $keyword) {
+        if (empty($keyword)) {
+            return $builder;
+        }
+        $keyword = '%' . str_replace(' ', '%', $keyword) . '%';
+        $builder->where(function ($query) use ($keyword, $searches) {
             foreach ($searches as $search) {
-                $query->orWhere($search, 'like', "%" . $keyword . "%");
+                addWhereLikeBinding($query, $search, true, $keyword);
             }
         });
         return $builder;

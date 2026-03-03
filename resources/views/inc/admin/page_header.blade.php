@@ -2,6 +2,11 @@
     <div class="container-xl">
         <div class="row g-2 align-items-center">
             <div class="col">
+                @if($header_left = $self->getContent('header_left'))
+                    @include('merlion::partials.content', [
+                        'content' => $header_left,
+                    ])
+                @else
                 <div class="page-pretitle">{{admin()->getPagePreTitle()}}</div>
                 <h2 class="page-title gap-1">
                     @if($backUrl = admin()->getBackUrl())
@@ -9,6 +14,7 @@
                     @endif
                     {{admin()->getPageTitle()}}
                 </h2>
+                @endif
             </div>
             <div class="col-auto ms-auto d-print-none">
                 @include('merlion::partials.content', [

@@ -164,3 +164,45 @@ if (!function_exists('is_html')) {
         return false;
     }
 }
+
+if (!function_exists('withRelationQuery')) {
+    function withRelationQuery($model, ?string $column, string $query, array $params)
+    {
+        $column = explode('.', $column);
+
+        $relColumn = array_pop($column);
+
+        $method = 'whereHas';
+
+        $model->$method(implode('.', $column), function ($relation) use ($relColumn, $params, $query) {
+            $table = $relation->getModel()->getTable();
+            $relation->$query("{$table}.{$relColumn}", ...$params);
+        });
+    }
+}
+
+if (!function_exists('withQueryCondition')) {
+    function withQueryCondition($model, ?string $column, string $query, array $params)
+    {
+        if (!Str::contains($column, '.')) {
+            $model->$query($column, ...$params);
+            return;
+        }
+
+        $method   = $query === 'orWhere' ? 'orWhere' : 'where';
+        $subQuery = $query === 'orWhere' ? 'where' : $query;
+
+        $model->$method(function ($q) use ($column, $subQuery, $params) {
+            withRelationQuery($q, $column, $subQuery, $params);
+        });
+    }
+}
+
+if (!function_exists('addWhereLikeBinding')) {
+    function addWhereLikeBinding($query, ?string $column, ?bool $or, ?string $pattern)
+    {
+        $likeOperator = 'like';
+        $method       = $or ? 'orWhere' : 'where';
+        withQueryCondition($query, $column, $method, [$likeOperator, $pattern]);
+    }
+}

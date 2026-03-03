@@ -48,9 +48,15 @@ trait HasRoutes
         return $this;
     }
 
-    public function authenticatedRoutes(Closure|string $routes): static
+    public function authenticatedRoutes(Closure|string|array $routes): static
     {
-        $this->authenticatedRoutes[] = $routes;
+        if (is_string($routes)) {
+            $routes = [$routes];
+        }
+        $this->authenticatedRoutes = [
+            ...$this->authenticatedRoutes,
+            ...$routes,
+        ];
         return $this;
     }
 
