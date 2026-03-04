@@ -6,10 +6,6 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @stack('meta')
 
-@if(admin()->getLivewire())
-    @livewireStyles(['nonce' => csp_nonce()])
-@endif
-
 <title>{{$title??config('app.name')}}</title>
 @include('merlion::components.layouts.inc.styles')
 
@@ -17,4 +13,7 @@
     @vite($vite)
 @endif
 
+@if(admin()->getLivewire())
+    @livewireStyles(["nonce" => csp_nonce()])
+@endif
 

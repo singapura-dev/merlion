@@ -102,7 +102,10 @@ trait HasForm
         $this->createOrUpdate($form);
 
         admin()->success(__('merlion::base.action_performace_success'));
-        return redirect(request('redirect', $this->route('index')));
+        if (request('redirect')) {
+            return redirect(request('redirect'));
+        }
+        return back();
     }
 
     protected function createOrUpdate(Form $form)
@@ -135,7 +138,6 @@ trait HasForm
 
     protected function form($model = null)
     {
-
         $model  = $model ?: app($this->getModel());
         $form   = Form::make()->model($model);
         $fields = $this->fields($model);
@@ -145,7 +147,7 @@ trait HasForm
 
     protected function fields($model = null): array
     {
-        $action  = $model ? 'edit' : 'create';
+        $action = $model?->getKey() ? 'edit' : 'create';
         $fields  = [];
         $schemas = $this->schemas();
         foreach ($schemas as $name => $schema) {

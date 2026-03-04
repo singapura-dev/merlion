@@ -24,14 +24,23 @@ trait HasDestroy
 
         $this->callMethods('afterDestroy', ...$args);
 
-        if (request()->ajax()) {
-            return response()->json([
+        admin()->success(__('merlion::base.action_performace_success'));
+        if (request()->wantsJson() || request()->ajax()) {
+            $data = [
                 'success' => true,
-                'action'  => 'refresh',
                 'message' => __('merlion::base.deleted'),
-            ]);
+                'request' => request()->all()
+            ];
+            if (request('redirect')) {
+                $data['action'] = 'redirect';
+                $data['url']    = request('redirect');
+            } else {
+                $data['action'] = 'refresh';
+            }
+            return response()->json($data);
         }
-        return back();
+
+        return redirect(request('redirct'), $this->route('index'));
     }
 
     public function restore(...$args)

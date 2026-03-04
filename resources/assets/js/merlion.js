@@ -257,6 +257,8 @@ class Merlion {
                 fetch(action, {
                     method: method,
                     headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
                         "X-Requested-With": "XMLHttpRequest",
                         'X-CSP-NONCE': document.querySelector('meta[name="csp-nonce"]').getAttribute('content'),
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -389,10 +391,10 @@ class Merlion {
             switch (data.action) {
                 case 'refresh':
                 case 'reload':
-                    location.reload();
+                    window.location.reload();
                     break;
-                case 'rediret':
-                    location.href = data.url;
+                case 'redirect':
+                    window.location.href = data.url;
                     break;
             }
             if (onsuccess) {
