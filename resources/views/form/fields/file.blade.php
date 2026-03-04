@@ -21,7 +21,7 @@
 @endphp
 
 <x-merlion::form.field :$label :$id :$full :$label_position>
-    <x-merlion::form.fields.file :$id :$name :$multiple :$value />
+    <x-merlion::form.fields.file :$id :$name :$multiple :$value :accept="$self->getAccept()" />
     <div class="list-group mt-2">
         @foreach($values as $value)
             <div class="list-group-item p-2">
