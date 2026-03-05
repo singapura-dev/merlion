@@ -39,8 +39,8 @@ foreach (app(AdminManager::class)->getAdmins() as $admin) {
 
                 if ($admin->hasLogin()) {
                     Route::name('auth.')->group(function () {
-                        Route::get('login', [LoginController::class, 'showLogin'])->name('login');
-                        Route::post('login', [LoginController::class, 'submitLogin'])->name('login.post');
+                        Route::get('login', [config('merlion.admin.login_controller'), 'showLogin'])->name('login');
+                        Route::post('login', [config('merlion.admin.login_controller'), 'submitLogin'])->name('login.post');
                     });
                 }
                 Route::middleware($admin->getAuthMiddleware())

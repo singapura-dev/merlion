@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Merlion\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Log;
-
-class LoginController
+class LoginController implements \Merlion\Contracts\LoginController
 {
 
     public function showLogin()

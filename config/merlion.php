@@ -11,6 +11,7 @@ use Merlion\Http\Middleware\Authenticate;
 return [
     'admin'     => [
         'api_routes_enabled' => env('MERLION_API_ROUTES_ENABLED', true),
+        'login_controller' => \Merlion\Http\Controllers\Auth\LoginController::class,
         'route'              => [
             'middlewares'      => [
                 EncryptCookies::class,
@@ -35,8 +36,4 @@ return [
 //            'data-bs-theme-radius' => 1,
         ],
     ],
-    'providers' => [
-        \Merlion\Addons\Auth\AuthServiceProvider::class,
-    ],
-
 ];
