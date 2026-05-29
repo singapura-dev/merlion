@@ -12,7 +12,7 @@
 </x-merlion::form.field>
 
 @pushonce('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/jsoneditor@10.4.1/dist/jsoneditor.min.js"></script>
+    <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/jsoneditor@10.4.1/dist/jsoneditor.min.js"></script>
 @endpushonce
 
 @pushonce('styles')

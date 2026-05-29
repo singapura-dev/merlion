@@ -28,7 +28,7 @@
               href="https://cdn.jsdelivr.net/npm/tom-select@2.5.1/dist/css/tom-select.bootstrap5.min.css">
     @endpushonce
     @pushonce('after_scripts')
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.5.1/dist/js/tom-select.complete.min.js"></script>
+        <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/tom-select@2.5.1/dist/js/tom-select.complete.min.js"></script>
     @endpushonce
     @push('scripts')
         <script nonce="{{csp_nonce()}}">

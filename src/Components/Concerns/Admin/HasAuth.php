@@ -54,14 +54,14 @@ trait HasAuth
         return $this->guard ?: config('auth.defaults.guard');
     }
 
-    public function canAccessPanel($user):bool
+    public function canAccessPanel($user): bool
     {
-        if(!empty($this->canAccessUsing)) {
+        if (!empty($this->canAccessUsing)) {
             return call_user_func($this->canAccessUsing, $user);
         }
 
-        if(app()->isLocal()) {
-            return  true;
+        if (app()->isLocal()) {
+            return true;
         }
         return false;
     }

@@ -30,6 +30,6 @@
     @endpush
 
     @pushonce('before_scripts')
-        <script src="https://cdn.jsdelivr.net/npm/autosize@6.0.1/dist/autosize.min.js"></script>
+        <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/autosize@6.0.1/dist/autosize.min.js"></script>
     @endpushonce
 </x-merlion::form.field>

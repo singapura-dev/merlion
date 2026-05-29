@@ -56,7 +56,7 @@
     @endpushonce
 
     @pushonce('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+        <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
     @endpushonce
 
     @push('after_scripts')

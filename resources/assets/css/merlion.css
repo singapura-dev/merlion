@@ -197,6 +197,10 @@ p, .pagination {
     height: 48px;
 }
 
+.h-64px {
+    height: 64px;
+}
+
 .brand-logo img {
     max-width: 100%;
     max-height: 100%;
