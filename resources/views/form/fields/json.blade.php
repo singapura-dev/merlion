@@ -16,7 +16,7 @@
 @endpushonce
 
 @pushonce('styles')
-    <link href="https://cdn.jsdelivr.net/npm/jsoneditor@10.4.1/dist/jsoneditor.min.css" rel="stylesheet">
+    <link nonce="{{csp_nonce()}}" href="https://cdn.jsdelivr.net/npm/jsoneditor@10.4.1/dist/jsoneditor.min.css" rel="stylesheet">
 @endpushonce
 
 @push('scripts')

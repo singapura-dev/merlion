@@ -37,7 +37,7 @@
 
 @if($multiple)
     @pushonce('styles')
-        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.bootstrap5.min.css"
+        <link nonce="{{csp_nonce()}}" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.bootstrap5.min.css"
               rel="stylesheet">
         <style nonce="{{csp_nonce()}}">
             .ts-dropdown {
