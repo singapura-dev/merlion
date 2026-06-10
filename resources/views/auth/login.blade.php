@@ -25,7 +25,7 @@
                                    autocomplete="off" />
                             <span class="input-group-text">
                                 <a role="button" class="link-secondary password-addon"
-                                   title="{{__('merlioh::auth.show_password')}}"
+                                   title="{{__('merlion::auth.show_password')}}"
                                    data-bs-toggle="tooltip">
                                   <i class="ti ti-eye-closed icon"></i>
                                 </a>
