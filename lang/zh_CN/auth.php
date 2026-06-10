@@ -7,4 +7,5 @@ return [
     'input_username' => '输入用户名',
     'remember_me'    => '记住我',
     'login'          => '登录',
+    'show_password'  => '显示密码',
 ];
