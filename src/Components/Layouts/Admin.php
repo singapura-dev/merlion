@@ -50,7 +50,7 @@ class Admin extends Renderable
         '/vendor/merlion/css/remixicon.min.css',
         '/vendor/merlion/css/tabler-icons.min.css',
         '/vendor/merlion/css/toastify.min.css',
-        '/vendor/merlion/tabler/css/sweetalert2.min.css',
+        '/vendor/merlion/css/sweetalert2.min.css',
         '/vendor/merlion/css/merlion.css',
     ];
 
