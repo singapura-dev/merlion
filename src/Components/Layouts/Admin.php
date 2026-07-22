@@ -57,7 +57,7 @@ class Admin extends Renderable
     public array $js = [
         '/vendor/merlion/tabler/js/tabler.min.js',
         '/vendor/merlion/js/jquery.min.js',
-        '/vendor/merlion/js/toastify-js',
+        '/vendor/merlion/js/toastify-js.js',
         '/vendor/merlion/js/hugerte.min.js',
         '/vendor/merlion/js/sweetalert2.min.js',
         '/vendor/merlion/js/merlion.js',
