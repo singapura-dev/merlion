@@ -23,13 +23,6 @@
                 value="{{$option_key}}">{!! $option_label !!}</option>
         @endforeach
     </select>
-    @pushonce('before_styles')
-        <link rel="stylesheet" nonce="{{csp_nonce()}}"
-              href="https://cdn.jsdelivr.net/npm/tom-select@2.5.1/dist/css/tom-select.bootstrap5.min.css">
-    @endpushonce
-    @pushonce('after_scripts')
-        <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/tom-select@2.5.1/dist/js/tom-select.complete.min.js"></script>
-    @endpushonce
     @push('scripts')
         <script nonce="{{csp_nonce()}}">
             document.addEventListener('DOMContentLoaded', function() {
