@@ -47,19 +47,19 @@ class Admin extends Renderable
         '/vendor/merlion/tabler/css/tabler-vendors.min.css',
         '/vendor/merlion/tabler/css/tabler-themes.min.css',
         '/vendor/merlion/tabler/css/tabler-flags.min.css',
-        'https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.min.css',
-        'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css',
-        'https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css',
-        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.css',
+        '/vendor/merlion/css/remixicon.min.css',
+        '/vendor/merlion/css/tabler-icons.min.css',
+        '/vendor/merlion/css/toastify.min.css',
+        '/vendor/merlion/tabler/css/sweetalert2.min.css',
         '/vendor/merlion/css/merlion.css',
     ];
 
     public array $js = [
         '/vendor/merlion/tabler/js/tabler.min.js',
-        'https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js',
-        'https://cdn.jsdelivr.net/npm/toastify-js',
-        'https://cdn.jsdelivr.net/npm/hugerte/hugerte.min.js',
-        'https://cdn.jsdelivr.net/npm/sweetalert2@11.22.4/dist/sweetalert2.min.js',
+        '/vendor/merlion/js/jquery.min.js',
+        '/vendor/merlion/js/toastify-js',
+        '/vendor/merlion/js/hugerte.min.js',
+        '/vendor/merlion/js/sweetalert2.min.js',
         '/vendor/merlion/js/merlion.js',
     ];
 
