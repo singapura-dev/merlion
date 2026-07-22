@@ -37,8 +37,6 @@
 
 @if($multiple)
     @pushonce('styles')
-        <link nonce="{{csp_nonce()}}" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.bootstrap5.min.css"
-              rel="stylesheet">
         <style nonce="{{csp_nonce()}}">
             .ts-dropdown {
                 background-color: white;
@@ -53,10 +51,6 @@
                 padding-left: 6px !important;
             }
         </style>
-    @endpushonce
-
-    @pushonce('scripts')
-        <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
     @endpushonce
 
     @push('after_scripts')

@@ -52,6 +52,7 @@ class Admin extends Renderable
         '/vendor/merlion/css/toastify.min.css',
         '/vendor/merlion/css/sweetalert2.min.css',
         '/vendor/merlion/css/tom-select.bootstrap5.min.css',
+        '/vendor/merlion/css/jsoneditor.min.css',
         '/vendor/merlion/css/merlion.css',
     ];
 
@@ -62,6 +63,8 @@ class Admin extends Renderable
         '/vendor/merlion/js/hugerte.min.js',
         '/vendor/merlion/js/sweetalert2.min.js',
         '/vendor/merlion/js/tom-select.complete.min.js',
+        '/vendor/merlion/js/jsoneditor.min.js',
+        '/vendor/merlion/js/autosize.min.js',
         '/vendor/merlion/js/merlion.js',
     ];
 

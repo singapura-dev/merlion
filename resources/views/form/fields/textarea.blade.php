@@ -28,8 +28,4 @@
             })();
         </script>
     @endpush
-
-    @pushonce('before_scripts')
-        <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/autosize@6.0.1/dist/autosize.min.js"></script>
-    @endpushonce
 </x-merlion::form.field>

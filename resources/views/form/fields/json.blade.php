@@ -11,13 +11,6 @@
     <input type="hidden" name="{{$name}}" value="{{to_string($value)}}">
 </x-merlion::form.field>
 
-@pushonce('scripts')
-    <script nonce="{{csp_nonce()}}" src="https://cdn.jsdelivr.net/npm/jsoneditor@10.4.1/dist/jsoneditor.min.js"></script>
-@endpushonce
-
-@pushonce('styles')
-    <link nonce="{{csp_nonce()}}" href="https://cdn.jsdelivr.net/npm/jsoneditor@10.4.1/dist/jsoneditor.min.css" rel="stylesheet">
-@endpushonce
 
 @push('scripts')
     <script nonce="{{csp_nonce()}}">
